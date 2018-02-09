@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">WechatRedEnvelope</string>
+    <string name="app_name">微信红包助手</string>
+
+    <string name="accessibility_description">本插件只适用于微信 \n\n功能描述:\n\n\t\t\ta: 微信自助抢红包  \n\n使用说明:\n\n\t\t\t1. 打开右上方开关\n\n\t\t\t2. 进入微信APP  \n\n\t\t\t3. 点击启动服务即可   \n\n注:微信的版本升级 可能导致部分功能无法正常运转</string>
+
+
 </resources>
