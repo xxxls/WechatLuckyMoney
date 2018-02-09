@@ -125,7 +125,8 @@ public class RedEnvelopeService extends AccessibilityService implements SharedPr
         return mHandlers;
     }
 
-    private void initHandlers(){
+    private void initHandlers()
+    {
         if (mHandlers == null)
         {
             mHandlers = new ArrayList<>();
@@ -142,8 +143,9 @@ public class RedEnvelopeService extends AccessibilityService implements SharedPr
     private void setCurrentActivityName(AccessibilityEvent event)
     {
         String name = event.getClassName().toString();
-        if (! name.contains("android.widget."))
+        if (name.contains("com.tencent.mm"))
         {
+            mCurActivityName = name;
             L.e("NAMEMAX  event = " + event.getEventType());
             L.e("NAMEMAX  name = " + name);
         }

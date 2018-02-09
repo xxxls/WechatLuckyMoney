@@ -6,7 +6,6 @@ import android.view.accessibility.AccessibilityNodeInfo;
 import com.max.wechatluckymoney.base.BaseAccessibilityHandler;
 import com.max.wechatluckymoney.base.OnAccessibilityHandlerListener;
 import com.max.wechatluckymoney.support.enums.WidgetType;
-import com.max.wechatluckymoney.utils.L;
 
 /**
  * Created by max on 2018/2/9.
@@ -45,16 +44,6 @@ public class LuckyMoneyDetailsHandler extends BaseAccessibilityHandler
                 //还没有领
                 node.performAction(AccessibilityNodeInfo.ACTION_CLICK);
                 return true;
-            } else
-            {
-                String curActivityName = getListener().getCurrentActivityName();
-                L.e("NAMEs  : " +curActivityName);
-
-                if (curActivityName.contains(WECHAT_ACTIVITY_LMD)){
-                    //红包详情页  返回
-                    getService().performGlobalAction(AccessibilityService.GLOBAL_ACTION_BACK);
-                    return true;
-                }
             }
         }
         return false;
