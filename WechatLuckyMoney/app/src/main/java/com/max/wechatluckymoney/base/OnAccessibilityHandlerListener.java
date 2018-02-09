@@ -16,12 +16,6 @@ public interface OnAccessibilityHandlerListener
     AccessibilityService getAccessibilityService();
 
     /**
-     * 当前活动页面名称
-     * @return
-     */
-    String getCurrentActivityName();
-
-    /**
      * 获取 event
      * @return
      */

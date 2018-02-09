@@ -2,13 +2,17 @@ package com.max.wechatluckymoney.base;
 
 import android.accessibilityservice.AccessibilityService;
 import android.graphics.Rect;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
+import android.widget.Toast;
 
 import com.max.wechatluckymoney.utils.L;
 
 import java.util.List;
+import java.util.concurrent.RunnableFuture;
+import java.util.logging.Logger;
 
 /**
  * Created by max on 2018/2/9.
@@ -16,10 +20,9 @@ import java.util.List;
  */
 public abstract class BaseAccessibilityHandler
 {
+    protected final String TAG = this.getClass().getSimpleName();
 
     protected OnAccessibilityHandlerListener mListener;
-
-    protected AccessibilityNodeInfo mRootNode;
 
     public BaseAccessibilityHandler(@NonNull OnAccessibilityHandlerListener listener)
     {
@@ -31,12 +34,11 @@ public abstract class BaseAccessibilityHandler
      *
      * @return
      */
-    public abstract boolean onHandler(AccessibilityNodeInfo nodeInfo);
+    protected abstract boolean onHandler();
 
-    public boolean onExecute(AccessibilityNodeInfo nodeInfo)
+    public boolean onExecute()
     {
-        mRootNode = nodeInfo;
-        return onHandler(nodeInfo);
+        return onHandler();
     }
 
 
@@ -45,24 +47,37 @@ public abstract class BaseAccessibilityHandler
         return nodeInfo.findAccessibilityNodeInfosByViewId(viewId);
     }
 
-
     protected List<AccessibilityNodeInfo> getNodeListByText(AccessibilityNodeInfo nodeInfo, String text)
     {
         return nodeInfo.findAccessibilityNodeInfosByText(text);
     }
 
-    public OnAccessibilityHandlerListener getListener()
+    private OnAccessibilityHandlerListener getListener()
     {
         return mListener;
     }
 
-    public AccessibilityService getService()
+    protected AccessibilityService getService()
     {
         return getListener().getAccessibilityService();
     }
 
-    public AccessibilityEvent getEvent(){
+    protected AccessibilityEvent getEvent()
+    {
         return getListener().getAccessibilityEvent();
+    }
+
+    protected AccessibilityNodeInfo getRootNode()
+    {
+        return getEvent().getSource();
+    }
+
+    /**
+     * 设置当前 事件 类名称
+     */
+    protected String getPageName()
+    {
+        return getEvent().getClassName().toString();
     }
 
     /**
@@ -133,12 +148,53 @@ public abstract class BaseAccessibilityHandler
         return false;
     }
 
+    /**
+     * 是否有 指定文本的Node
+     *
+     * @param info  当前节点
+     * @param texts 需要匹配的文字
+     */
+    public boolean hasOneOfThoseNodesByText(AccessibilityNodeInfo info, String... texts)
+    {
+        if (info != null)
+        {
+            if (info.getChildCount() == 0)
+            {
+                if (info.getText() != null)
+                {
+                    String text = info.getText().toString();
+
+                    for (String str : texts)
+                    {
+                        if (text.contains(str))
+                        {
+                            return true;
+                        }
+                    }
+                }
+            } else
+            {
+                int size = info.getChildCount();
+                for (int i = 0; i < size; i++)
+                {
+                    AccessibilityNodeInfo childInfo = info.getChild(i);
+                    if (childInfo != null)
+                    {
+                        log("index: " + i + " info" + childInfo.getClassName() + " : " + childInfo.getContentDescription() + " : " + info.getText());
+                        hasOneOfThoseNodesByText(childInfo, texts);
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
 
     /**
      * 查找 指定控件的 node
      *
      * @param node
-     * @param viewTag  view 包名
+     * @param viewTag view 包名
      * @return
      */
     protected AccessibilityNodeInfo findOneNodeByViewTag(AccessibilityNodeInfo node, String viewTag)
@@ -148,7 +204,7 @@ public abstract class BaseAccessibilityHandler
             return null;
         }
 
-        L.e("viewNode : "+node.getClassName());
+        L.e("viewNode : " + node.getClassName());
 
         //非layout元素
         if (node.getChildCount() == 0)
@@ -159,6 +215,15 @@ public abstract class BaseAccessibilityHandler
             } else
             {
                 return null;
+            }
+        }
+
+        for (int i = 0; i < node.getChildCount(); i++)
+        {
+            AccessibilityNodeInfo nodeInfo = node.getChild(i);
+            if (nodeInfo != null)
+            {
+                L.e("viewNode " + i + ":" + nodeInfo.getClassName());
             }
         }
 
@@ -176,4 +241,40 @@ public abstract class BaseAccessibilityHandler
     }
 
 
+    /**
+     * 开始一个延时任务
+     *
+     * @param runnable
+     * @param time
+     */
+    protected void startDelayedTask(Runnable runnable, long time)
+    {
+        new Handler().postDelayed(runnable, time);
+    }
+
+    /**
+     * 延时返回
+     */
+    protected void postDelayedBack()
+    {
+        startDelayedTask(
+                new Runnable()
+                {
+                    public void run()
+                    {
+                        getService().performGlobalAction(getService().GLOBAL_ACTION_BACK);
+                    }
+                },
+                300);
+    }
+
+    protected void toast(CharSequence sequence)
+    {
+        Toast.makeText(getService(), sequence, Toast.LENGTH_SHORT).show();
+    }
+
+    protected void log(String message)
+    {
+        L.e(TAG, message);
+    }
 }

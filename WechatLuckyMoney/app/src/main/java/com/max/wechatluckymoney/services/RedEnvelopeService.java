@@ -1,10 +1,9 @@
 package com.max.wechatluckymoney.services;
 
 import android.accessibilityservice.AccessibilityService;
-import android.content.ComponentName;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
+import android.view.KeyEvent;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 
@@ -12,9 +11,11 @@ import com.max.wechatluckymoney.base.BaseAccessibilityHandler;
 import com.max.wechatluckymoney.base.OnAccessibilityHandlerListener;
 import com.max.wechatluckymoney.services.handler.ChatPageHandler;
 import com.max.wechatluckymoney.services.handler.LuckyMoneyDetailsHandler;
+import com.max.wechatluckymoney.services.handler.LuckyMoneyReceiveHandler;
 import com.max.wechatluckymoney.utils.L;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by max on 2018/2/9.
@@ -27,12 +28,9 @@ public class RedEnvelopeService extends AccessibilityService implements SharedPr
 
     private ArrayList<BaseAccessibilityHandler> mHandlers;
 
-
-    //当前活动页面名称
-    private String mCurActivityName;
-
     //event
     private AccessibilityEvent mEvent;
+
 
     /**
      * 系统会在成功连接上你的服务的时候调用这个方法，在这个方法里你可以做一下初始化工作
@@ -46,30 +44,29 @@ public class RedEnvelopeService extends AccessibilityService implements SharedPr
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event)
     {
+        L.e("onAccessibilityEvent() -->");
 
-        setCurrentActivityName(event);
+        mEvent = event;
 
-        AccessibilityNodeInfo root = getRootInActiveWindow();
-        if (root == null)
+        if (event.getSource() == null)
         {
             return;
         }
 
-        mEvent = event;
-
-        onHandler(root);
+//        if (isPageEvent(mEvent))
+//        {
+            onHandler();
+//        }
     }
 
     /**
      * 处理
-     *
-     * @param root
      */
-    private void onHandler(AccessibilityNodeInfo root)
+    private void onHandler()
     {
         for (BaseAccessibilityHandler handler : getHandlers())
         {
-            if (handler.onExecute(root))
+            if (handler.onExecute())
             {
                 break;
             }
@@ -84,6 +81,17 @@ public class RedEnvelopeService extends AccessibilityService implements SharedPr
     public void onInterrupt()
     {
 
+    }
+
+    /**
+     * 按键事件
+     * @param event
+     * @return
+     */
+    @Override
+    protected boolean onKeyEvent(KeyEvent event)
+    {
+        return super.onKeyEvent(event);
     }
 
     /**
@@ -130,48 +138,21 @@ public class RedEnvelopeService extends AccessibilityService implements SharedPr
         if (mHandlers == null)
         {
             mHandlers = new ArrayList<>();
-            mHandlers.add(new ChatPageHandler(this));
+//            mHandlers.add(new ChatPageHandler(this));
+            mHandlers.add(new LuckyMoneyReceiveHandler(this));
             mHandlers.add(new LuckyMoneyDetailsHandler(this));
         }
     }
 
     /**
-     * 设置当前 页面名称
+     * 是否是 页面事件
      *
      * @param event
      */
-    private void setCurrentActivityName(AccessibilityEvent event)
+    private boolean isPageEvent(AccessibilityEvent event)
     {
         String name = event.getClassName().toString();
-        if (name.contains("com.tencent.mm"))
-        {
-            mCurActivityName = name;
-            L.e("NAMEMAX  event = " + event.getEventType());
-            L.e("NAMEMAX  name = " + name);
-        }
-
-        if (event.getEventType() != AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED
-                || event.getEventType() != AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED)
-        {
-            return;
-        }
-
-        try
-        {
-            ComponentName componentName = new ComponentName(
-                    event.getPackageName().toString(),
-                    event.getClassName().toString()
-            );
-
-            getPackageManager().getActivityInfo(componentName, 0);
-            mCurActivityName = componentName.flattenToShortString();
-
-        } catch (PackageManager.NameNotFoundException e)
-        {
-            mCurActivityName = WECHAT_ACTIVITY_GENERAL;
-        }
-
-        L.e("mCurActivityName  = " + mCurActivityName);
+        return name.contains("com.tencent.mm");
     }
 
 
@@ -182,18 +163,9 @@ public class RedEnvelopeService extends AccessibilityService implements SharedPr
     }
 
     @Override
-    public String getCurrentActivityName()
-    {
-        if (mCurActivityName == null)
-        {
-            return "";
-        }
-        return mCurActivityName;
-    }
-
-    @Override
     public AccessibilityEvent getAccessibilityEvent()
     {
         return mEvent;
     }
+
 }

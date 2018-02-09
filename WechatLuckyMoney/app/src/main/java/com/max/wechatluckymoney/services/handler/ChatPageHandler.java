@@ -22,10 +22,10 @@ public class ChatPageHandler extends BaseAccessibilityHandler
 
 
     @Override
-    public boolean onHandler(AccessibilityNodeInfo nodeInfo)
+    public boolean onHandler()
     {
 
-        AccessibilityNodeInfo node = getTheLastNodeByTexts(nodeInfo,WECHAT_TEXT_SEE_LM,WECHAT_TEXT_GET_LM);
+        AccessibilityNodeInfo node = getTheLastNodeByTexts(getRootNode(),WECHAT_TEXT_SEE_LM,WECHAT_TEXT_GET_LM);
 
         if (node!=null)
         {
