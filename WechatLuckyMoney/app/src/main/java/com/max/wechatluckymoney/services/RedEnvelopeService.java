@@ -40,6 +40,7 @@ public class RedEnvelopeService extends AccessibilityService implements SharedPr
     @Override
     protected void onServiceConnected()
     {
+        initHandlers();
     }
 
     @Override
@@ -120,16 +121,18 @@ public class RedEnvelopeService extends AccessibilityService implements SharedPr
      */
     private ArrayList<BaseAccessibilityHandler> getHandlers()
     {
-        if (mHandlers == null)
-        {
-            mHandlers = new ArrayList<>();
-        }
-
-        mHandlers.add(new ChatPageHandler(this));
-        mHandlers.add(new LuckyMoneyDetailsHandler(this));
+        initHandlers();
         return mHandlers;
     }
 
+    private void initHandlers(){
+        if (mHandlers == null)
+        {
+            mHandlers = new ArrayList<>();
+            mHandlers.add(new ChatPageHandler(this));
+            mHandlers.add(new LuckyMoneyDetailsHandler(this));
+        }
+    }
 
     /**
      * 设置当前 页面名称
@@ -138,7 +141,15 @@ public class RedEnvelopeService extends AccessibilityService implements SharedPr
      */
     private void setCurrentActivityName(AccessibilityEvent event)
     {
-        if (event.getEventType() != AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED)
+        String name = event.getClassName().toString();
+        if (! name.contains("android.widget."))
+        {
+            L.e("NAMEMAX  event = " + event.getEventType());
+            L.e("NAMEMAX  name = " + name);
+        }
+
+        if (event.getEventType() != AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED
+                || event.getEventType() != AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED)
         {
             return;
         }
@@ -171,6 +182,10 @@ public class RedEnvelopeService extends AccessibilityService implements SharedPr
     @Override
     public String getCurrentActivityName()
     {
+        if (mCurActivityName == null)
+        {
+            return "";
+        }
         return mCurActivityName;
     }
 
