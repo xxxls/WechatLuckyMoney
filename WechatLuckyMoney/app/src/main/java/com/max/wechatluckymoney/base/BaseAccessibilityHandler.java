@@ -4,6 +4,7 @@ import android.accessibilityservice.AccessibilityService;
 import android.graphics.Rect;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.Toast;
@@ -42,16 +43,6 @@ public abstract class BaseAccessibilityHandler
     }
 
 
-    protected List<AccessibilityNodeInfo> findNodeListById(AccessibilityNodeInfo nodeInfo, String viewId)
-    {
-        return nodeInfo.findAccessibilityNodeInfosByViewId(viewId);
-    }
-
-    protected List<AccessibilityNodeInfo> findNodeListByText(AccessibilityNodeInfo nodeInfo, String text)
-    {
-        return nodeInfo.findAccessibilityNodeInfosByText(text);
-    }
-
     private OnAccessibilityHandlerListener getListener()
     {
         return mListener;
@@ -78,6 +69,18 @@ public abstract class BaseAccessibilityHandler
     protected String getClassName()
     {
         return getEvent().getClassName().toString();
+    }
+
+
+
+    protected List<AccessibilityNodeInfo> findNodeListById(AccessibilityNodeInfo nodeInfo, String viewId)
+    {
+        return nodeInfo.findAccessibilityNodeInfosByViewId(viewId);
+    }
+
+    protected List<AccessibilityNodeInfo> findNodeListByText(AccessibilityNodeInfo nodeInfo, String text)
+    {
+        return nodeInfo.findAccessibilityNodeInfosByText(text);
     }
 
     /**
@@ -128,7 +131,7 @@ public abstract class BaseAccessibilityHandler
      * @param texts    文本
      * @return
      */
-    protected boolean hasOneOfThoseNodesByTexts(AccessibilityNodeInfo nodeInfo, String... texts)
+    protected boolean hasOneNodeByTexts(AccessibilityNodeInfo nodeInfo, String... texts)
     {
         List<AccessibilityNodeInfo> nodes;
         for (String text : texts)
@@ -148,97 +151,7 @@ public abstract class BaseAccessibilityHandler
         return false;
     }
 
-    /**
-     * 是否有 指定文本的Node
-     *
-     * @param info  当前节点
-     * @param texts 需要匹配的文字
-     */
-    public boolean hasOneOfThoseNodesByText(AccessibilityNodeInfo info, String... texts)
-    {
-        if (info != null)
-        {
-            if (info.getChildCount() == 0)
-            {
-                if (info.getText() != null)
-                {
-                    String text = info.getText().toString();
 
-                    for (String str : texts)
-                    {
-                        if (text.contains(str))
-                        {
-                            return true;
-                        }
-                    }
-                }
-            } else
-            {
-                int size = info.getChildCount();
-                for (int i = 0; i < size; i++)
-                {
-                    AccessibilityNodeInfo childInfo = info.getChild(i);
-                    if (childInfo != null)
-                    {
-                        log("index: " + i + " info" + childInfo.getClassName() + " : " + childInfo.getContentDescription() + " : " + info.getText());
-                        hasOneOfThoseNodesByText(childInfo, texts);
-                    }
-                }
-            }
-        }
-        return false;
-    }
-
-
-    /**
-     * 查找 指定控件的 node
-     *
-     * @param node
-     * @param viewTag view 包名
-     * @return
-     */
-    protected AccessibilityNodeInfo findOneNodeByViewTag(AccessibilityNodeInfo node, String viewTag)
-    {
-        if (node == null || viewTag == null)
-        {
-            return null;
-        }
-
-        L.e("viewNode : " + node.getClassName());
-
-        //非layout元素
-        if (node.getChildCount() == 0)
-        {
-            if (viewTag.equals(node.getClassName()))
-            {
-                return node;
-            } else
-            {
-                return null;
-            }
-        }
-
-        for (int i = 0; i < node.getChildCount(); i++)
-        {
-            AccessibilityNodeInfo nodeInfo = node.getChild(i);
-            if (nodeInfo != null)
-            {
-                L.e("viewNode " + i + ":" + nodeInfo.getClassName());
-            }
-        }
-
-        //layout元素，遍历找button
-        AccessibilityNodeInfo viewNode;
-        for (int i = 0; i < node.getChildCount(); i++)
-        {
-            viewNode = findOneNodeByViewTag(node.getChild(i), viewTag);
-            if (viewNode != null)
-            {
-                return viewNode;
-            }
-        }
-        return null;
-    }
 
 
     /**

@@ -6,6 +6,7 @@ import com.max.wechatluckymoney.activitys.LoadingActivity;
 import com.max.wechatluckymoney.base.BaseAccessibilityHandler;
 import com.max.wechatluckymoney.base.OnAccessibilityHandlerListener;
 import com.max.wechatluckymoney.support.enums.WidgetType;
+import com.max.wechatluckymoney.utils.AccessibilityUtil;
 
 /**
  * Created by max on 2018/2/9.
@@ -34,7 +35,7 @@ public class LuckyMoneyReceiveHandler extends BaseAccessibilityHandler
         {
 
 //            //红包弹窗页面
-            if (hasOneOfThoseNodesByTexts(getRootNode(), WECHAT_TEXT_SLOW, WECHAT_TEXT_OUT_OF_DATE))
+            if (hasOneNodeByTexts(getRootNode(), WECHAT_TEXT_SLOW, WECHAT_TEXT_OUT_OF_DATE))
             {
                 //已经领完了 或者过期
                 log("-> 已经领完了 或者过期");
@@ -43,13 +44,13 @@ public class LuckyMoneyReceiveHandler extends BaseAccessibilityHandler
                 return true;
             } else
             {
-                AccessibilityNodeInfo node = findOneNodeByViewTag(getRootNode(), WidgetType.Button.getContent());
+                AccessibilityNodeInfo node = AccessibilityUtil.getOneNodeByViewTag(getRootNode(), WidgetType.Button.getContent());
                 if (node != null)
                 {
                     //还没有领
                     log("-> 还没有领");
                     toast("领红包了");
-//                    node.performAction(AccessibilityNodeInfo.ACTION_CLICK);
+                    node.performAction(AccessibilityNodeInfo.ACTION_CLICK);
                     return true;
                 }
             }

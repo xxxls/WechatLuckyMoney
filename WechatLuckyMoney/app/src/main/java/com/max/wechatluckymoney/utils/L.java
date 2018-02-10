@@ -22,8 +22,8 @@ public final class L
     {
 
         FormatStrategy formatStrategy = PrettyFormatStrategy.newBuilder()
-                .showThreadInfo(true)  // (Optional) Whether to show thread info or not. Default true
-                .methodCount(3)         // (Optional) How many method line to show. Default 2
+                .showThreadInfo(false)  // (Optional) Whether to show thread info or not. Default true
+                .methodCount(0)         // (Optional) How many method line to show. Default 2
                 .methodOffset(0)        // (Optional) Skips some method invokes in stack trace. Default 5
 //        .logStrategy(customLog) // (Optional) Changes the log strategy to print out. Default LogCat
                 .tag("MAX")   // (Optional) Custom tag for each log. Default PRETTY_LOGGER
