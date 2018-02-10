@@ -54,13 +54,13 @@ public class RedEnvelopeService extends AccessibilityService implements SharedPr
 
         if (event.getSource() == null)
         {
-            return;
+            return; 
         }
 
-        if (isPageEvent(mEvent))
-        {
+//        if (isPageEvent(mEvent))
+//        {
             onHandler();
-        }
+//        }
     }
 
     /**

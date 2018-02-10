@@ -25,7 +25,7 @@ public class ChatDetailsHandler extends BaseAccessibilityHandler
     public boolean onHandler()
     {
 
-        AccessibilityNodeInfo node = getTheLastNodeByTexts(getRootNode(),WECHAT_TEXT_SEE_LM,WECHAT_TEXT_GET_LM);
+        AccessibilityNodeInfo node = getTheLastNodeByTexts(getRootNode(),WECHAT_TEXT_GET_LM);
 
         if (node!=null)
         {
