@@ -42,12 +42,12 @@ public abstract class BaseAccessibilityHandler
     }
 
 
-    protected List<AccessibilityNodeInfo> getNodeListById(AccessibilityNodeInfo nodeInfo, String viewId)
+    protected List<AccessibilityNodeInfo> findNodeListById(AccessibilityNodeInfo nodeInfo, String viewId)
     {
         return nodeInfo.findAccessibilityNodeInfosByViewId(viewId);
     }
 
-    protected List<AccessibilityNodeInfo> getNodeListByText(AccessibilityNodeInfo nodeInfo, String text)
+    protected List<AccessibilityNodeInfo> findNodeListByText(AccessibilityNodeInfo nodeInfo, String text)
     {
         return nodeInfo.findAccessibilityNodeInfosByText(text);
     }
