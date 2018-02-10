@@ -59,7 +59,6 @@ public class ChatListHandler extends BaseAccessibilityHandler
                 }
             }
         }
-
         return false;
     }
 }

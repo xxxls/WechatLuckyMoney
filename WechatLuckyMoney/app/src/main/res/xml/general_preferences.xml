@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:icon="@null"
+    tools:context=".SettingsActivity">
+    <PreferenceCategory
+        android:layout="@layout/preference_category"
+        android:title="@string/watch_options">
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="pref_watch_notification"
+            android:layout="@layout/preference_checkbox"
+            android:summary="@string/watch_notifications_hint"
+            android:title="@string/watch_notifications" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_watch_list"
+            android:layout="@layout/preference_checkbox"
+            android:summary="@string/watch_list_hint"
+            android:title="@string/watch_list" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:layout="@layout/preference_category"
+        android:title="@string/anti_block_options">
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="pref_watch_chat"
+            android:layout="@layout/preference_checkbox"
+            android:title="@string/auto_open_packets" />
+        <com.max.wechatluckymoney.activitys.SeekBarPreference
+            pref_kind="pref_open_delay"
+            android:key="pref_open_delay"
+            android:layout="@layout/preference_checkbox"
+            android:title="@string/open_with_delay" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="pref_watch_self"
+            android:layout="@layout/preference_checkbox"
+            android:title="@string/open_self" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:layout="@layout/preference_category"
+        android:title="@string/about">
+        <Preference
+            android:key="pref_etc_issue"
+            android:layout="@layout/preference_checkbox"
+            android:summary="@string/help_hint"
+            android:title="@string/help_and_feedback" />
+        <Preference
+            android:key="pref_etc_issue"
+            android:layout="@layout/preference_checkbox"
+            android:summary="@string/warning_hint"
+            android:title="@string/special_explain" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

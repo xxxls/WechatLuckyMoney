@@ -8,11 +8,17 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.max.wechatluckymoney.MainActivity">
+    tools:context="com.max.wechatluckymoney.activitys.MainActivity">
 
     <Button
         android:id="@+id/btn_state"
         android:text="启用"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <Button
+        android:layout_centerInParent="true"
+        android:id="@+id/btn_setting"
+        android:text="@string/settings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

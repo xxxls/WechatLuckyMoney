@@ -1,12 +1,14 @@
-package com.max.wechatluckymoney;
+package com.max.wechatluckymoney.activitys;
 
 import android.accessibilityservice.AccessibilityServiceInfo;
 import android.content.Context;
 import android.content.Intent;
+import android.view.View;
 import android.view.accessibility.AccessibilityManager;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.max.wechatluckymoney.R;
 import com.max.wechatluckymoney.base.BaseActivity;
 
 import java.util.List;
@@ -45,7 +47,6 @@ public class MainActivity extends BaseActivity implements AccessibilityManager.A
     {
         mAccessibilityManager = (AccessibilityManager) getSystemService(Context.ACCESSIBILITY_SERVICE);
         mAccessibilityManager.addAccessibilityStateChangeListener(this);
-        updateState();
     }
 
     private void initEvnet()
@@ -53,17 +54,24 @@ public class MainActivity extends BaseActivity implements AccessibilityManager.A
 
     }
 
-    @OnClick({R.id.btn_state})
-    public void onClick()
+    @Override
+    protected void onResume()
     {
-        if (isServiceEnabled())
-        {
-        } else
-        {
+        updateState();
+        super.onResume();
+    }
 
+    @OnClick({R.id.btn_state,R.id.btn_setting})
+    public void onClick(View view)
+    {
+        switch (view.getId()){
+            case R.id.btn_setting:
+                startActivity(SettingActivity.getInstance(this));
+                break;
+            case R.id.btn_state:
+                jumpAccessibilitySetting();
+                break;
         }
-
-        jumpAccessibilitySetting();
     }
 
     /**
