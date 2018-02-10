@@ -3,17 +3,21 @@ package com.max.wechatluckymoney.activitys;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
 
 import com.max.wechatluckymoney.R;
-import com.max.wechatluckymoney.base.BaseActivity;
 
 /**
  * Created by Max on 2018/2/10.
- * 微信对 红包弹窗做了处理
- * 暂时想到这个方法破解
+ * 加载进度
  */
 
-public class LoadingActivity extends BaseActivity
+public class LoadingActivity extends AppCompatActivity
 {
 
     public static Intent getInstance(Context context)
@@ -22,14 +26,18 @@ public class LoadingActivity extends BaseActivity
     }
 
     @Override
-    protected void onInitialize()
+    protected void onCreate(@Nullable Bundle savedInstanceState)
     {
-        finish();
-    }
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_loading);
 
-    @Override
-    protected int getLayoutResId()
-    {
-        return R.layout.activity_loading;
+        new Handler().postDelayed(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                finish();
+            }
+        }, 100);
     }
 }

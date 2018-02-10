@@ -109,7 +109,7 @@ public class MainActivity extends BaseActivity implements AccessibilityManager.A
                 mAccessibilityManager.getEnabledAccessibilityServiceList(AccessibilityServiceInfo.FEEDBACK_GENERIC);
         for (AccessibilityServiceInfo info : accessibilityServices)
         {
-            if (info.getId().equals(getPackageName() + "/.services.RedEnvelopeService"))
+            if (info.getId().equals(getPackageName() + "/.services.LuckyMoneyService"))
             {
                 return true;
             }

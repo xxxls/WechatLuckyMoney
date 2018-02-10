@@ -9,6 +9,7 @@ import android.view.accessibility.AccessibilityEvent;
 import com.max.wechatluckymoney.base.BaseAccessibilityHandler;
 import com.max.wechatluckymoney.base.OnAccessibilityHandlerListener;
 import com.max.wechatluckymoney.services.handler.ChatDetailsHandler;
+import com.max.wechatluckymoney.services.handler.ChatListHandler;
 import com.max.wechatluckymoney.services.handler.LuckyMoneyDetailsHandler;
 import com.max.wechatluckymoney.services.handler.LuckyMoneyReceiveHandler;
 import com.max.wechatluckymoney.utils.L;
@@ -19,7 +20,7 @@ import java.util.ArrayList;
  * Created by max on 2018/2/9.
  * 红包 辅助服务
  */
-public class RedEnvelopeService extends AccessibilityService implements SharedPreferences.OnSharedPreferenceChangeListener, OnAccessibilityHandlerListener
+public class LuckyMoneyService extends AccessibilityService implements SharedPreferences.OnSharedPreferenceChangeListener, OnAccessibilityHandlerListener
 {
 
     private static final String WECHAT_ACTIVITY_GENERAL = "LauncherUI";
@@ -137,7 +138,8 @@ public class RedEnvelopeService extends AccessibilityService implements SharedPr
         if (mHandlers == null)
         {
             mHandlers = new ArrayList<>();
-//            mHandlers.add(new ChatDetailsHandler(this));
+            mHandlers.add(new ChatListHandler(this));
+            mHandlers.add(new ChatDetailsHandler(this));
             mHandlers.add(new LuckyMoneyReceiveHandler(this));
             mHandlers.add(new LuckyMoneyDetailsHandler(this));
         }

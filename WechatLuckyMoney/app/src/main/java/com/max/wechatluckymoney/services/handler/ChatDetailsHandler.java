@@ -11,9 +11,10 @@ import com.max.wechatluckymoney.base.OnAccessibilityHandlerListener;
  */
 public class ChatDetailsHandler extends BaseAccessibilityHandler
 {
+    private static final String WECHAT_ACTIVITY_CHAT_DEATILS = "LauncherUI";
 
     private static final String WECHAT_TEXT_SEE_LM = "查看红包";
-    private static final String WECHAT_TEXT_GET_LM= "领取红包";
+    private static final String WECHAT_TEXT_GET_LM = "领取红包";
 
     public ChatDetailsHandler(OnAccessibilityHandlerListener listener)
     {
@@ -24,15 +25,20 @@ public class ChatDetailsHandler extends BaseAccessibilityHandler
     @Override
     public boolean onHandler()
     {
+        String name = getClassName();
 
-        AccessibilityNodeInfo node = getTheLastNodeByTexts(getRootNode(),WECHAT_TEXT_GET_LM);
+        log("name: "+name);
 
-        if (node!=null)
+        if (name.contains(WECHAT_ACTIVITY_CHAT_DEATILS))
         {
-            node.getParent().performAction(AccessibilityNodeInfo.ACTION_CLICK);
-            return true;
-        }
+            AccessibilityNodeInfo node = getTheLastNodeByTexts(getRootNode(), WECHAT_TEXT_GET_LM);
 
+            if (node != null)
+            {
+                node.getParent().performAction(AccessibilityNodeInfo.ACTION_CLICK);
+                return true;
+            }
+        }
         return false;
     }
 }

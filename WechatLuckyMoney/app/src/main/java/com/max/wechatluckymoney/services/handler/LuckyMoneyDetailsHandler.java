@@ -11,7 +11,7 @@ import com.max.wechatluckymoney.base.OnAccessibilityHandlerListener;
 public class LuckyMoneyDetailsHandler extends BaseAccessibilityHandler
 {
     //红包详情
-    public static final String WECHAT_ACTIVITY_LMD = "LuckyMoneyDetailUI";
+    private static final String WECHAT_ACTIVITY_LMD = "LuckyMoneyDetailUI";
 
     public LuckyMoneyDetailsHandler(OnAccessibilityHandlerListener listener)
     {
@@ -21,11 +21,8 @@ public class LuckyMoneyDetailsHandler extends BaseAccessibilityHandler
     @Override
     public boolean onHandler()
     {
-        String name = getPageName();
 
-        log("name : "+ name);
-
-        if (name.contains(WECHAT_ACTIVITY_LMD))
+        if (getClassName().contains(WECHAT_ACTIVITY_LMD))
         {
             postDelayedBack();
             return true;

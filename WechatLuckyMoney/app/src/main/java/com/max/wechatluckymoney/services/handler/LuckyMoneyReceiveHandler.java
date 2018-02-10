@@ -16,7 +16,7 @@ public class LuckyMoneyReceiveHandler extends BaseAccessibilityHandler
 
 
     //红包领取
-    public static final String WECHAT_ACTIVITY_LMR = "LuckyMoneyReceiveUI";
+    private static final String WECHAT_ACTIVITY_LMR = "LuckyMoneyReceiveUI";
 
     private static final String WECHAT_TEXT_SLOW = "手慢了";
     private static final String WECHAT_TEXT_OUT_OF_DATE = "已超过24小时";
@@ -29,11 +29,8 @@ public class LuckyMoneyReceiveHandler extends BaseAccessibilityHandler
     @Override
     public boolean onHandler()
     {
-        String name = getPageName();
 
-        log("name : " + name);
-
-        if (name.contains(WECHAT_ACTIVITY_LMR))
+        if (getClassName().contains(WECHAT_ACTIVITY_LMR))
         {
 
 //            //红包弹窗页面
@@ -52,7 +49,7 @@ public class LuckyMoneyReceiveHandler extends BaseAccessibilityHandler
                     //还没有领
                     log("-> 还没有领");
                     toast("领红包了");
-                    node.performAction(AccessibilityNodeInfo.ACTION_CLICK);
+//                    node.performAction(AccessibilityNodeInfo.ACTION_CLICK);
                     return true;
                 }
             }

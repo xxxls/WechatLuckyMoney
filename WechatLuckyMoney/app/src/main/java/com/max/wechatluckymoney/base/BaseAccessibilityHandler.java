@@ -75,7 +75,7 @@ public abstract class BaseAccessibilityHandler
     /**
      * 设置当前 事件 类名称
      */
-    protected String getPageName()
+    protected String getClassName()
     {
         return getEvent().getClassName().toString();
     }
