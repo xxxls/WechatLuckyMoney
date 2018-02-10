@@ -44,17 +44,12 @@ public class RedEnvelopeService extends AccessibilityService implements SharedPr
     {
         L.e("onAccessibilityEvent() -> ");
         L.e("onAccessibilityEvent() -> ClassName : "+event.getClassName());
-        L.e("onAccessibilityEvent() -> Action : "+event.getAction());
-        L.e("onAccessibilityEvent() -> WindowId : "+event.getWindowId());
-        L.e("onAccessibilityEvent() -> SourceClassName : "+event.getSource().getClassName());
-        L.e("onAccessibilityEvent() -> SourceWindowId : "+event.getSource().getWindowId());
-        L.e("onAccessibilityEvent() -> SourceChildCount : "+event.getSource().getChildCount());
-        L.e("onAccessibilityEvent() -> "+event.toString());
+        L.e("onAccessibilityEvent() -> toString() : "+event.toString());
         mEvent = event;
 
         if (event.getSource() == null)
         {
-            return; 
+            return;
         }
 
 //        if (isPageEvent(mEvent))
@@ -142,7 +137,7 @@ public class RedEnvelopeService extends AccessibilityService implements SharedPr
         if (mHandlers == null)
         {
             mHandlers = new ArrayList<>();
-            mHandlers.add(new ChatDetailsHandler(this));
+//            mHandlers.add(new ChatDetailsHandler(this));
             mHandlers.add(new LuckyMoneyReceiveHandler(this));
             mHandlers.add(new LuckyMoneyDetailsHandler(this));
         }

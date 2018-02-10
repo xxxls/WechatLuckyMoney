@@ -19,6 +19,8 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".activitys.LoadingActivity" android:theme="@style/AppTranslucentTheme" android:launchMode="singleInstance" />
+
         <service
             android:name="com.max.wechatluckymoney.services.RedEnvelopeService"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">

@@ -1,15 +1,11 @@
 package com.max.wechatluckymoney.services.handler;
 
-import android.accessibilityservice.AccessibilityService;
 import android.view.accessibility.AccessibilityNodeInfo;
-import android.widget.Toast;
 
+import com.max.wechatluckymoney.activitys.LoadingActivity;
 import com.max.wechatluckymoney.base.BaseAccessibilityHandler;
 import com.max.wechatluckymoney.base.OnAccessibilityHandlerListener;
 import com.max.wechatluckymoney.support.enums.WidgetType;
-import com.max.wechatluckymoney.utils.L;
-
-import java.util.List;
 
 /**
  * Created by max on 2018/2/9.
@@ -22,7 +18,7 @@ public class LuckyMoneyReceiveHandler extends BaseAccessibilityHandler
     //红包领取
     public static final String WECHAT_ACTIVITY_LMR = "LuckyMoneyReceiveUI";
 
-    private static final String WECHAT_TEXT_SLOW = "手慢了，红包派完了";
+    private static final String WECHAT_TEXT_SLOW = "手慢了";
     private static final String WECHAT_TEXT_OUT_OF_DATE = "已超过24小时";
 
     public LuckyMoneyReceiveHandler(OnAccessibilityHandlerListener listener)
@@ -39,11 +35,13 @@ public class LuckyMoneyReceiveHandler extends BaseAccessibilityHandler
 
         if (name.contains(WECHAT_ACTIVITY_LMR))
         {
-            //红包弹窗页面
+
+//            //红包弹窗页面
             if (hasOneOfThoseNodesByTexts(getRootNode(), WECHAT_TEXT_SLOW, WECHAT_TEXT_OUT_OF_DATE))
             {
-                log("-> 已经领完了 或者过期");
                 //已经领完了 或者过期
+                log("-> 已经领完了 或者过期");
+                toast("已经领完了");
                 postDelayedBack();
                 return true;
             } else
@@ -51,15 +49,18 @@ public class LuckyMoneyReceiveHandler extends BaseAccessibilityHandler
                 AccessibilityNodeInfo node = findOneNodeByViewTag(getRootNode(), WidgetType.Button.getContent());
                 if (node != null)
                 {
-                    log("-> 还没有领");
                     //还没有领
+                    log("-> 还没有领");
                     toast("领红包了");
                     node.performAction(AccessibilityNodeInfo.ACTION_CLICK);
                     return true;
                 }
             }
-        }
 
+            //红包页面 生命周期的改变 才能正常执行本程序
+            //暂时这样解决 微信对 红包页面做的特殊处理
+            getService().startActivity(LoadingActivity.getInstance(getService()));
+        }
         return false;
     }
 }
