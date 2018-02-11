@@ -8,4 +8,9 @@
 
     <color name="theme">#E46C62</color>
 
+
+
+    <color name="bg_floating_on">#E46C62</color>
+    <color name="bg_floating_off">#E46C62</color>
+
 </resources>
