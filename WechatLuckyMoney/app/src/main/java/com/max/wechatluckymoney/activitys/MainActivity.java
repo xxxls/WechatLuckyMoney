@@ -35,7 +35,6 @@ public class MainActivity extends BaseActivity implements AccessibilityManager.A
     {
         initView();
         initData();
-        initEvnet();
     }
 
     @Override
@@ -46,18 +45,12 @@ public class MainActivity extends BaseActivity implements AccessibilityManager.A
 
     private void initView()
     {
-        setStatusBarColor(R.color.theme);
     }
 
     private void initData()
     {
         mAccessibilityManager = (AccessibilityManager) getSystemService(Context.ACCESSIBILITY_SERVICE);
         mAccessibilityManager.addAccessibilityStateChangeListener(this);
-    }
-
-    private void initEvnet()
-    {
-
     }
 
     @Override
@@ -67,19 +60,22 @@ public class MainActivity extends BaseActivity implements AccessibilityManager.A
         super.onResume();
     }
 
-    @OnClick({R.id.ll_setting, R.id.ll_switch, R.id.ll_github})
+    @OnClick({R.id.ll_setting, R.id.ll_switch, R.id.ll_github, R.id.ll_github_star})
     public void onClick(View view)
     {
         switch (view.getId())
         {
+
             case R.id.ll_setting:
                 startActivity(SettingActivity.getInstance(this));
                 break;
             case R.id.ll_switch:
                 switchApp();
                 break;
+            case R.id.ll_github_star:
             case R.id.ll_github:
-                Toast.makeText(this, R.string.str_blessing, Toast.LENGTH_LONG).show();
+                startActivity(WebViewActivity.getInstance(this, getString(R.string.str_github_index)
+                        , getString(R.string.url_github_index)));
                 break;
             default:
         }
@@ -123,17 +119,10 @@ public class MainActivity extends BaseActivity implements AccessibilityManager.A
      */
     private void updateSwitchUIState()
     {
-        if (isSwitchApp())
+        if (isSwitchApp() && isServiceEnabled())
         {
-            if (isServiceEnabled())
-            {
-                mTvSwitch.setText(R.string.str_stop);
-                mIvSwitch.setImageResource(R.mipmap.ic_stop);
-            } else
-            {
-                mIvSwitch.setImageResource(R.mipmap.ic_start);
-                mTvSwitch.setText(R.string.str_start);
-            }
+            mTvSwitch.setText(R.string.str_stop);
+            mIvSwitch.setImageResource(R.mipmap.ic_stop);
         } else
         {
             mIvSwitch.setImageResource(R.mipmap.ic_start);

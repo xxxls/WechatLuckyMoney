@@ -21,6 +21,9 @@ public class ChatListHandler extends BaseAccessibilityHandler
 
     //聊天列表 的 消息内容ID
     private static final String WECHAT_ID_LUCKY_MONEY = "com.tencent.mm:id/apv";
+    //聊天列表 的 消息内容ID 新版本
+    private static final String WECHAT_ID_LUCKY_MONEY_NEW = "com.tencent.mm:id/apt";
+
 
     private static final String WECHAT_TEXT_LUCKY_MONEY = "[微信红包]";
 
@@ -34,8 +37,6 @@ public class ChatListHandler extends BaseAccessibilityHandler
     {
         String name = getClassName();
 
-        log("name: " + name);
-
         if (name.contains(WECHAT_ACTIVITY_CHAT_LIST) || name.contains(WECHAT_VIEW_LISTVIEW))
         {
 
@@ -47,7 +48,11 @@ public class ChatListHandler extends BaseAccessibilityHandler
                 return false;
             }
 
-            List<AccessibilityNodeInfo> nodes = findNodeListById(getRootNode(), WECHAT_ID_LUCKY_MONEY);
+            List<AccessibilityNodeInfo> nodes = findNodeListById(getRootNode(), WECHAT_ID_LUCKY_MONEY_NEW);
+            if (nodes == null)
+            {
+                nodes = findNodeListById(getRootNode(), WECHAT_ID_LUCKY_MONEY);
+            }
 
             if (nodes != null)
             {
@@ -58,7 +63,6 @@ public class ChatListHandler extends BaseAccessibilityHandler
                     {
                         if (nodeInfo.getText().toString().contains(WECHAT_TEXT_LUCKY_MONEY))
                         {
-                            log("TEXT：" + nodeInfo.getText().toString());
                             toast("发现红包了");
                             nodeInfo.getParent().performAction(AccessibilityNodeInfo.ACTION_CLICK);
                             return true;

@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.max.wechatluckymoney.R;
+
 import butterknife.ButterKnife;
 
 /**
@@ -26,6 +28,7 @@ public abstract class BaseActivity extends AppCompatActivity
         try
         {
             setContentView(getLayoutResId());
+            setStatusBarColor(R.color.colorPrimaryDark);
             onInitialize();
         } catch (Exception e)
         {

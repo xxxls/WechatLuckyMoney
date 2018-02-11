@@ -14,6 +14,7 @@ import android.view.WindowManager;
 import android.view.accessibility.AccessibilityEvent;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.max.wechatluckymoney.R;
 import com.max.wechatluckymoney.activitys.MainActivity;
@@ -24,6 +25,7 @@ import com.max.wechatluckymoney.services.handler.ChatListHandler;
 import com.max.wechatluckymoney.services.handler.LuckyMoneyDetailsHandler;
 import com.max.wechatluckymoney.services.handler.LuckyMoneyReceiveHandler;
 import com.max.wechatluckymoney.utils.L;
+import com.max.wechatluckymoney.utils.Utils;
 
 import java.util.ArrayList;
 
@@ -45,6 +47,10 @@ public class LuckyMoneyService extends AccessibilityService implements SharedPre
     //配置
     private SharedPreferences mSharedPreferences;
 
+    //悬浮按钮相关
+    private int mWinW, mWinH, mStartX, mStartY;
+    private long mFirstTime;
+    private WindowManager.LayoutParams mParams;
 
     private WindowManager mWindowManager;
 
@@ -227,9 +233,6 @@ public class LuckyMoneyService extends AccessibilityService implements SharedPre
         return mSharedPreferences;
     }
 
-    private int mWinW, mWinH, mStartX, mStartY;
-    private long mFirstTime, mDoubleTime;
-    private WindowManager.LayoutParams mParams;
 
     /**
      * 是否 show 悬浮按钮
@@ -316,23 +319,21 @@ public class LuckyMoneyService extends AccessibilityService implements SharedPre
                 {
                     mParams.y = mWinH - v.getHeight();
                 }
-                mWindowManager.updateViewLayout(v, mParams);
 
+                mWindowManager.updateViewLayout(v, mParams);
                 mStartX = (int) event.getRawX();
                 mStartY = (int) event.getRawY();
                 break;
             case MotionEvent.ACTION_UP:
-                long time = System.currentTimeMillis();
-                if (time - mFirstTime <= 150)
-                {  //单击
-                    if (time - mDoubleTime <= 300)
-                    {//双击 进入设置
-                        Intent intent = new Intent(getBaseContext(), MainActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        getBaseContext().startActivity(intent);
-                        return true;
-                    }
-                    mDoubleTime = time;
+                long timeDiffer = System.currentTimeMillis() - mFirstTime;
+                if (timeDiffer >= 500)
+                {
+                    Utils.vibrate(this, 150);
+                    Intent intent = new Intent(getBaseContext(), MainActivity.class);
+                    getBaseContext().startActivity(intent);
+                } else if (timeDiffer <= 300)
+                {
+                    Utils.vibrate(this, 50);
                     setSwitch(! isHandler());
                 }
                 break;

@@ -31,8 +31,6 @@ public class ChatDetailsHandler extends BaseAccessibilityHandler
     {
         String name = getClassName();
 
-        log("name: " + name);
-
         if (name.contains(WECHAT_ACTIVITY_CHAT_DEATILS) || name.contains(WECHAT_VIEW_LISTVIEW))
         {
             AccessibilityNodeInfo node = getTheLastNodeByTexts(getRootNode(), WECHAT_TEXT_GET_LM);

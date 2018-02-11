@@ -25,11 +25,9 @@ public class SettingActivity extends BaseActivity
         return intent;
     }
 
-
     @Override
     protected void onInitialize()
     {
-        setStatusBarColor(R.color.theme);
         initView();
     }
 

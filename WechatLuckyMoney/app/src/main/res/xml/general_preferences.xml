@@ -8,6 +8,7 @@
         android:layout="@layout/preference_category"
         android:title="@string/shortcut_options">
         <SwitchPreference
+            android:defaultValue="true"
             android:key="switch_float"
             android:summary="@string/float_switch_hint"
             android:switchTextOff="开关被关闭了"
@@ -36,7 +37,7 @@
         android:title="@string/anti_block_options">
         <CheckBoxPreference
             android:defaultValue="true"
-            android:key="pref_watch_chat"
+            android:key="pref_auto_open"
             android:layout="@layout/preference_checkbox"
             android:title="@string/auto_open_packets"/>
         <com.max.wechatluckymoney.view.dialog.SeekBarPreference
@@ -64,10 +65,11 @@
             android:summary="@string/warning_hint"
             android:title="@string/special_explain"/>
         <Preference
-            android:key="pref_etc_email"
+            android:key="pref_etc_compatibility"
             android:layout="@layout/preference_checkbox"
-            android:summary="@string/email_code"
-            android:title="@string/email"/>
+            android:summary="@string/compatibility_hint"
+            android:title="@string/compatibility"
+            android:id="@+id/preference"/>
     </PreferenceCategory>
 
 </PreferenceScreen>

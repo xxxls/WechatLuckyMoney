@@ -13,7 +13,7 @@
     <TextView
         android:textSize="30sp"
         android:layout_centerInParent="true"
-        android:textColor="@android:color/black"
+        android:textColor="@color/white"
         android:text="Loading.."
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />

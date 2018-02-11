@@ -48,7 +48,13 @@ public class LuckyMoneyReceiveHandler extends BaseAccessibilityHandler
                 {
                     //还没有领
                     log("-> 还没有领");
-                    toast("领红包了");
+
+                    if (! mListener.getSharedPreferences().getBoolean("pref_auto_open", true))
+                    {
+                        return true;
+                    }
+
+                    toast("领红包啦");
                     node.performAction(AccessibilityNodeInfo.ACTION_CLICK);
                     return true;
                 }

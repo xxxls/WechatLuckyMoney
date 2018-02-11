@@ -40,10 +40,25 @@
     <string name="warning_hint">本插件仅供学习使用，使用者自行承担随之而来的各种风险，不限于“禁用红包功能”、“微信封号”</string>
 
 
+    <string name="url_github_index">https://github.com/mxruan/WechatLuckyMoney</string>
+    <string name="url_github_issues">https://github.com/mxruan/WechatLuckyMoney/issues</string>
+
+    <string name="str_github_index">GitHub 项目主页</string>
+    <string name="str_github_issues">GitHub Issues</string>
+
     <string name="email">电子邮箱</string>
     <string name="email_code">mxruan@163.com</string>
 
+    <string name="compatibility">兼容性</string>
+    <string name="compatibility_hint">部分手机可能无法正常使用  ^_^\" </string>
+
+    <string name="str_community">社区</string>
     <string name="str_github">GitHub</string>
     <string name="str_start">开启插件</string>
     <string name="str_stop">关闭插件</string>
+
+    <string name="github_1">在 GitHub 上</string>
+    <string name="github_2">本项目，支持应用开源</string>
+    <string name="star_2">Star</string>
+    <string name="star_1">★</string>
 </resources>

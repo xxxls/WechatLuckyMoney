@@ -1,6 +1,4 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="#fff">
@@ -35,6 +33,7 @@
             android:textColor="#fff"/>
     </LinearLayout>
 
+
     <ImageView
         android:id="@+id/main_bg_snow"
         android:layout_width="match_parent"
@@ -42,11 +41,72 @@
         android:layout_alignBottom="@id/layout_header"
         android:background="@mipmap/bg_snow"/>
 
+
+    <LinearLayout
+        android:id="@+id/ll_github_star"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginBottom="21dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/layout_control">
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="5dp"
+            android:src="@mipmap/ic_github"/>
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="2dp"
+            android:text="@string/github_1"
+            android:textColor="#858585"/>
+
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:paddingBottom="1dp"
+            android:text="@string/star_1"
+            android:textColor="@color/color_golden"/>
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:text="@string/star_2"
+            android:textColor="@color/color_golden"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="2dp"
+            android:text="@string/github_2"
+            android:textColor="#858585"/>
+    </LinearLayout>
+
     <LinearLayout
         android:id="@+id/layout_control"
         android:layout_width="match_parent"
         android:layout_height="110dp"
-        android:layout_alignParentBottom="true"
+        android:layout_above="@id/ll_github_star"
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
@@ -66,16 +126,16 @@
             android:textSize="20dp">
 
             <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
                 android:layout_margin="10dp"
-                android:src="@mipmap/ic_github"/>
+                android:src="@mipmap/ic_community"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:text="@string/str_github"
+                android:text="@string/str_community"
                 android:textColor="#858585"
                 android:textSize="16sp"
                 android:textStyle="bold"/>
@@ -141,4 +201,6 @@
                 android:textStyle="bold"/>
         </LinearLayout>
     </LinearLayout>
+
+
 </RelativeLayout>

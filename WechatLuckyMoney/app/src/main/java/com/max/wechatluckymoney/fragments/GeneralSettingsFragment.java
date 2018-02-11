@@ -1,10 +1,12 @@
 package com.max.wechatluckymoney.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 
 import com.max.wechatluckymoney.R;
+import com.max.wechatluckymoney.activitys.WebViewActivity;
 
 /**
  * Created by Max on 2018/2/10.
@@ -24,22 +26,22 @@ public class GeneralSettingsFragment extends PreferenceFragment
     {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.general_preferences);
+        initEvent();
     }
 
-    private void setPrefListeners()
+    private void initEvent()
     {
-
         // Open issue
         Preference issuePref = findPreference("pref_etc_issue");
         issuePref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener()
         {
             public boolean onPreferenceClick(Preference preference)
             {
-//                Intent webViewIntent = new Intent(getActivity(), WebViewActivity.class);
-//                webViewIntent.putExtra("title", "GitHub Issues");
-//                webViewIntent.putExtra("url", getString(R.string.url_github_issues));
-//                webViewIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                startActivity(webViewIntent);
+
+                Intent intent = WebViewActivity.getInstance(getActivity(), getString(R.string.str_github_issues),
+                        getString(R.string.url_github_issues));
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
                 return false;
             }
         });
