@@ -4,7 +4,6 @@ import android.accessibilityservice.AccessibilityService;
 import android.graphics.Rect;
 import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.Toast;
@@ -12,8 +11,6 @@ import android.widget.Toast;
 import com.max.wechatluckymoney.utils.L;
 
 import java.util.List;
-import java.util.concurrent.RunnableFuture;
-import java.util.logging.Logger;
 
 /**
  * Created by max on 2018/2/9.
@@ -68,6 +65,9 @@ public abstract class BaseAccessibilityHandler
      */
     protected String getClassName()
     {
+        if (getEvent().getClassName()==null){
+            return "";
+        }
         return getEvent().getClassName().toString();
     }
 
