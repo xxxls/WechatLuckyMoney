@@ -63,6 +63,11 @@
             android:layout="@layout/preference_checkbox"
             android:summary="@string/warning_hint"
             android:title="@string/special_explain"/>
+        <Preference
+            android:key="pref_etc_email"
+            android:layout="@layout/preference_checkbox"
+            android:summary="@string/email_code"
+            android:title="@string/email"/>
     </PreferenceCategory>
 
 </PreferenceScreen>

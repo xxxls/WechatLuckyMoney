@@ -1,8 +1,6 @@
 package com.max.wechatluckymoney.services;
 
 import android.accessibilityservice.AccessibilityService;
-import android.accessibilityservice.AccessibilityServiceInfo;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -14,10 +12,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.accessibility.AccessibilityEvent;
-import android.view.accessibility.AccessibilityManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.max.wechatluckymoney.R;
 import com.max.wechatluckymoney.activitys.MainActivity;
@@ -30,7 +26,6 @@ import com.max.wechatluckymoney.services.handler.LuckyMoneyReceiveHandler;
 import com.max.wechatluckymoney.utils.L;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by max on 2018/2/9.
@@ -380,45 +375,8 @@ public class LuckyMoneyService extends AccessibilityService implements SharedPre
      */
     private void setSwitch(boolean sw)
     {
-
-        if (sw && ! isServiceEnabled())
-        {
-            jumpAccessibilitySetting();
-        }
         getSharedPreferences().edit().putBoolean("switch_app", sw).commit();
     }
 
-
-    /**
-     * 获取 Service 是否启用状态
-     *
-     * @return
-     */
-    private boolean isServiceEnabled()
-    {
-        AccessibilityManager accessibilityManager = (AccessibilityManager) getSystemService(Context.ACCESSIBILITY_SERVICE);
-        List<AccessibilityServiceInfo> accessibilityServices =
-                accessibilityManager.getEnabledAccessibilityServiceList(AccessibilityServiceInfo.FEEDBACK_GENERIC);
-        for (AccessibilityServiceInfo info : accessibilityServices)
-        {
-            if (info.getId().equals(getPackageName() + "/.services.LuckyMoneyService"))
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-
-
-    /**
-     * 跳转 辅助服务 设置页面
-     */
-    private void jumpAccessibilitySetting()
-    {
-        Intent intent = new Intent(
-                android.provider.Settings.ACTION_ACCESSIBILITY_SETTINGS);
-        startActivity(intent);
-        Toast.makeText(this, "找到" + getBaseContext().getString(R.string.app_name) + ", 打开即可", Toast.LENGTH_LONG).show();
-    }
 
 }

@@ -67,7 +67,7 @@ public class MainActivity extends BaseActivity implements AccessibilityManager.A
         super.onResume();
     }
 
-    @OnClick({R.id.ll_setting, R.id.ll_switch})
+    @OnClick({R.id.ll_setting, R.id.ll_switch, R.id.ll_github})
     public void onClick(View view)
     {
         switch (view.getId())
@@ -77,6 +77,9 @@ public class MainActivity extends BaseActivity implements AccessibilityManager.A
                 break;
             case R.id.ll_switch:
                 switchApp();
+                break;
+            case R.id.ll_github:
+                Toast.makeText(this, R.string.str_blessing, Toast.LENGTH_LONG).show();
                 break;
             default:
         }
