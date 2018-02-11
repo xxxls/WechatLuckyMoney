@@ -60,4 +60,8 @@ public class SettingActivity extends BaseActivity
         startActivity(mAccessibleIntent);
     }
 
+    public void performBack(View view) {
+        super.onBackPressed();
+    }
+
 }

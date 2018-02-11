@@ -39,7 +39,6 @@ public class ChatDetailsHandler extends BaseAccessibilityHandler
 
             if (node != null)
             {
-                toast("开始领红包");
                 if (node.getParent() != null)
                 {
                     node.getParent().performAction(AccessibilityNodeInfo.ACTION_CLICK);

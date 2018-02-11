@@ -4,7 +4,6 @@ import android.view.accessibility.AccessibilityNodeInfo;
 
 import com.max.wechatluckymoney.base.BaseAccessibilityHandler;
 import com.max.wechatluckymoney.base.OnAccessibilityHandlerListener;
-import com.max.wechatluckymoney.utils.AccessibilityUtil;
 
 import java.util.List;
 
@@ -39,6 +38,15 @@ public class ChatListHandler extends BaseAccessibilityHandler
 
         if (name.contains(WECHAT_ACTIVITY_CHAT_LIST) || name.contains(WECHAT_VIEW_LISTVIEW))
         {
+
+            //开关
+            boolean switchList = mListener.getSharedPreferences().getBoolean("pref_watch_list", true);
+
+            if (! switchList)
+            {
+                return false;
+            }
+
             List<AccessibilityNodeInfo> nodes = findNodeListById(getRootNode(), WECHAT_ID_LUCKY_MONEY);
 
             if (nodes != null)
@@ -51,7 +59,7 @@ public class ChatListHandler extends BaseAccessibilityHandler
                         if (nodeInfo.getText().toString().contains(WECHAT_TEXT_LUCKY_MONEY))
                         {
                             log("TEXT：" + nodeInfo.getText().toString());
-                            toast("发现红包");
+                            toast("发现红包了");
                             nodeInfo.getParent().performAction(AccessibilityNodeInfo.ACTION_CLICK);
                             return true;
                         }

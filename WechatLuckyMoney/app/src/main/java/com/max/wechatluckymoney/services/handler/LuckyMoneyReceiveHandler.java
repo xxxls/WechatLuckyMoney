@@ -39,7 +39,6 @@ public class LuckyMoneyReceiveHandler extends BaseAccessibilityHandler
             {
                 //已经领完了 或者过期
                 log("-> 已经领完了 或者过期");
-                toast("已经领完了");
                 postDelayedBack();
                 return true;
             } else
