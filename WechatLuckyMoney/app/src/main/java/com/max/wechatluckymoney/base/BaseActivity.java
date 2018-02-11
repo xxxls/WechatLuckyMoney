@@ -1,11 +1,16 @@
 package com.max.wechatluckymoney.base;
 
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.ColorRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 
 import butterknife.ButterKnife;
 
@@ -68,4 +73,27 @@ public abstract class BaseActivity extends AppCompatActivity
      * @return
      */
     protected abstract int getLayoutResId();
+
+
+    /**
+     * 设置 状态栏 颜色
+     * @param colorResId
+     */
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    protected void setStatusBarColor(@ColorRes int colorResId)
+    {
+        if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
+        {
+            return;
+        }
+
+        Window window = this.getWindow();
+
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+
+        window.setStatusBarColor(getResources().getColor(colorResId));
+    }
+
 }

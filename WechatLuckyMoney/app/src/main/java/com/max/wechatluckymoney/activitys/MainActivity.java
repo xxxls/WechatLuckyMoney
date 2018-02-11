@@ -40,7 +40,7 @@ public class MainActivity extends BaseActivity implements AccessibilityManager.A
 
     private void initView()
     {
-
+        setStatusBarColor(R.color.theme);
     }
 
     private void initData()

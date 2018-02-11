@@ -1,10 +1,8 @@
 package com.max.wechatluckymoney.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
-import android.preference.PreferenceManager;
 
 import com.max.wechatluckymoney.R;
 
@@ -26,7 +24,6 @@ public class GeneralSettingsFragment extends PreferenceFragment
     {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.general_preferences);
-
     }
 
     private void setPrefListeners()

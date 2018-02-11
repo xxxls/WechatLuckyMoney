@@ -21,6 +21,14 @@
     <string name="help_and_feedback">帮助与反馈</string>
     <string name="help_hint">前往GitHub项目主页提交issue</string>
 
+    <string name="shortcut_options">快捷选项</string>
+
+    <string name="float_switch_title">悬浮操作</string>
+    <string name="float_switch_hint">悬浮操作启动或暂定本插件</string>
+
+
+
+
     <string name="delay_ms">毫秒</string>
     <string name="delay_then">然后</string>
     <string name="delay_delay">延迟</string>
