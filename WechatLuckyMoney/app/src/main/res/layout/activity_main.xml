@@ -61,7 +61,6 @@
             android:layout_marginRight="5dp"
             android:layout_weight="0.35"
             android:background="#ffffff"
-            android:onClick="openGitHub"
             android:orientation="vertical"
             android:textColor="#858585"
             android:textSize="20dp">
@@ -91,7 +90,6 @@
             android:layout_marginRight="5dp"
             android:layout_weight="0.3"
             android:background="#ffffff"
-            android:onClick="openAccessibility"
             android:orientation="vertical"
             android:textColor="#858585"
             android:textSize="20dp">
@@ -123,7 +121,6 @@
             android:layout_marginLeft="5dp"
             android:layout_weight="0.35"
             android:background="#ffffff"
-            android:onClick="openSettings"
             android:orientation="vertical"
             android:textColor="#858585"
             android:textSize="20dp">

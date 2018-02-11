@@ -95,7 +95,7 @@ public class MainActivity extends BaseActivity implements AccessibilityManager.A
         {
             //打开
             getSharedPreferences().edit().putBoolean("switch_app", true).commit();
-            if (isServiceEnabled())
+            if (! isServiceEnabled())
             {
                 jumpAccessibilitySetting();
             }
