@@ -3,6 +3,7 @@ package com.max.wechatluckymoney.services;
 import android.accessibilityservice.AccessibilityService;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.view.KeyEvent;
 import android.view.accessibility.AccessibilityEvent;
 
@@ -25,10 +26,14 @@ public class LuckyMoneyService extends AccessibilityService implements SharedPre
 
     private static final String WECHAT_ACTIVITY_GENERAL = "LauncherUI";
 
+    //处理类
     private ArrayList<BaseAccessibilityHandler> mHandlers;
 
     //event
     private AccessibilityEvent mEvent;
+
+    //配置
+    private SharedPreferences mSharedPreferences;
 
 
     /**
@@ -44,8 +49,9 @@ public class LuckyMoneyService extends AccessibilityService implements SharedPre
     public void onAccessibilityEvent(AccessibilityEvent event)
     {
         L.e("onAccessibilityEvent() -> ");
-        L.e("onAccessibilityEvent() -> ClassName : "+event.getClassName());
-        L.e("onAccessibilityEvent() -> toString() : "+event.toString());
+        L.e("onAccessibilityEvent() -> ClassName : " + event.getClassName());
+        L.e("onAccessibilityEvent() -> toString() : " + event.toString());
+
         mEvent = event;
 
         if (event.getSource() == null)
@@ -53,10 +59,22 @@ public class LuckyMoneyService extends AccessibilityService implements SharedPre
             return;
         }
 
-//        if (isPageEvent(mEvent))
-//        {
+        if (isHandler())
+        {
             onHandler();
-//        }
+        }
+    }
+
+
+    /**
+     * 是否处理
+     *
+     * @return
+     */
+    private boolean isHandler()
+    {
+        //开关
+        return getSharedPreferences().getBoolean("switch_app", true);
     }
 
     /**
@@ -85,6 +103,7 @@ public class LuckyMoneyService extends AccessibilityService implements SharedPre
 
     /**
      * 按键事件
+     *
      * @param event
      * @return
      */
@@ -145,17 +164,6 @@ public class LuckyMoneyService extends AccessibilityService implements SharedPre
         }
     }
 
-    /**
-     * 是否是 页面事件
-     *
-     * @param event
-     */
-    private boolean isPageEvent(AccessibilityEvent event)
-    {
-        String name = event.getClassName().toString();
-        return name.contains("com.tencent.mm");
-    }
-
 
     @Override
     public AccessibilityService getAccessibilityService()
@@ -168,5 +176,17 @@ public class LuckyMoneyService extends AccessibilityService implements SharedPre
     {
         return mEvent;
     }
+
+    @Override
+    public SharedPreferences getSharedPreferences()
+    {
+        if (mSharedPreferences == null)
+        {
+            mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+            mSharedPreferences.registerOnSharedPreferenceChangeListener(this);
+        }
+        return mSharedPreferences;
+    }
+
 
 }

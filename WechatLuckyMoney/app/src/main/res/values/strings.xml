@@ -27,8 +27,6 @@
     <string name="float_switch_hint">悬浮操作启动或暂定本插件</string>
 
 
-
-
     <string name="delay_ms">毫秒</string>
     <string name="delay_then">然后</string>
     <string name="delay_delay">延迟</string>
@@ -38,4 +36,8 @@
     <string name="warning">警告</string>
     <string name="warning_hint">本插件仅供学习使用，使用者自行承担随之而来的各种风险，包括但不限于“禁用红包功能”、“微信封号”</string>
 
+
+    <string name="str_github">GitHub</string>
+    <string name="str_start">开启插件</string>
+    <string name="str_stop">关闭插件</string>
 </resources>

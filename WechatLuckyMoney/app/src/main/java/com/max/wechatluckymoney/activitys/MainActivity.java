@@ -3,9 +3,12 @@ package com.max.wechatluckymoney.activitys;
 import android.accessibilityservice.AccessibilityServiceInfo;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.accessibility.AccessibilityManager;
-import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.max.wechatluckymoney.R;
@@ -20,9 +23,12 @@ public class MainActivity extends BaseActivity implements AccessibilityManager.A
 {
 
     private AccessibilityManager mAccessibilityManager;
+    private SharedPreferences mSharedPreferences;
 
-    @Bind(R.id.btn_state)
-    Button mBtnState;
+    @Bind(R.id.iv_switch)
+    ImageView mIvSwitch;
+    @Bind(R.id.tv_switch)
+    TextView mTvSwitch;
 
     @Override
     protected void onInitialize()
@@ -57,21 +63,45 @@ public class MainActivity extends BaseActivity implements AccessibilityManager.A
     @Override
     protected void onResume()
     {
-        updateState();
+        updateSwitchUIState();
         super.onResume();
     }
 
-    @OnClick({R.id.btn_state,R.id.btn_setting})
+    @OnClick({R.id.ll_setting, R.id.ll_switch})
     public void onClick(View view)
     {
-        switch (view.getId()){
-            case R.id.btn_setting:
+        switch (view.getId())
+        {
+            case R.id.ll_setting:
                 startActivity(SettingActivity.getInstance(this));
                 break;
-            case R.id.btn_state:
-                jumpAccessibilitySetting();
+            case R.id.ll_switch:
+                switchApp();
                 break;
+            default:
         }
+    }
+
+    /**
+     * 开关
+     */
+    private void switchApp()
+    {
+        if (isSwitchApp())
+        {
+            //关闭
+            getSharedPreferences().edit().putBoolean("switch_app", false).commit();
+        } else
+        {
+            //打开
+            getSharedPreferences().edit().putBoolean("switch_app", true).commit();
+            if (isServiceEnabled())
+            {
+                jumpAccessibilitySetting();
+            }
+        }
+
+        updateSwitchUIState();
     }
 
     /**
@@ -86,25 +116,28 @@ public class MainActivity extends BaseActivity implements AccessibilityManager.A
     }
 
     /**
-     * 更新 状态
+     * 更新 switch UI 状态
      */
-    private void updateState()
+    private void updateSwitchUIState()
     {
-
-        if (mBtnState == null)
+        if (isSwitchApp())
         {
-            return;
-        }
-
-        if (isServiceEnabled())
-        {
-            mBtnState.setText("正在运行");
+            if (isServiceEnabled())
+            {
+                mTvSwitch.setText(R.string.str_stop);
+                mIvSwitch.setImageResource(R.mipmap.ic_stop);
+            } else
+            {
+                mIvSwitch.setImageResource(R.mipmap.ic_start);
+                mTvSwitch.setText(R.string.str_start);
+            }
         } else
         {
-            mBtnState.setText("启动");
+            mIvSwitch.setImageResource(R.mipmap.ic_start);
+            mTvSwitch.setText(R.string.str_start);
         }
-
     }
+
 
     /**
      * 获取 Service 是否启用状态
@@ -125,10 +158,21 @@ public class MainActivity extends BaseActivity implements AccessibilityManager.A
         return false;
     }
 
+    /**
+     * 是否启动APP
+     *
+     * @return
+     */
+    private boolean isSwitchApp()
+    {
+        return getSharedPreferences().getBoolean("switch_app", false);
+    }
+
+
     @Override
     public void onAccessibilityStateChanged(boolean enabled)
     {
-        updateState();
+        updateSwitchUIState();
     }
 
     @Override
@@ -136,4 +180,14 @@ public class MainActivity extends BaseActivity implements AccessibilityManager.A
     {
         super.onDestroy();
     }
+
+    public SharedPreferences getSharedPreferences()
+    {
+        if (mSharedPreferences == null)
+        {
+            mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        }
+        return mSharedPreferences;
+    }
+
 }

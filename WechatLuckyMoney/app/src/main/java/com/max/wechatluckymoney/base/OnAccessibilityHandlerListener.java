@@ -1,6 +1,7 @@
 package com.max.wechatluckymoney.base;
 
 import android.accessibilityservice.AccessibilityService;
+import android.content.SharedPreferences;
 import android.view.accessibility.AccessibilityEvent;
 
 /**
@@ -20,4 +21,10 @@ public interface OnAccessibilityHandlerListener
      * @return
      */
     AccessibilityEvent getAccessibilityEvent();
+
+    /**
+     * 获取SharedPreferences
+     * @return
+     */
+    SharedPreferences getSharedPreferences();
 }
