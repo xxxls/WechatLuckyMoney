@@ -4,7 +4,7 @@
  
 &nbsp;
 
-### APK
+### 下载
 
 * [v1.0_release](https://github.com/mxruan/WechatLuckyMoney/blob/master/WechatLuckyMoney/apk/v1.0_release.apk?raw=true)（适配微信6.6.3).
 
