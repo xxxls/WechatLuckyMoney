@@ -1,10 +1,12 @@
 
 # 微信红包
-
 帮助你更快速方便的抢红包
-
+ 
 &nbsp;
 
+### APK
+* [v1.0_release](https://github.com/mxruan/WechatLuckyMoney/blob/master/WechatLuckyMoney/app/APK/v1.0_release.apk?raw=true)（适配微信6.6.3).
+&nbsp;
 ### 特性
  
  * 检测聊天列表、聊天页面 红包并自动打开
