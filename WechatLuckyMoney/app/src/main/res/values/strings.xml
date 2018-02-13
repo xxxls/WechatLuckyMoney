@@ -61,4 +61,9 @@
     <string name="github_2">本项目，支持应用开源</string>
     <string name="star_2">Star</string>
     <string name="star_1">★</string>
+
+
+
+    <string name="str_open">启动</string>
+    <string name="str_close">暂停</string>
 </resources>

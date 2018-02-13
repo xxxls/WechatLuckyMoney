@@ -36,8 +36,6 @@ import java.util.ArrayList;
 public class LuckyMoneyService extends AccessibilityService implements SharedPreferences.OnSharedPreferenceChangeListener, OnAccessibilityHandlerListener, View.OnTouchListener
 {
 
-    private static final String WECHAT_ACTIVITY_GENERAL = "LauncherUI";
-
     //处理类
     private ArrayList<BaseAccessibilityHandler> mHandlers;
 
@@ -48,7 +46,7 @@ public class LuckyMoneyService extends AccessibilityService implements SharedPre
     private SharedPreferences mSharedPreferences;
 
     //悬浮按钮相关
-    private int mWinW, mWinH, mStartX, mStartY;
+    private int mWinW, mWinH, mStartX, mStartY, mFirstX, mFirstY;
     private long mFirstTime;
     private WindowManager.LayoutParams mParams;
 
@@ -298,8 +296,8 @@ public class LuckyMoneyService extends AccessibilityService implements SharedPre
         {
             case MotionEvent.ACTION_DOWN:
                 mFirstTime = System.currentTimeMillis();
-                mStartX = (int) event.getRawX();
-                mStartY = (int) event.getRawY();
+                mFirstX = mStartX = (int) event.getRawX();
+                mFirstY = mStartY = (int) event.getRawY();
                 break;
             case MotionEvent.ACTION_MOVE:
                 int endx = (int) event.getRawX();
@@ -328,9 +326,13 @@ public class LuckyMoneyService extends AccessibilityService implements SharedPre
                 long timeDiffer = System.currentTimeMillis() - mFirstTime;
                 if (timeDiffer >= 500)
                 {
-                    Utils.vibrate(this, 150);
-                    Intent intent = new Intent(getBaseContext(), MainActivity.class);
-                    getBaseContext().startActivity(intent);
+                    if (Math.abs(mFirstX - event.getRawX()) <= 10
+                            && Math.abs(mFirstY - event.getRawY()) <= 10)
+                    {
+                        Utils.vibrate(this, 150);
+                        Intent intent = new Intent(getBaseContext(), MainActivity.class);
+                        getBaseContext().startActivity(intent);
+                    }
                 } else if (timeDiffer <= 300)
                 {
                     Utils.vibrate(this, 50);
@@ -359,12 +361,12 @@ public class LuckyMoneyService extends AccessibilityService implements SharedPre
         {
             llSwitch.setBackgroundResource(R.drawable.bg_circle_switch_on);
             tvSwitch.setTextColor(Color.BLACK);
-            tvSwitch.setText("开启");
+            tvSwitch.setText(R.string.str_open);
 
         } else
         {
             llSwitch.setBackgroundResource(R.drawable.bg_circle_switch_off);
-            tvSwitch.setText("关闭");
+            tvSwitch.setText(R.string.str_close);
             tvSwitch.setTextColor(Color.WHITE);
         }
     }
