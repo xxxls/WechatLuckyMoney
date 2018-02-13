@@ -60,18 +60,24 @@ public class MainActivity extends BaseActivity implements AccessibilityManager.A
         super.onResume();
     }
 
-    @OnClick({R.id.ll_setting, R.id.ll_switch, R.id.ll_github, R.id.ll_github_star})
+    @OnClick({R.id.ll_setting, R.id.ll_switch, R.id.ll_github, R.id.ll_github_star,
+    R.id.tv_app_name})
     public void onClick(View view)
     {
         switch (view.getId())
         {
+            case R.id.tv_app_name:
+                Toast.makeText(this,R.string.str_blessing,Toast.LENGTH_LONG).show();
+                break;
 
             case R.id.ll_setting:
                 startActivity(SettingActivity.getInstance(this));
                 break;
+
             case R.id.ll_switch:
                 switchApp();
                 break;
+
             case R.id.ll_github_star:
             case R.id.ll_github:
                 startActivity(WebViewActivity.getInstance(this, getString(R.string.str_github_index)
