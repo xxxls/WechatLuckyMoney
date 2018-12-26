@@ -16,7 +16,7 @@ import com.max.wechatluckymoney.base.BaseActivity;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 public class MainActivity extends BaseActivity implements AccessibilityManager.AccessibilityStateChangeListener
@@ -25,9 +25,9 @@ public class MainActivity extends BaseActivity implements AccessibilityManager.A
     private AccessibilityManager mAccessibilityManager;
     private SharedPreferences mSharedPreferences;
 
-    @Bind(R.id.iv_switch)
+    @BindView(R.id.iv_switch)
     ImageView mIvSwitch;
-    @Bind(R.id.tv_switch)
+    @BindView(R.id.tv_switch)
     TextView mTvSwitch;
 
     @Override

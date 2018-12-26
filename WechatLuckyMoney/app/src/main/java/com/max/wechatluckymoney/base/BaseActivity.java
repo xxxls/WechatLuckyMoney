@@ -15,12 +15,15 @@ import android.view.WindowManager;
 import com.max.wechatluckymoney.R;
 
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * Created by max on 2018/2/9.
  */
 public abstract class BaseActivity extends AppCompatActivity
 {
+    private Unbinder mUnbinder;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState)
     {
@@ -40,27 +43,27 @@ public abstract class BaseActivity extends AppCompatActivity
     public void setContentView(@LayoutRes int layoutResID)
     {
         super.setContentView(layoutResID);
-        ButterKnife.bind(this);
+        mUnbinder = ButterKnife.bind(this);
     }
 
     @Override
     public void setContentView(View view)
     {
         super.setContentView(view);
-        ButterKnife.bind(this);
+        mUnbinder = ButterKnife.bind(this);
     }
 
     @Override
     public void setContentView(View view, ViewGroup.LayoutParams params)
     {
         super.setContentView(view, params);
-        ButterKnife.bind(this);
+        mUnbinder = ButterKnife.bind(this);
     }
 
     @Override
     protected void onDestroy()
     {
-        ButterKnife.unbind(this);
+        if (mUnbinder != null) mUnbinder.unbind();
         super.onDestroy();
     }
 

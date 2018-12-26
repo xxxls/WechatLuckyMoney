@@ -18,7 +18,7 @@ import android.widget.TextView;
 import com.max.wechatluckymoney.R;
 import com.max.wechatluckymoney.base.BaseActivity;
 
-import butterknife.Bind;
+import butterknife.BindView;
 
 
 /**
@@ -27,7 +27,7 @@ import butterknife.Bind;
  */
 public class WebViewActivity extends BaseActivity
 {
-    @Bind(R.id.webView)
+    @BindView(R.id.webView)
     WebView mWebView;
 
     private String mUrl;
