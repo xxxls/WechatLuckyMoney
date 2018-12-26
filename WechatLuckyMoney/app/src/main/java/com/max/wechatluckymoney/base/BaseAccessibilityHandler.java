@@ -2,8 +2,10 @@ package com.max.wechatluckymoney.base;
 
 import android.accessibilityservice.AccessibilityService;
 import android.graphics.Rect;
+import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.Toast;
