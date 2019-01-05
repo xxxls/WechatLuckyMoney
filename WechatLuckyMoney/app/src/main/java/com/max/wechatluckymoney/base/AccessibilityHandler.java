@@ -18,13 +18,16 @@ import java.util.List;
  * Created by max on 2018/2/9.
  * 辅助服务
  */
-public abstract class BaseAccessibilityHandler {
+public abstract class AccessibilityHandler {
     protected final String TAG = this.getClass().getSimpleName();
 
     protected OnAccessibilityHandlerListener mListener;
 
-    public BaseAccessibilityHandler(@NonNull OnAccessibilityHandlerListener listener) {
+    private Handler mHandler;
+
+    public AccessibilityHandler(@NonNull OnAccessibilityHandlerListener listener) {
         this.mListener = listener;
+        this.mHandler = new Handler();
     }
 
     /**
@@ -37,7 +40,6 @@ public abstract class BaseAccessibilityHandler {
     public boolean onExecute() {
         return onHandler();
     }
-
 
     private OnAccessibilityHandlerListener getListener() {
         return mListener;
@@ -156,7 +158,7 @@ public abstract class BaseAccessibilityHandler {
      * @param time
      */
     protected void startDelayedTask(Runnable runnable, long time) {
-        new Handler().postDelayed(runnable, time);
+        mHandler.postDelayed(runnable, time);
     }
 
     /**
@@ -164,12 +166,7 @@ public abstract class BaseAccessibilityHandler {
      */
     protected void postDelayedBack() {
         startDelayedTask(
-                new Runnable() {
-                    public void run() {
-                        getService().performGlobalAction(getService().GLOBAL_ACTION_BACK);
-                    }
-                },
-                300);
+                () -> getService().performGlobalAction(getService().GLOBAL_ACTION_BACK), 300);
     }
 
     protected void toast(CharSequence sequence) {

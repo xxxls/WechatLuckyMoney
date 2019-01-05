@@ -15,7 +15,6 @@ import com.max.wechatluckymoney.R;
 import com.max.wechatluckymoney.base.BaseActivity;
 
 import java.util.List;
-
 import butterknife.BindView;
 import butterknife.OnClick;
 

@@ -1,9 +1,9 @@
-package com.max.wechatluckymoney.services.handler;
+package com.max.wechatluckymoney.services.handler.six_six_three;
 
 import android.view.accessibility.AccessibilityNodeInfo;
 
 import com.max.wechatluckymoney.activitys.LoadingActivity;
-import com.max.wechatluckymoney.base.BaseAccessibilityHandler;
+import com.max.wechatluckymoney.base.AccessibilityHandler;
 import com.max.wechatluckymoney.base.OnAccessibilityHandlerListener;
 import com.max.wechatluckymoney.support.enums.WidgetType;
 import com.max.wechatluckymoney.utils.AccessibilityUtil;
@@ -12,9 +12,8 @@ import com.max.wechatluckymoney.utils.AccessibilityUtil;
  * Created by max on 2018/2/9.
  * 红包详情 处理类
  */
-public class LuckyMoneyReceiveHandler extends BaseAccessibilityHandler
+public class LuckyMoneyReceiveHandler extends AccessibilityHandler
 {
-
 
     //红包领取
     private static final String WECHAT_ACTIVITY_LMR = "LuckyMoneyReceiveUI";

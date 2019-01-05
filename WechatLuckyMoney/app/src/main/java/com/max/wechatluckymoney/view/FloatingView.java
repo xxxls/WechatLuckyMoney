@@ -6,10 +6,11 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.max.wechatluckymoney.R;
+import com.wang.avi.AVLoadingIndicatorView;
 
 /**
  * 悬浮视图
@@ -22,6 +23,7 @@ public class FloatingView extends FrameLayout implements View.OnTouchListener {
     //悬浮按钮相关
     private int mStartX, mStartY, mFirstX, mFirstY;
 
+    private AVLoadingIndicatorView mIndicatorViewForeground;
     private OnFloatingListener mListener;
 
     public FloatingView(Context context, OnFloatingListener listener) {
@@ -34,6 +36,9 @@ public class FloatingView extends FrameLayout implements View.OnTouchListener {
     private void init() {
         LayoutInflater.from(getContext()).inflate(R.layout.layout_floating, this, true);
 
+        mIndicatorViewForeground = findViewById(R.id.avi_foreground);
+        mIndicatorViewForeground.show();
+
         setOnTouchListener(this);
     }
 
@@ -41,17 +46,16 @@ public class FloatingView extends FrameLayout implements View.OnTouchListener {
      * 改变状态显示
      */
     public void changeState(boolean state) {
-        LinearLayout llSwitch = (LinearLayout) findViewById(R.id.ll_switch);
-        TextView tvSwitch = (TextView) findViewById(R.id.tv_switch);
         if (state) {
-            llSwitch.setBackgroundResource(R.drawable.bg_circle_switch_on);
-            tvSwitch.setTextColor(Color.BLACK);
-            tvSwitch.setText(R.string.str_open);
-
+            findViewById(R.id.ll_switch).setBackgroundResource(R.drawable.bg_circle_switch_on);
+            findViewById(R.id.iv_start).setVisibility(VISIBLE);
+            mIndicatorViewForeground.setVisibility(GONE);
+            mIndicatorViewForeground.hide();
         } else {
-            llSwitch.setBackgroundResource(R.drawable.bg_circle_switch_off);
-            tvSwitch.setText(R.string.str_close);
-            tvSwitch.setTextColor(Color.WHITE);
+            findViewById(R.id.ll_switch).setBackgroundResource(R.drawable.bg_circle_switch_off);
+            findViewById(R.id.iv_start).setVisibility(GONE);
+            mIndicatorViewForeground.setVisibility(VISIBLE);
+            mIndicatorViewForeground.show();
         }
     }
 

@@ -27,6 +27,10 @@ android {
         enabled true
     }
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
@@ -36,8 +40,9 @@ dependencies {
     implementation 'com.orhanobut:logger:2.1.1'
     implementation "com.android.support:support-v4:$rootProject.ext.supportLibraryVersion"
     implementation "com.android.support:appcompat-v7:$rootProject.ext.supportLibraryVersion"
-
     // ButterKnife注解库：https://github.com/JakeWharton/butterknife
     implementation "com.jakewharton:butterknife:$rootProject.ext.butterknifeVersion"
     annotationProcessor "com.jakewharton:butterknife-compiler:$rootProject.ext.butterknifeVersion"
+    //loading https://github.com/81813780/AVLoadingIndicatorView
+    implementation project(':loadingIndicator')
 }

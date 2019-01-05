@@ -3,31 +3,19 @@ package com.max.wechatluckymoney.services;
 import android.accessibilityservice.AccessibilityService;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.graphics.PixelFormat;
-import android.os.Build;
+import android.content.pm.PackageManager;
 import android.preference.PreferenceManager;
-import android.view.Gravity;
 import android.view.KeyEvent;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.WindowManager;
 import android.view.accessibility.AccessibilityEvent;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.max.wechatluckymoney.R;
-import com.max.wechatluckymoney.activitys.MainActivity;
-import com.max.wechatluckymoney.base.BaseAccessibilityHandler;
+import com.max.wechatluckymoney.base.AccessibilityHandler;
 import com.max.wechatluckymoney.base.OnAccessibilityHandlerListener;
-import com.max.wechatluckymoney.services.handler.ChatDetailsHandler;
-import com.max.wechatluckymoney.services.handler.ChatListHandler;
-import com.max.wechatluckymoney.services.handler.LuckyMoneyDetailsHandler;
-import com.max.wechatluckymoney.services.handler.LuckyMoneyReceiveHandler;
+import com.max.wechatluckymoney.services.handler.six_six_three.ChatDetailsHandler;
+import com.max.wechatluckymoney.services.handler.six_six_three.ChatListHandler;
+import com.max.wechatluckymoney.services.handler.six_six_three.LuckyMoneyDetailsHandler;
+import com.max.wechatluckymoney.services.handler.six_six_three.LuckyMoneyReceiveHandler;
 import com.max.wechatluckymoney.support.FloatingHelper;
 import com.max.wechatluckymoney.utils.L;
-import com.max.wechatluckymoney.utils.Utils;
 
 import java.util.ArrayList;
 
@@ -39,7 +27,7 @@ public class LuckyMoneyService extends AccessibilityService implements SharedPre
         OnAccessibilityHandlerListener, FloatingHelper.OnFloatingHelperListener {
 
     //处理类
-    private ArrayList<BaseAccessibilityHandler> mHandlers;
+    private ArrayList<AccessibilityHandler> mHandlers;
 
     //event
     private AccessibilityEvent mEvent;
@@ -62,11 +50,7 @@ public class LuckyMoneyService extends AccessibilityService implements SharedPre
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
 
-        if (event == null) {
-            return;
-        }
-
-        if (event.getSource() == null) {
+        if (event == null || event.getSource() == null) {
             return;
         }
 
@@ -92,13 +76,12 @@ public class LuckyMoneyService extends AccessibilityService implements SharedPre
      * 处理
      */
     private void onHandler() {
-        for (BaseAccessibilityHandler handler : getHandlers()) {
+        for (AccessibilityHandler handler : getHandlers()) {
             if (handler.onExecute()) {
                 break;
             }
         }
     }
-
 
     /**
      * 这个在系统想要中断AccessibilityService返给的响应时会调用。在整个生命周期里会被调用
@@ -155,8 +138,7 @@ public class LuckyMoneyService extends AccessibilityService implements SharedPre
      *
      * @return
      */
-    private ArrayList<BaseAccessibilityHandler> getHandlers() {
-        initHandlers();
+    private ArrayList<AccessibilityHandler> getHandlers() {
         return mHandlers;
     }
 
@@ -164,13 +146,7 @@ public class LuckyMoneyService extends AccessibilityService implements SharedPre
      * 初始化 处理类
      */
     private void initHandlers() {
-        if (mHandlers == null) {
-            mHandlers = new ArrayList<>();
-            mHandlers.add(new ChatListHandler(this));
-            mHandlers.add(new ChatDetailsHandler(this));
-            mHandlers.add(new LuckyMoneyReceiveHandler(this));
-            mHandlers.add(new LuckyMoneyDetailsHandler(this));
-        }
+        mHandlers = new HandlerHelper(this).getHandlers(getWeChatVersion());
     }
 
     @Override
@@ -193,4 +169,19 @@ public class LuckyMoneyService extends AccessibilityService implements SharedPre
     }
 
 
+    /**
+     * 获取微信版本号
+     *
+     * @return
+     */
+    private String getWeChatVersion() {
+        try {
+            //获取软件版本号，对应AndroidManifest.xml下android:versionCode
+            return getPackageManager().
+                    getPackageInfo("com.tencent.mm", 0).versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

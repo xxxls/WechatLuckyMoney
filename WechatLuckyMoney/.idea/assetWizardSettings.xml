@@ -23,7 +23,7 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="scalingPercent" value="51" />
+                                                <entry key="scalingPercent" value="56" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -34,8 +34,8 @@
                                   <option name="values">
                                     <map>
                                       <entry key="backgroundAssetType" value="COLOR" />
-                                      <entry key="backgroundColor" value="f9454a" />
-                                      <entry key="foregroundImage" value="F:\Max\红包.png" />
+                                      <entry key="backgroundColor" value="f36050" />
+                                      <entry key="foregroundImage" value="F:\钱2.png" />
                                     </map>
                                   </option>
                                 </PersistentState>

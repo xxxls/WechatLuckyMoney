@@ -1,8 +1,8 @@
-package com.max.wechatluckymoney.services.handler;
+package com.max.wechatluckymoney.services.handler.six_six_three;
 
 import android.view.accessibility.AccessibilityNodeInfo;
 
-import com.max.wechatluckymoney.base.BaseAccessibilityHandler;
+import com.max.wechatluckymoney.base.AccessibilityHandler;
 import com.max.wechatluckymoney.base.OnAccessibilityHandlerListener;
 
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.List;
  * Created by max on 2018/2/10.
  * 聊天列表 处理类
  */
-public class ChatListHandler extends BaseAccessibilityHandler
+public class ChatListHandler extends AccessibilityHandler
 {
     //聊天列表 className
     private static final String WECHAT_ACTIVITY_CHAT_LIST = "LauncherUI";

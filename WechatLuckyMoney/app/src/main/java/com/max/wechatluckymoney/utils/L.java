@@ -12,12 +12,6 @@ import com.orhanobut.logger.PrettyFormatStrategy;
  */
 public final class L
 {
-
-    /**
-     * isPrint: print switch, true will print. false not print
-     */
-    public static boolean isPrint = true;
-
     static
     {
 
@@ -34,7 +28,7 @@ public final class L
             @Override
             public boolean isLoggable(int priority, String tag)
             {
-                return isPrint;
+                return DebugUtils.isDebug();
             }
         };
 
