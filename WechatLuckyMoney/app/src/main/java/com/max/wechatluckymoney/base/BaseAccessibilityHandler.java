@@ -18,14 +18,12 @@ import java.util.List;
  * Created by max on 2018/2/9.
  * 辅助服务
  */
-public abstract class BaseAccessibilityHandler
-{
+public abstract class BaseAccessibilityHandler {
     protected final String TAG = this.getClass().getSimpleName();
 
     protected OnAccessibilityHandlerListener mListener;
 
-    public BaseAccessibilityHandler(@NonNull OnAccessibilityHandlerListener listener)
-    {
+    public BaseAccessibilityHandler(@NonNull OnAccessibilityHandlerListener listener) {
         this.mListener = listener;
     }
 
@@ -36,53 +34,60 @@ public abstract class BaseAccessibilityHandler
      */
     protected abstract boolean onHandler();
 
-    public boolean onExecute()
-    {
+    public boolean onExecute() {
         return onHandler();
     }
 
 
-    private OnAccessibilityHandlerListener getListener()
-    {
+    private OnAccessibilityHandlerListener getListener() {
         return mListener;
     }
 
-    protected AccessibilityService getService()
-    {
+    protected AccessibilityService getService() {
         return getListener().getAccessibilityService();
     }
 
-    protected AccessibilityEvent getEvent()
-    {
+    protected AccessibilityEvent getEvent() {
         return getListener().getAccessibilityEvent();
     }
 
-    protected AccessibilityNodeInfo getRootNode()
-    {
+    protected AccessibilityNodeInfo getRootNode() {
         return getEvent().getSource();
     }
 
     /**
      * 设置当前 事件 类名称
      */
-    protected String getClassName()
-    {
-        if (getEvent().getClassName()==null){
+    protected String getClassName() {
+        if (getEvent().getClassName() == null) {
             return "";
         }
         return getEvent().getClassName().toString();
     }
 
 
-
-    protected List<AccessibilityNodeInfo> findNodeListById(AccessibilityNodeInfo nodeInfo, String viewId)
-    {
+    protected List<AccessibilityNodeInfo> findNodeListById(AccessibilityNodeInfo nodeInfo, String viewId) {
         return nodeInfo.findAccessibilityNodeInfosByViewId(viewId);
     }
 
-    protected List<AccessibilityNodeInfo> findNodeListByText(AccessibilityNodeInfo nodeInfo, String text)
-    {
+    protected List<AccessibilityNodeInfo> findNodeListByText(AccessibilityNodeInfo nodeInfo, String text) {
         return nodeInfo.findAccessibilityNodeInfosByText(text);
+    }
+
+    protected AccessibilityNodeInfo getFirstNodeById(AccessibilityNodeInfo nodeInfo, String viewId) {
+        List<AccessibilityNodeInfo> list = findNodeListById(nodeInfo, viewId);
+        if (list != null && !list.isEmpty()) {
+            return list.get(0);
+        }
+        return null;
+    }
+
+    protected AccessibilityNodeInfo getLastNodeById(AccessibilityNodeInfo nodeInfo, String viewId) {
+        List<AccessibilityNodeInfo> list = findNodeListById(nodeInfo, viewId);
+        if (list != null && !list.isEmpty()) {
+            return list.get(list.size() - 1);
+        }
+        return null;
     }
 
     /**
@@ -92,32 +97,26 @@ public abstract class BaseAccessibilityHandler
      * @param texts    文本
      * @return
      */
-    protected AccessibilityNodeInfo getTheLastNodeByTexts(AccessibilityNodeInfo nodeInfo, String... texts)
-    {
+    protected AccessibilityNodeInfo getTheLastNodeByTexts(AccessibilityNodeInfo nodeInfo, String... texts) {
         int bottom = 0;
         AccessibilityNodeInfo lastNode = null, tempNode;
         List<AccessibilityNodeInfo> nodes;
 
-        for (String text : texts)
-        {
-            if (text == null)
-            {
+        for (String text : texts) {
+            if (text == null) {
                 continue;
             }
 
             nodes = nodeInfo.findAccessibilityNodeInfosByText(text);
 
-            if (nodes != null && ! nodes.isEmpty())
-            {
+            if (nodes != null && !nodes.isEmpty()) {
                 tempNode = nodes.get(nodes.size() - 1);
-                if (tempNode == null)
-                {
+                if (tempNode == null) {
                     return null;
                 }
                 Rect bounds = new Rect();
                 tempNode.getBoundsInScreen(bounds);
-                if (bounds.bottom > bottom)
-                {
+                if (bounds.bottom > bottom) {
                     bottom = bounds.bottom;
                     lastNode = tempNode;
                 }
@@ -133,27 +132,21 @@ public abstract class BaseAccessibilityHandler
      * @param texts    文本
      * @return
      */
-    protected boolean hasOneNodeByTexts(AccessibilityNodeInfo nodeInfo, String... texts)
-    {
+    protected boolean hasOneNodeByTexts(AccessibilityNodeInfo nodeInfo, String... texts) {
         List<AccessibilityNodeInfo> nodes;
-        for (String text : texts)
-        {
-            if (text == null)
-            {
+        for (String text : texts) {
+            if (text == null) {
                 continue;
             }
 
             nodes = nodeInfo.findAccessibilityNodeInfosByText(text);
 
-            if (nodes != null && ! nodes.isEmpty())
-            {
+            if (nodes != null && !nodes.isEmpty()) {
                 return true;
             }
         }
         return false;
     }
-
-
 
 
     /**
@@ -162,34 +155,28 @@ public abstract class BaseAccessibilityHandler
      * @param runnable
      * @param time
      */
-    protected void startDelayedTask(Runnable runnable, long time)
-    {
+    protected void startDelayedTask(Runnable runnable, long time) {
         new Handler().postDelayed(runnable, time);
     }
 
     /**
      * 延时返回
      */
-    protected void postDelayedBack()
-    {
+    protected void postDelayedBack() {
         startDelayedTask(
-                new Runnable()
-                {
-                    public void run()
-                    {
+                new Runnable() {
+                    public void run() {
                         getService().performGlobalAction(getService().GLOBAL_ACTION_BACK);
                     }
                 },
                 300);
     }
 
-    protected void toast(CharSequence sequence)
-    {
+    protected void toast(CharSequence sequence) {
         Toast.makeText(getService(), sequence, Toast.LENGTH_SHORT).show();
     }
 
-    protected void log(String message)
-    {
+    protected void log(String message) {
         L.e(TAG, message);
     }
 }

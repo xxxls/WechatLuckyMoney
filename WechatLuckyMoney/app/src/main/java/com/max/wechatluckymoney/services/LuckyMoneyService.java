@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -24,6 +25,7 @@ import com.max.wechatluckymoney.services.handler.ChatDetailsHandler;
 import com.max.wechatluckymoney.services.handler.ChatListHandler;
 import com.max.wechatluckymoney.services.handler.LuckyMoneyDetailsHandler;
 import com.max.wechatluckymoney.services.handler.LuckyMoneyReceiveHandler;
+import com.max.wechatluckymoney.support.FloatingHelper;
 import com.max.wechatluckymoney.utils.L;
 import com.max.wechatluckymoney.utils.Utils;
 
@@ -33,8 +35,8 @@ import java.util.ArrayList;
  * Created by max on 2018/2/9.
  * 红包 辅助服务
  */
-public class LuckyMoneyService extends AccessibilityService implements SharedPreferences.OnSharedPreferenceChangeListener, OnAccessibilityHandlerListener, View.OnTouchListener
-{
+public class LuckyMoneyService extends AccessibilityService implements SharedPreferences.OnSharedPreferenceChangeListener,
+        OnAccessibilityHandlerListener, FloatingHelper.OnFloatingHelperListener {
 
     //处理类
     private ArrayList<BaseAccessibilityHandler> mHandlers;
@@ -45,45 +47,32 @@ public class LuckyMoneyService extends AccessibilityService implements SharedPre
     //配置
     private SharedPreferences mSharedPreferences;
 
-    //悬浮按钮相关
-    private int mWinW, mWinH, mStartX, mStartY, mFirstX, mFirstY;
-    private long mFirstTime;
-    private WindowManager.LayoutParams mParams;
-
-    private WindowManager mWindowManager;
-
-    //悬浮View
-    private View mViewFloating;
-
+    private FloatingHelper mFloatingHelper;
 
     /**
      * 系统会在成功连接上你的服务的时候调用这个方法，在这个方法里你可以做一下初始化工作
      */
     @Override
-    protected void onServiceConnected()
-    {
+    protected void onServiceConnected() {
         initHandlers();
-        initSwitchView();
+        mFloatingHelper = new FloatingHelper(this, this);
+        mFloatingHelper.checkLoad();
     }
 
     @Override
-    public void onAccessibilityEvent(AccessibilityEvent event)
-    {
+    public void onAccessibilityEvent(AccessibilityEvent event) {
 
-        if (event == null)
-        {
+        if (event == null) {
             return;
         }
 
-        if (event.getSource() == null)
-        {
+        if (event.getSource() == null) {
             return;
         }
 
         mEvent = event;
 
-        if (isHandler())
-        {
+        if (isHandler()) {
             onHandler();
         }
     }
@@ -94,8 +83,7 @@ public class LuckyMoneyService extends AccessibilityService implements SharedPre
      *
      * @return
      */
-    private boolean isHandler()
-    {
+    private boolean isHandler() {
         //开关
         return getSharedPreferences().getBoolean("switch_app", true);
     }
@@ -103,12 +91,9 @@ public class LuckyMoneyService extends AccessibilityService implements SharedPre
     /**
      * 处理
      */
-    private void onHandler()
-    {
-        for (BaseAccessibilityHandler handler : getHandlers())
-        {
-            if (handler.onExecute())
-            {
+    private void onHandler() {
+        for (BaseAccessibilityHandler handler : getHandlers()) {
+            if (handler.onExecute()) {
                 break;
             }
         }
@@ -119,8 +104,7 @@ public class LuckyMoneyService extends AccessibilityService implements SharedPre
      * 这个在系统想要中断AccessibilityService返给的响应时会调用。在整个生命周期里会被调用
      */
     @Override
-    public void onInterrupt()
-    {
+    public void onInterrupt() {
         L.e("onInterrupt() ->");
     }
 
@@ -131,8 +115,7 @@ public class LuckyMoneyService extends AccessibilityService implements SharedPre
      * @return
      */
     @Override
-    protected boolean onKeyEvent(KeyEvent event)
-    {
+    protected boolean onKeyEvent(KeyEvent event) {
         return super.onKeyEvent(event);
     }
 
@@ -143,35 +126,28 @@ public class LuckyMoneyService extends AccessibilityService implements SharedPre
      * @return
      */
     @Override
-    public boolean onUnbind(Intent intent)
-    {
-        if (mHandlers != null)
-        {
+    public boolean onUnbind(Intent intent) {
+        if (mHandlers != null) {
             mHandlers.clear();
             mHandlers = null;
         }
 
-        if (mEvent != null)
-        {
+        if (mEvent != null) {
             mEvent = null;
         }
 
-        if (mWindowManager != null)
-        {
-            mWindowManager = null;
+        if (mFloatingHelper != null) {
+            mFloatingHelper.onUnbind();
         }
 
-        if (mViewFloating != null)
-        {
-            mViewFloating = null;
-        }
         return super.onUnbind(intent);
     }
 
     @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key)
-    {
-        showFloatingMenu();
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (mFloatingHelper != null) {
+            mFloatingHelper.onSharedPreferenceChanged(sharedPreferences, key);
+        }
     }
 
     /**
@@ -179,8 +155,7 @@ public class LuckyMoneyService extends AccessibilityService implements SharedPre
      *
      * @return
      */
-    private ArrayList<BaseAccessibilityHandler> getHandlers()
-    {
+    private ArrayList<BaseAccessibilityHandler> getHandlers() {
         initHandlers();
         return mHandlers;
     }
@@ -188,10 +163,8 @@ public class LuckyMoneyService extends AccessibilityService implements SharedPre
     /**
      * 初始化 处理类
      */
-    private void initHandlers()
-    {
-        if (mHandlers == null)
-        {
+    private void initHandlers() {
+        if (mHandlers == null) {
             mHandlers = new ArrayList<>();
             mHandlers.add(new ChatListHandler(this));
             mHandlers.add(new ChatDetailsHandler(this));
@@ -200,185 +173,23 @@ public class LuckyMoneyService extends AccessibilityService implements SharedPre
         }
     }
 
-    /**
-     * 初始化 开关view
-     */
-    private void initSwitchView()
-    {
-        showFloatingMenu();
-    }
-
     @Override
-    public AccessibilityService getAccessibilityService()
-    {
+    public AccessibilityService getAccessibilityService() {
         return this;
     }
 
     @Override
-    public AccessibilityEvent getAccessibilityEvent()
-    {
+    public AccessibilityEvent getAccessibilityEvent() {
         return mEvent;
     }
 
     @Override
-    public SharedPreferences getSharedPreferences()
-    {
-        if (mSharedPreferences == null)
-        {
+    public SharedPreferences getSharedPreferences() {
+        if (mSharedPreferences == null) {
             mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
             mSharedPreferences.registerOnSharedPreferenceChangeListener(this);
         }
         return mSharedPreferences;
-    }
-
-
-    /**
-     * 是否 show 悬浮按钮
-     *
-     * @return
-     */
-    private boolean isFloatingEnabled()
-    {
-        return getSharedPreferences().getBoolean("switch_float", true);
-    }
-
-    /**
-     * 展现 悬浮菜单
-     */
-    private void showFloatingMenu()
-    {
-        if (! isFloatingEnabled())
-        {
-            if (mWindowManager != null && mViewFloating != null)
-            {
-                mWindowManager.removeView(mViewFloating);
-                mViewFloating = null;
-                mWindowManager = null;
-            }
-            return;
-        }
-
-        if (mWindowManager == null)
-        {
-            mWindowManager = (WindowManager) this.getSystemService(WINDOW_SERVICE);
-            mParams = new WindowManager.LayoutParams();
-            mWinW = mWindowManager.getDefaultDisplay().getWidth();
-            mWinH = mWindowManager.getDefaultDisplay().getHeight();
-            mParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
-            mParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
-            mParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-                    | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
-            mParams.format = PixelFormat.TRANSLUCENT;
-            mParams.type = WindowManager.LayoutParams.TYPE_TOAST;
-            mParams.gravity = Gravity.RIGHT + Gravity.TOP;// 将重心位置设置为右上方,
-            if (mViewFloating == null)
-            {
-                mViewFloating = View.inflate(this, R.layout.layout_floating, null);
-            }
-            mParams.y = mWinH / 6;
-            mWindowManager.addView(mViewFloating, mParams);
-            mViewFloating.setOnTouchListener(this);
-        }
-
-        //改变状态
-        changeState(! isHandler());
-    }
-
-    @Override
-    public boolean onTouch(View v, MotionEvent event)
-    {
-        if (mWindowManager == null)
-        {
-            return false;
-        }
-
-        switch (event.getAction())
-        {
-            case MotionEvent.ACTION_DOWN:
-                mFirstTime = System.currentTimeMillis();
-                mFirstX = mStartX = (int) event.getRawX();
-                mFirstY = mStartY = (int) event.getRawY();
-                break;
-            case MotionEvent.ACTION_MOVE:
-                int endx = (int) event.getRawX();
-                int endy = (int) event.getRawY();
-
-                int dx = mStartX - endx;
-                int dy = endy - mStartY;
-
-                mParams.x += dx;
-                mParams.y += dy;
-
-                if (mParams.x > mWinW - v.getWidth())
-                {
-                    mParams.x = mWinW - v.getWidth();
-                }
-                if (mParams.y > mWinH - v.getHeight())
-                {
-                    mParams.y = mWinH - v.getHeight();
-                }
-
-                mWindowManager.updateViewLayout(v, mParams);
-                mStartX = (int) event.getRawX();
-                mStartY = (int) event.getRawY();
-                break;
-            case MotionEvent.ACTION_UP:
-                long timeDiffer = System.currentTimeMillis() - mFirstTime;
-                if (timeDiffer >= 500)
-                {
-                    if (Math.abs(mFirstX - event.getRawX()) <= 10
-                            && Math.abs(mFirstY - event.getRawY()) <= 10)
-                    {
-                        Utils.vibrate(this, 150);
-                        Intent intent = new Intent(getBaseContext(), MainActivity.class);
-                        getBaseContext().startActivity(intent);
-                    }
-                } else if (timeDiffer <= 300)
-                {
-                    Utils.vibrate(this, 50);
-                    setSwitch(! isHandler());
-                }
-                break;
-            default:
-                break;
-        }
-        return true;
-    }
-
-    /**
-     * 改变状态显示
-     */
-    public void changeState(boolean state)
-    {
-        if (mViewFloating == null)
-        {
-            return;
-        }
-
-        LinearLayout llSwitch = (LinearLayout) mViewFloating.findViewById(R.id.ll_switch);
-        TextView tvSwitch = (TextView) mViewFloating.findViewById(R.id.tv_switch);
-        if (state)
-        {
-            llSwitch.setBackgroundResource(R.drawable.bg_circle_switch_on);
-            tvSwitch.setTextColor(Color.BLACK);
-            tvSwitch.setText(R.string.str_open);
-
-        } else
-        {
-            llSwitch.setBackgroundResource(R.drawable.bg_circle_switch_off);
-            tvSwitch.setText(R.string.str_close);
-            tvSwitch.setTextColor(Color.WHITE);
-        }
-    }
-
-    /**
-     * 设置开关
-     *
-     * @param sw
-     */
-    private void setSwitch(boolean sw)
-    {
-        getSharedPreferences().edit().putBoolean("switch_app", sw).commit();
     }
 
 
