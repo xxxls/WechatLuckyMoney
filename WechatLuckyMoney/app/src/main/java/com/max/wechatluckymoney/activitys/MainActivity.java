@@ -15,6 +15,7 @@ import com.max.wechatluckymoney.R;
 import com.max.wechatluckymoney.base.BaseActivity;
 
 import java.util.List;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -60,13 +61,13 @@ public class MainActivity extends BaseActivity implements AccessibilityManager.A
     }
 
     @OnClick({R.id.ll_setting, R.id.ll_switch, R.id.ll_github, R.id.ll_github_star,
-    R.id.tv_app_name})
+            R.id.tv_app_name})
     public void onClick(View view)
     {
         switch (view.getId())
         {
             case R.id.tv_app_name:
-                Toast.makeText(this,R.string.str_blessing,Toast.LENGTH_LONG).show();
+                Toast.makeText(this, R.string.str_blessing, Toast.LENGTH_LONG).show();
                 break;
 
             case R.id.ll_setting:
@@ -124,14 +125,17 @@ public class MainActivity extends BaseActivity implements AccessibilityManager.A
      */
     private void updateSwitchUIState()
     {
-        if (isSwitchApp() && isServiceEnabled())
+        if (mIvSwitch != null && mTvSwitch != null)
         {
-            mTvSwitch.setText(R.string.str_stop);
-            mIvSwitch.setImageResource(R.mipmap.ic_stop);
-        } else
-        {
-            mIvSwitch.setImageResource(R.mipmap.ic_start);
-            mTvSwitch.setText(R.string.str_start);
+            if (isSwitchApp() && isServiceEnabled())
+            {
+                mTvSwitch.setText(R.string.str_stop);
+                mIvSwitch.setImageResource(R.mipmap.ic_stop);
+            } else
+            {
+                mIvSwitch.setImageResource(R.mipmap.ic_start);
+                mTvSwitch.setText(R.string.str_start);
+            }
         }
     }
 
