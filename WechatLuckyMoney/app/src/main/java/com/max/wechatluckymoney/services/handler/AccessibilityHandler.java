@@ -14,7 +14,8 @@ import com.max.wechatluckymoney.utils.L;
  * Created by max on 2018/2/9.
  * 辅助服务
  */
-public abstract class AccessibilityHandler implements SharedPreferences.OnSharedPreferenceChangeListener {
+public abstract class AccessibilityHandler implements SharedPreferences.OnSharedPreferenceChangeListener
+{
 
     protected final String TAG = this.getClass().getSimpleName();
 
@@ -22,12 +23,10 @@ public abstract class AccessibilityHandler implements SharedPreferences.OnShared
 
     private Handler mHandler;
 
-    /**
-     * 是否处理完成
-     */
-    private boolean mIsHandlerComplete = true;
+    private Runnable mBackRunnable = () -> getService().performGlobalAction(getService().GLOBAL_ACTION_BACK);
 
-    public AccessibilityHandler(@NonNull AccessibilityHandlerListener listener) {
+    public AccessibilityHandler(@NonNull AccessibilityHandlerListener listener)
+    {
         this.mListener = listener;
         this.mHandler = new Handler();
     }
@@ -51,19 +50,17 @@ public abstract class AccessibilityHandler implements SharedPreferences.OnShared
      *
      * @return
      */
-    public boolean onExecute() {
-        if (getCurActivity().contains(getInterceptActivityName())) {
-            if (mIsHandlerComplete) {
-                mIsHandlerComplete = false;
-                boolean result = onHandler();
-                mIsHandlerComplete = true;
-                return result;
-            }
+    public boolean onExecute()
+    {
+        if (getCurActivity().contains(getInterceptActivityName()))
+        {
+            return onHandler();
         }
         return false;
     }
 
-    private AccessibilityHandlerListener getListener() {
+    private AccessibilityHandlerListener getListener()
+    {
         return mListener;
     }
 
@@ -72,7 +69,8 @@ public abstract class AccessibilityHandler implements SharedPreferences.OnShared
      *
      * @return
      */
-    protected AccessibilityService getService() {
+    protected AccessibilityService getService()
+    {
         return getListener().getAccessibilityService();
     }
 
@@ -81,11 +79,13 @@ public abstract class AccessibilityHandler implements SharedPreferences.OnShared
      *
      * @return
      */
-    protected AccessibilityEvent getEvent() {
+    protected AccessibilityEvent getEvent()
+    {
         return getListener().getAccessibilityEvent();
     }
 
-    protected SharedPreferences getSharedPreferences() {
+    protected SharedPreferences getSharedPreferences()
+    {
         return getListener().getSharedPreferences();
     }
 
@@ -94,15 +94,18 @@ public abstract class AccessibilityHandler implements SharedPreferences.OnShared
      *
      * @return
      */
-    protected AccessibilityNodeInfo getRootNode() {
+    protected AccessibilityNodeInfo getRootNode()
+    {
         return getEvent().getSource();
     }
 
     /**
      * 设置当前 事件 类名称
      */
-    protected String getClassName() {
-        if (getEvent().getClassName() == null) {
+    protected String getClassName()
+    {
+        if (getEvent().getClassName() == null)
+        {
             return "";
         }
         return getEvent().getClassName().toString();
@@ -113,7 +116,8 @@ public abstract class AccessibilityHandler implements SharedPreferences.OnShared
      *
      * @return
      */
-    protected String getCurActivity() {
+    protected String getCurActivity()
+    {
         return mListener.getCurActivityClassName() == null ? "" : mListener.getCurActivityClassName();
     }
 
@@ -123,19 +127,21 @@ public abstract class AccessibilityHandler implements SharedPreferences.OnShared
      * @param runnable
      * @param time
      */
-    protected void startDelayedTask(Runnable runnable, long time) {
+    protected void startDelayedTask(Runnable runnable, long time)
+    {
         mHandler.postDelayed(runnable, time);
     }
 
     /**
      * 延时返回
      */
-    protected void postDelayedBack() {
-        startDelayedTask(
-                () -> getService().performGlobalAction(getService().GLOBAL_ACTION_BACK), 300);
+    protected void postDelayedBack()
+    {
+        startDelayedTask(mBackRunnable, 300);
     }
 
-    protected void toast(CharSequence sequence) {
+    protected void toast(CharSequence sequence)
+    {
         Toast.makeText(getService(), sequence, Toast.LENGTH_SHORT).show();
     }
 
@@ -145,19 +151,23 @@ public abstract class AccessibilityHandler implements SharedPreferences.OnShared
      *
      * @param nodeInfo
      */
-    protected void performClick(AccessibilityNodeInfo nodeInfo) {
-        if (nodeInfo != null) {
+    protected void performClick(AccessibilityNodeInfo nodeInfo)
+    {
+        if (nodeInfo != null)
+        {
             nodeInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
         }
     }
 
 
     @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s)
+    {
 
     }
 
-    protected void log(String message) {
+    protected void log(String message)
+    {
         L.e(TAG, message);
     }
 
