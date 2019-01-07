@@ -1,21 +1,27 @@
 package com.max.wechatluckymoney.services;
-import com.max.wechatluckymoney.base.AccessibilityHandler;
-import com.max.wechatluckymoney.base.OnAccessibilityHandlerListener;
-import com.max.wechatluckymoney.services.handler.six_six_three.ChatDetailsHandler;
-import com.max.wechatluckymoney.services.handler.six_six_three.ChatListHandler;
-import com.max.wechatluckymoney.services.handler.six_six_three.LuckyMoneyDetailsHandler;
-import com.max.wechatluckymoney.services.handler.six_six_three.LuckyMoneyReceiveHandler;
+
+import com.max.wechatluckymoney.services.handler.AccessibilityHandler;
+import com.max.wechatluckymoney.services.handler.AccessibilityHandlerListener;
+import com.max.wechatluckymoney.services.handler.seven_zero_zero.SzzChatDetailsHandler;
+import com.max.wechatluckymoney.services.handler.seven_zero_zero.SzzHomeChatHandler;
+import com.max.wechatluckymoney.services.handler.seven_zero_zero.SzzRedPacketGetRecordHandler;
+import com.max.wechatluckymoney.services.handler.seven_zero_zero.SzzRedPacketGetHandler;
+import com.max.wechatluckymoney.services.handler.six_six_three.SstChatDetailsHandler;
+import com.max.wechatluckymoney.services.handler.six_six_three.SstHomeChatHandler;
+import com.max.wechatluckymoney.services.handler.six_six_three.SstRedPacketGetRecordHandler;
+import com.max.wechatluckymoney.services.handler.six_six_three.SstRedPacketGetHandler;
 
 import java.util.ArrayList;
 
 /**
+ * 处理帮助类
  * Created by Max on 2019/1/5.
  */
 public class HandlerHelper {
 
-    private OnAccessibilityHandlerListener mListener;
+    private AccessibilityHandlerListener mListener;
 
-    public HandlerHelper(OnAccessibilityHandlerListener listener) {
+    public HandlerHelper(AccessibilityHandlerListener listener) {
         this.mListener = listener;
     }
 
@@ -41,10 +47,10 @@ public class HandlerHelper {
      */
     private ArrayList<AccessibilityHandler> getHandlersBySixSixThree() {
         ArrayList<AccessibilityHandler> handlers = new ArrayList<>();
-        handlers.add(new ChatListHandler(mListener));
-        handlers.add(new ChatDetailsHandler(mListener));
-        handlers.add(new LuckyMoneyReceiveHandler(mListener));
-        handlers.add(new LuckyMoneyDetailsHandler(mListener));
+        handlers.add(new SstHomeChatHandler(mListener));
+        handlers.add(new SstChatDetailsHandler(mListener));
+        handlers.add(new SstRedPacketGetHandler(mListener));
+        handlers.add(new SstRedPacketGetRecordHandler(mListener));
         return handlers;
     }
 
@@ -56,10 +62,10 @@ public class HandlerHelper {
      */
     private ArrayList<AccessibilityHandler> getHandlersBySevenZeroZero() {
         ArrayList<AccessibilityHandler> handlers = new ArrayList<>();
-        handlers.add(new ChatListHandler(mListener));
-        handlers.add(new ChatDetailsHandler(mListener));
-        handlers.add(new LuckyMoneyReceiveHandler(mListener));
-        handlers.add(new LuckyMoneyDetailsHandler(mListener));
+        handlers.add(new SzzHomeChatHandler(mListener));
+        handlers.add(new SzzChatDetailsHandler(mListener));
+        handlers.add(new SzzRedPacketGetHandler(mListener));
+        handlers.add(new SzzRedPacketGetRecordHandler(mListener));
         return handlers;
     }
 

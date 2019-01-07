@@ -11,7 +11,7 @@
     tools:context="com.max.wechatluckymoney.activitys.MainActivity">
 
     <TextView
-        android:textSize="30sp"
+        android:textSize="20sp"
         android:layout_centerInParent="true"
         android:textColor="@color/white"
         android:text="Loading.."

@@ -31,13 +31,6 @@ public class LoadingActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loading);
 
-        new Handler().postDelayed(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                finish();
-            }
-        }, 100);
+        new Handler().postDelayed(() -> finish(), 100);
     }
 }
