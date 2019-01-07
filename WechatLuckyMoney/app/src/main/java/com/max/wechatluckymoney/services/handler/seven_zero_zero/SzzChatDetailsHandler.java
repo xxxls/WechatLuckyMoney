@@ -18,6 +18,12 @@ import java.util.List;
  */
 public class SzzChatDetailsHandler extends ChatDetailsHandler {
 
+
+    /**
+     * 聊天对象 名称
+     */
+    private static final String WX_ID_NAME = "com.tencent.mm:id/jw";
+
     /**
      * 微信红包 Item
      */
