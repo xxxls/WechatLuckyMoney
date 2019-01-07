@@ -34,12 +34,11 @@ public class SstRedPacketGetHandler extends RedPacketGetHandler {
                 //还没有领
                 log("-> 还没有领");
 
-                if (!mListener.getSharedPreferences().getBoolean("pref_auto_open", true)) {
-                    return true;
+                if (isAutoOpen()) {
+                    toast("领红包啦");
+                    performClick(node);
                 }
 
-                toast("领红包啦");
-                node.performAction(AccessibilityNodeInfo.ACTION_CLICK);
                 return true;
             }
         }

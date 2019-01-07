@@ -31,7 +31,7 @@ public abstract class HomeChatHandler extends AccessibilityHandler {
      */
     protected boolean isChatListSwitch() {
         if (mSwitchChatList == null) {
-            mSwitchChatList = mListener.getSharedPreferences().getBoolean("pref_watch_list", true);
+            mSwitchChatList = getSharedPreferences().getBoolean("pref_watch_list", true);
         }
         return mSwitchChatList;
     }
@@ -40,6 +40,6 @@ public abstract class HomeChatHandler extends AccessibilityHandler {
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
         super.onSharedPreferenceChanged(sharedPreferences, s);
-        mSwitchChatList = mListener.getSharedPreferences().getBoolean("pref_watch_list", true);
+        mSwitchChatList = getSharedPreferences().getBoolean("pref_watch_list", true);
     }
 }

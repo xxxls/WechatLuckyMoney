@@ -85,6 +85,10 @@ public abstract class AccessibilityHandler implements SharedPreferences.OnShared
         return getListener().getAccessibilityEvent();
     }
 
+    protected SharedPreferences getSharedPreferences() {
+        return getListener().getSharedPreferences();
+    }
+
     /**
      * 获取 当前事件 Node
      *

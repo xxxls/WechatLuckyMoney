@@ -19,8 +19,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class MainActivity extends BaseActivity implements AccessibilityManager.AccessibilityStateChangeListener
-{
+public class MainActivity extends BaseActivity implements AccessibilityManager.AccessibilityStateChangeListener, SharedPreferences.OnSharedPreferenceChangeListener {
 
     private AccessibilityManager mAccessibilityManager;
     private SharedPreferences mSharedPreferences;
@@ -31,41 +30,34 @@ public class MainActivity extends BaseActivity implements AccessibilityManager.A
     TextView mTvSwitch;
 
     @Override
-    protected void onInitialize()
-    {
+    protected void onInitialize() {
         initView();
         initData();
     }
 
     @Override
-    protected int getLayoutResId()
-    {
+    protected int getLayoutResId() {
         return R.layout.activity_main;
     }
 
-    private void initView()
-    {
+    private void initView() {
     }
 
-    private void initData()
-    {
+    private void initData() {
         mAccessibilityManager = (AccessibilityManager) getSystemService(Context.ACCESSIBILITY_SERVICE);
         mAccessibilityManager.addAccessibilityStateChangeListener(this);
     }
 
     @Override
-    protected void onResume()
-    {
+    protected void onResume() {
         updateSwitchUIState();
         super.onResume();
     }
 
     @OnClick({R.id.ll_setting, R.id.ll_switch, R.id.ll_github, R.id.ll_github_star,
             R.id.tv_app_name})
-    public void onClick(View view)
-    {
-        switch (view.getId())
-        {
+    public void onClick(View view) {
+        switch (view.getId()) {
             case R.id.tv_app_name:
                 Toast.makeText(this, R.string.str_blessing, Toast.LENGTH_LONG).show();
                 break;
@@ -90,19 +82,17 @@ public class MainActivity extends BaseActivity implements AccessibilityManager.A
     /**
      * 开关
      */
-    private void switchApp()
-    {
-        if (isSwitchApp())
-        {
+    private void switchApp() {
+        if (isSwitchApp()) {
             //关闭
-            getSharedPreferences().edit().putBoolean("switch_app", false).commit();
-        } else
-        {
+            getSharedPreferences().edit().putBoolean("switch_app", false).apply();
+        } else {
             //打开
-            getSharedPreferences().edit().putBoolean("switch_app", true).commit();
-            if (! isServiceEnabled())
-            {
+            getSharedPreferences().edit().putBoolean("switch_app", true).apply();
+            if (!isServiceEnabled()) {
                 jumpAccessibilitySetting();
+            } else {
+                Toast.makeText(this, "红包助手启动成功.", Toast.LENGTH_LONG).show();
             }
         }
 
@@ -112,8 +102,7 @@ public class MainActivity extends BaseActivity implements AccessibilityManager.A
     /**
      * 跳转 辅助服务 设置页面
      */
-    private void jumpAccessibilitySetting()
-    {
+    private void jumpAccessibilitySetting() {
         Intent intent = new Intent(
                 android.provider.Settings.ACTION_ACCESSIBILITY_SETTINGS);
         startActivity(intent);
@@ -123,16 +112,12 @@ public class MainActivity extends BaseActivity implements AccessibilityManager.A
     /**
      * 更新 switch UI 状态
      */
-    private void updateSwitchUIState()
-    {
-        if (mIvSwitch != null && mTvSwitch != null)
-        {
-            if (isSwitchApp() && isServiceEnabled())
-            {
+    private void updateSwitchUIState() {
+        if (mIvSwitch != null && mTvSwitch != null) {
+            if (isSwitchApp() && isServiceEnabled()) {
                 mTvSwitch.setText(R.string.str_stop);
                 mIvSwitch.setImageResource(R.mipmap.ic_stop);
-            } else
-            {
+            } else {
                 mIvSwitch.setImageResource(R.mipmap.ic_start);
                 mTvSwitch.setText(R.string.str_start);
             }
@@ -145,14 +130,11 @@ public class MainActivity extends BaseActivity implements AccessibilityManager.A
      *
      * @return
      */
-    private boolean isServiceEnabled()
-    {
+    private boolean isServiceEnabled() {
         List<AccessibilityServiceInfo> accessibilityServices =
                 mAccessibilityManager.getEnabledAccessibilityServiceList(AccessibilityServiceInfo.FEEDBACK_GENERIC);
-        for (AccessibilityServiceInfo info : accessibilityServices)
-        {
-            if (info.getId().equals(getPackageName() + "/.services.LuckyMoneyService"))
-            {
+        for (AccessibilityServiceInfo info : accessibilityServices) {
+            if (info.getId().equals(getPackageName() + "/.services.LuckyMoneyService")) {
                 return true;
             }
         }
@@ -164,31 +146,33 @@ public class MainActivity extends BaseActivity implements AccessibilityManager.A
      *
      * @return
      */
-    private boolean isSwitchApp()
-    {
-        return getSharedPreferences().getBoolean("switch_app", false);
+    private boolean isSwitchApp() {
+        return getSharedPreferences().getBoolean("switch_app", true);
     }
 
 
     @Override
-    public void onAccessibilityStateChanged(boolean enabled)
-    {
+    public void onAccessibilityStateChanged(boolean enabled) {
         updateSwitchUIState();
     }
 
     @Override
-    protected void onDestroy()
-    {
+    protected void onDestroy() {
         super.onDestroy();
     }
 
-    public SharedPreferences getSharedPreferences()
-    {
-        if (mSharedPreferences == null)
-        {
+
+
+    public SharedPreferences getSharedPreferences() {
+        if (mSharedPreferences == null) {
             mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+            mSharedPreferences.registerOnSharedPreferenceChangeListener(this);
         }
         return mSharedPreferences;
     }
 
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
+        updateSwitchUIState();
+    }
 }
