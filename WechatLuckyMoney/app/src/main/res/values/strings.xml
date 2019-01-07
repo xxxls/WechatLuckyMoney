@@ -20,7 +20,7 @@
     <string name="anti_block_options">防封号选项</string>
     <string name="auto_open_packets">自动拆开红包</string>
     <string name="open_with_delay">延时拆开红包(敬请期待)</string>
-    <string name="open_self">拆开自己发的红包(敬请期待)</string>
+    <string name="open_self">拆开自己发的红包</string>
     <string name="help_and_feedback">帮助与反馈</string>
     <string name="help_hint">前往GitHub项目主页提交issue</string>
 

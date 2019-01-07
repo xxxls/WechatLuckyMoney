@@ -1,6 +1,8 @@
 package com.max.wechatluckymoney.services.handler.seven_zero_zero;
 
+import android.graphics.Rect;
 import android.view.accessibility.AccessibilityNodeInfo;
+import android.widget.Toast;
 
 import com.max.wechatluckymoney.services.handler.AccessibilityHandler;
 import com.max.wechatluckymoney.services.handler.AccessibilityHandlerListener;
@@ -44,16 +46,28 @@ public class SzzChatDetailsHandler extends ChatDetailsHandler {
         if (!Utils.listIsEmpty(nodes)) {
             for (int i = nodes.size() - 1; i >= 0; i--) {
                 AccessibilityNodeInfo itemNode = nodes.get(i);
+
                 AccessibilityNodeInfo canGetNode = AccessibilityNodeUtils.getFirstNodeById(itemNode, WX_ID_LUCKYMONEY_TEXT);
                 if (canGetNode != null) {
                     AccessibilityNodeInfo banNode = AccessibilityNodeUtils.getFirstNodeById(itemNode, WX_ID_LUCKYMONEY_BAN_TEXT);
                     if (banNode == null) {
+
+                        Rect rectScreen = new Rect();
+                        itemNode.getBoundsInScreen(rectScreen);
+                        //是我的红包？
+                        boolean isMyRedPacket = isMyRedPacket(rectScreen);
+
+                        if (isMyRedPacket && !isOpenMyRedPaclet()) {
+                            log("是我的红包  但设置说 不能领");
+                            return false;
+                        }
                         performClick(itemNode);
-                        return true;
                     }
                 }
             }
+            return true;
         }
+
         return false;
     }
 

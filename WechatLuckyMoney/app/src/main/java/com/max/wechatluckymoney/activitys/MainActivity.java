@@ -83,19 +83,18 @@ public class MainActivity extends BaseActivity implements AccessibilityManager.A
      * 开关
      */
     private void switchApp() {
-        if (isSwitchApp()) {
+        if (isSwitchApp() && isServiceEnabled()) {
             //关闭
             getSharedPreferences().edit().putBoolean("switch_app", false).apply();
         } else {
-            //打开
-            getSharedPreferences().edit().putBoolean("switch_app", true).apply();
-            if (!isServiceEnabled()) {
-                jumpAccessibilitySetting();
-            } else {
+            if (isServiceEnabled()) {
+                //关闭
                 Toast.makeText(this, "红包助手启动成功.", Toast.LENGTH_LONG).show();
+                getSharedPreferences().edit().putBoolean("switch_app", true).apply();
+            } else {
+                jumpAccessibilitySetting();
             }
         }
-
         updateSwitchUIState();
     }
 
@@ -160,7 +159,6 @@ public class MainActivity extends BaseActivity implements AccessibilityManager.A
     protected void onDestroy() {
         super.onDestroy();
     }
-
 
 
     public SharedPreferences getSharedPreferences() {

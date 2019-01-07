@@ -46,7 +46,7 @@
             android:layout="@layout/preference_checkbox"
             android:title="@string/open_with_delay"/>
         <CheckBoxPreference
-            android:defaultValue="false"
+            android:defaultValue="true"
             android:key="pref_watch_self"
             android:layout="@layout/preference_checkbox"
             android:title="@string/open_self"/>

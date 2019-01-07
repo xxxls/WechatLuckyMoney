@@ -156,6 +156,12 @@ public class LuckyMoneyService extends AccessibilityService implements SharedPre
         if (mFloatingHelper != null) {
             mFloatingHelper.onSharedPreferenceChanged(sharedPreferences, key);
         }
+
+        if (mHandlers != null) {
+            for (AccessibilityHandler handler : mHandlers) {
+                handler.onSharedPreferenceChanged(sharedPreferences, key);
+            }
+        }
     }
 
     /**

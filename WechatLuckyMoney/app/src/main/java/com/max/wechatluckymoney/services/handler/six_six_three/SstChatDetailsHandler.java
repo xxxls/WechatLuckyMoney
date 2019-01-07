@@ -1,5 +1,6 @@
 package com.max.wechatluckymoney.services.handler.six_six_three;
 
+import android.graphics.Rect;
 import android.view.accessibility.AccessibilityNodeInfo;
 
 import com.max.wechatluckymoney.services.handler.AccessibilityHandler;
@@ -34,7 +35,16 @@ public class SstChatDetailsHandler extends ChatDetailsHandler {
 
             if (node != null) {
                 if (node.getParent() != null) {
-                    node.getParent().performAction(AccessibilityNodeInfo.ACTION_CLICK);
+
+                    Rect rectScreen = new Rect();
+                    node.getParent().getBoundsInScreen(rectScreen);
+                    //是我的红包？
+                    boolean isMyRedPacket = isMyRedPacket(rectScreen);
+
+                    if (isMyRedPacket && !isOpenMyRedPaclet()) {
+                        return false;
+                    }
+                    performClick(node.getParent());
                 }
                 return true;
             }
