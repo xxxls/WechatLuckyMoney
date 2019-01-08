@@ -46,7 +46,7 @@
             android:layout="@layout/preference_checkbox"
             android:title="@string/open_with_delay"/>
         <CheckBoxPreference
-            android:defaultValue="true"
+            android:defaultValue="false"
             android:key="pref_watch_self"
             android:layout="@layout/preference_checkbox"
             android:title="@string/open_self"/>
@@ -65,11 +65,11 @@
             android:summary="@string/warning_hint"
             android:title="@string/special_explain"/>
         <Preference
+            android:id="@+id/preference"
             android:key="pref_etc_compatibility"
             android:layout="@layout/preference_checkbox"
             android:summary="@string/compatibility_hint"
-            android:title="@string/compatibility"
-            android:id="@+id/preference"/>
+            android:title="@string/compatibility"/>
     </PreferenceCategory>
 
 </PreferenceScreen>

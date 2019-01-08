@@ -61,7 +61,7 @@ public class SeekBarPreference extends DialogPreference
         }
 
         this.textView = (TextView) view.findViewById(R.id.pref_seekbar_textview);
-        setHintText(0);
+        setHintText(delay);
 
         this.seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()
         {

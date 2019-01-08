@@ -12,7 +12,8 @@ import com.max.wechatluckymoney.utils.AccessibilityNodeUtils;
  * Created by max on 2018/2/9.
  * 聊天界面 处理类
  */
-public class SstChatDetailsHandler extends ChatDetailsHandler {
+public class SstChatDetailsHandler extends ChatDetailsHandler
+{
     //聊天界面className
     private static final String WECHAT_ACTIVITY_CHAT_DEATILS = "LauncherUI";
 
@@ -21,27 +22,33 @@ public class SstChatDetailsHandler extends ChatDetailsHandler {
 
     private static final String WECHAT_TEXT_GET_LM = "领取红包";
 
-    public SstChatDetailsHandler(AccessibilityHandlerListener listener) {
+    public SstChatDetailsHandler(AccessibilityHandlerListener listener)
+    {
         super(listener);
     }
 
 
     @Override
-    public boolean onHandler() {
+    public boolean onHandler()
+    {
         String name = getClassName();
 
-        if (name.contains(WECHAT_ACTIVITY_CHAT_DEATILS) || name.contains(WECHAT_VIEW_LISTVIEW)) {
+        if (name.contains(WECHAT_ACTIVITY_CHAT_DEATILS) || name.contains(WECHAT_VIEW_LISTVIEW))
+        {
             AccessibilityNodeInfo node = AccessibilityNodeUtils.getTheLastNodeByTexts(getRootNode(), WECHAT_TEXT_GET_LM);
 
-            if (node != null) {
-                if (node.getParent() != null) {
+            if (node != null)
+            {
+                if (node.getParent() != null)
+                {
 
                     Rect rectScreen = new Rect();
                     node.getParent().getBoundsInScreen(rectScreen);
                     //是我的红包？
                     boolean isMyRedPacket = isMyRedPacket(rectScreen);
 
-                    if (isMyRedPacket && !isOpenMyRedPaclet()) {
+                    if (isMyRedPacket)
+                    {
                         return false;
                     }
                     performClick(node.getParent());
@@ -53,7 +60,8 @@ public class SstChatDetailsHandler extends ChatDetailsHandler {
     }
 
     @Override
-    protected String getInterceptActivityName() {
+    protected String getInterceptActivityName()
+    {
         return "LauncherUI";
     }
 }

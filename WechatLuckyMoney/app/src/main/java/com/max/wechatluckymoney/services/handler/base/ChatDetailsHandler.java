@@ -3,16 +3,23 @@ package com.max.wechatluckymoney.services.handler.base;
 import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
+import android.view.accessibility.AccessibilityNodeInfo;
 
 import com.max.wechatluckymoney.services.handler.AccessibilityHandler;
 import com.max.wechatluckymoney.services.handler.AccessibilityHandlerListener;
+import com.max.wechatluckymoney.utils.AccessibilityNodeUtils;
 import com.max.wechatluckymoney.utils.ScreenUtils;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 聊天详情
  * Created by Max on 2019/1/7.
  */
-public abstract class ChatDetailsHandler extends AccessibilityHandler {
+public abstract class ChatDetailsHandler extends AccessibilityHandler
+{
 
     /**
      * 屏幕宽度
@@ -24,7 +31,10 @@ public abstract class ChatDetailsHandler extends AccessibilityHandler {
      */
     private Boolean mIsOpenMyRedPaclet;
 
-    public ChatDetailsHandler(@NonNull AccessibilityHandlerListener listener) {
+    private Pattern mGroupNamePattern = Pattern.compile("^\\w*\\(\\d+\\)$");
+
+    public ChatDetailsHandler(@NonNull AccessibilityHandlerListener listener)
+    {
         super(listener);
     }
 
@@ -33,8 +43,10 @@ public abstract class ChatDetailsHandler extends AccessibilityHandler {
      *
      * @return
      */
-    protected long getScreenWidth() {
-        if (mScreenWidth == 0) {
+    protected long getScreenWidth()
+    {
+        if (mScreenWidth == 0)
+        {
             mScreenWidth = ScreenUtils.getScreenWidth(getService());
         }
         return mScreenWidth;
@@ -45,9 +57,11 @@ public abstract class ChatDetailsHandler extends AccessibilityHandler {
      *
      * @return
      */
-    protected boolean isOpenMyRedPaclet() {
-        if (mIsOpenMyRedPaclet == null) {
-            mIsOpenMyRedPaclet = getSharedPreferences().getBoolean("pref_watch_self", true);
+    protected boolean isOpenMyRedPaclet()
+    {
+        if (mIsOpenMyRedPaclet == null)
+        {
+            mIsOpenMyRedPaclet = getSharedPreferences().getBoolean("pref_watch_self", false);
         }
         return mIsOpenMyRedPaclet;
     }
@@ -57,16 +71,30 @@ public abstract class ChatDetailsHandler extends AccessibilityHandler {
      *
      * @param rect
      */
-    protected boolean isMyRedPacket(Rect rect) {
-        if (rect != null) {
+    protected boolean isMyRedPacket(Rect rect)
+    {
+        if (rect != null)
+        {
             return rect.left > getScreenWidth() - rect.right;
         }
         return false;
     }
 
+    /**
+     * 是否群聊
+     *
+     * @param chatName 聊天对象名称
+     * @return
+     */
+    protected boolean isGroupChat(String chatName)
+    {
+        return mGroupNamePattern.matcher(chatName).find();
+    }
+
     @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s)
+    {
         super.onSharedPreferenceChanged(sharedPreferences, s);
-        mIsOpenMyRedPaclet = getSharedPreferences().getBoolean("pref_watch_self", true);
+        mIsOpenMyRedPaclet = getSharedPreferences().getBoolean("pref_watch_self", false);
     }
 }

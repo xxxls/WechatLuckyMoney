@@ -13,13 +13,17 @@ import android.widget.Toast;
 
 import com.max.wechatluckymoney.R;
 import com.max.wechatluckymoney.base.BaseActivity;
+import com.max.wechatluckymoney.utils.L;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class MainActivity extends BaseActivity implements AccessibilityManager.AccessibilityStateChangeListener, SharedPreferences.OnSharedPreferenceChangeListener {
+public class MainActivity extends BaseActivity implements AccessibilityManager.AccessibilityStateChangeListener, SharedPreferences.OnSharedPreferenceChangeListener
+{
 
     private AccessibilityManager mAccessibilityManager;
     private SharedPreferences mSharedPreferences;
@@ -30,34 +34,41 @@ public class MainActivity extends BaseActivity implements AccessibilityManager.A
     TextView mTvSwitch;
 
     @Override
-    protected void onInitialize() {
+    protected void onInitialize()
+    {
         initView();
         initData();
     }
 
     @Override
-    protected int getLayoutResId() {
+    protected int getLayoutResId()
+    {
         return R.layout.activity_main;
     }
 
-    private void initView() {
+    private void initView()
+    {
     }
 
-    private void initData() {
+    private void initData()
+    {
         mAccessibilityManager = (AccessibilityManager) getSystemService(Context.ACCESSIBILITY_SERVICE);
         mAccessibilityManager.addAccessibilityStateChangeListener(this);
     }
 
     @Override
-    protected void onResume() {
+    protected void onResume()
+    {
         updateSwitchUIState();
         super.onResume();
     }
 
     @OnClick({R.id.ll_setting, R.id.ll_switch, R.id.ll_github, R.id.ll_github_star,
             R.id.tv_app_name})
-    public void onClick(View view) {
-        switch (view.getId()) {
+    public void onClick(View view)
+    {
+        switch (view.getId())
+        {
             case R.id.tv_app_name:
                 Toast.makeText(this, R.string.str_blessing, Toast.LENGTH_LONG).show();
                 break;
@@ -82,16 +93,21 @@ public class MainActivity extends BaseActivity implements AccessibilityManager.A
     /**
      * 开关
      */
-    private void switchApp() {
-        if (isSwitchApp() && isServiceEnabled()) {
+    private void switchApp()
+    {
+        if (isSwitchApp() && isServiceEnabled())
+        {
             //关闭
             getSharedPreferences().edit().putBoolean("switch_app", false).apply();
-        } else {
-            if (isServiceEnabled()) {
+        } else
+        {
+            if (isServiceEnabled())
+            {
                 //关闭
                 Toast.makeText(this, "红包助手启动成功.", Toast.LENGTH_LONG).show();
                 getSharedPreferences().edit().putBoolean("switch_app", true).apply();
-            } else {
+            } else
+            {
                 jumpAccessibilitySetting();
             }
         }
@@ -101,7 +117,8 @@ public class MainActivity extends BaseActivity implements AccessibilityManager.A
     /**
      * 跳转 辅助服务 设置页面
      */
-    private void jumpAccessibilitySetting() {
+    private void jumpAccessibilitySetting()
+    {
         Intent intent = new Intent(
                 android.provider.Settings.ACTION_ACCESSIBILITY_SETTINGS);
         startActivity(intent);
@@ -111,12 +128,16 @@ public class MainActivity extends BaseActivity implements AccessibilityManager.A
     /**
      * 更新 switch UI 状态
      */
-    private void updateSwitchUIState() {
-        if (mIvSwitch != null && mTvSwitch != null) {
-            if (isSwitchApp() && isServiceEnabled()) {
+    private void updateSwitchUIState()
+    {
+        if (mIvSwitch != null && mTvSwitch != null)
+        {
+            if (isSwitchApp() && isServiceEnabled())
+            {
                 mTvSwitch.setText(R.string.str_stop);
                 mIvSwitch.setImageResource(R.mipmap.ic_stop);
-            } else {
+            } else
+            {
                 mIvSwitch.setImageResource(R.mipmap.ic_start);
                 mTvSwitch.setText(R.string.str_start);
             }
@@ -129,11 +150,14 @@ public class MainActivity extends BaseActivity implements AccessibilityManager.A
      *
      * @return
      */
-    private boolean isServiceEnabled() {
+    private boolean isServiceEnabled()
+    {
         List<AccessibilityServiceInfo> accessibilityServices =
                 mAccessibilityManager.getEnabledAccessibilityServiceList(AccessibilityServiceInfo.FEEDBACK_GENERIC);
-        for (AccessibilityServiceInfo info : accessibilityServices) {
-            if (info.getId().equals(getPackageName() + "/.services.LuckyMoneyService")) {
+        for (AccessibilityServiceInfo info : accessibilityServices)
+        {
+            if (info.getId().equals(getPackageName() + "/.services.LuckyMoneyService"))
+            {
                 return true;
             }
         }
@@ -145,24 +169,29 @@ public class MainActivity extends BaseActivity implements AccessibilityManager.A
      *
      * @return
      */
-    private boolean isSwitchApp() {
+    private boolean isSwitchApp()
+    {
         return getSharedPreferences().getBoolean("switch_app", true);
     }
 
 
     @Override
-    public void onAccessibilityStateChanged(boolean enabled) {
+    public void onAccessibilityStateChanged(boolean enabled)
+    {
         updateSwitchUIState();
     }
 
     @Override
-    protected void onDestroy() {
+    protected void onDestroy()
+    {
         super.onDestroy();
     }
 
 
-    public SharedPreferences getSharedPreferences() {
-        if (mSharedPreferences == null) {
+    public SharedPreferences getSharedPreferences()
+    {
+        if (mSharedPreferences == null)
+        {
             mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
             mSharedPreferences.registerOnSharedPreferenceChangeListener(this);
         }
@@ -170,7 +199,8 @@ public class MainActivity extends BaseActivity implements AccessibilityManager.A
     }
 
     @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s)
+    {
         updateSwitchUIState();
     }
 }
