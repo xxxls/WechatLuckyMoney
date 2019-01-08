@@ -89,7 +89,16 @@ public class SzzChatDetailsHandler extends ChatDetailsHandler
                                 return false;
                             }
                         }
-                        performClick(itemNode);
+
+                        log("准备打开红包 ");
+                        if (getDelayTime() > 0)
+                        {
+                            addDelayTask(itemNode);
+                        } else
+                        {
+                            log("立即打开红包 ");
+                            performClick(itemNode);
+                        }
                     }
                 }
             }
