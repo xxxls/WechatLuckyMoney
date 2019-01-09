@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.view.View;
 import android.view.accessibility.AccessibilityNodeInfo;
 
 import com.max.wechatluckymoney.services.handler.AccessibilityHandler;
@@ -22,8 +23,7 @@ import java.util.regex.Pattern;
  * 聊天详情
  * Created by Max on 2019/1/7.
  */
-public abstract class ChatDetailsHandler extends AccessibilityHandler
-{
+public abstract class ChatDetailsHandler extends AccessibilityHandler {
 
     /**
      * 屏幕宽度
@@ -36,7 +36,7 @@ public abstract class ChatDetailsHandler extends AccessibilityHandler
     private Boolean mIsOpenMyRedPaclet;
 
     /**
-     * 是否群裏 正則
+     * 是否群裏 正则
      */
     private Pattern mGroupNamePattern = Pattern.compile("^\\w*\\(\\d+\\)$");
 
@@ -45,27 +45,11 @@ public abstract class ChatDetailsHandler extends AccessibilityHandler
      */
     private Integer mOpenRedPacketDelayTime;
 
-    /**
-     * 要延时打开的红包列表
-     */
-    private LinkedList<AccessibilityNodeInfo> mLinkedList;
 
-    /**
-     * 打开红包延时任务
-     */
-    private Runnable mOpenRedPacketDelayedRunnable = () -> {
-        if (mLinkedList != null)
-        {
-            if (! mLinkedList.isEmpty())
-            {
-                log("延时任务,打开红包 ");
-                performClick(mLinkedList.removeFirst());
-            }
-        }
-    };
+    private OpenRedPacketDelayTask mDelayTask;
 
-    public ChatDetailsHandler(@NonNull AccessibilityHandlerListener listener)
-    {
+
+    public ChatDetailsHandler(@NonNull AccessibilityHandlerListener listener) {
         super(listener);
     }
 
@@ -74,10 +58,8 @@ public abstract class ChatDetailsHandler extends AccessibilityHandler
      *
      * @return
      */
-    protected long getScreenWidth()
-    {
-        if (mScreenWidth == 0)
-        {
+    protected long getScreenWidth() {
+        if (mScreenWidth == 0) {
             mScreenWidth = ScreenUtils.getScreenWidth(getService());
         }
         return mScreenWidth;
@@ -88,10 +70,8 @@ public abstract class ChatDetailsHandler extends AccessibilityHandler
      *
      * @return
      */
-    protected int getDelayTime()
-    {
-        if (mOpenRedPacketDelayTime == null)
-        {
+    protected int getDelayTime() {
+        if (mOpenRedPacketDelayTime == null) {
             mOpenRedPacketDelayTime = getSharedPreferences().getInt("pref_open_delay", 0);
         }
         return mOpenRedPacketDelayTime;
@@ -102,10 +82,8 @@ public abstract class ChatDetailsHandler extends AccessibilityHandler
      *
      * @return
      */
-    protected boolean isOpenMyRedPaclet()
-    {
-        if (mIsOpenMyRedPaclet == null)
-        {
+    protected boolean isOpenMyRedPaclet() {
+        if (mIsOpenMyRedPaclet == null) {
             mIsOpenMyRedPaclet = getSharedPreferences().getBoolean("pref_watch_self", false);
         }
         return mIsOpenMyRedPaclet;
@@ -116,10 +94,8 @@ public abstract class ChatDetailsHandler extends AccessibilityHandler
      *
      * @param rect
      */
-    protected boolean isMyRedPacket(Rect rect)
-    {
-        if (rect != null)
-        {
+    protected boolean isMyRedPacket(Rect rect) {
+        if (rect != null) {
             return rect.left > getScreenWidth() - rect.right;
         }
         return false;
@@ -131,17 +107,19 @@ public abstract class ChatDetailsHandler extends AccessibilityHandler
      * @param chatName 聊天对象名称
      * @return
      */
-    protected boolean isGroupChat(String chatName)
-    {
+    protected boolean isGroupChat(String chatName) {
         return mGroupNamePattern.matcher(chatName).find();
     }
 
     @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s)
-    {
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
         super.onSharedPreferenceChanged(sharedPreferences, s);
         mIsOpenMyRedPaclet = getSharedPreferences().getBoolean("pref_watch_self", false);
         mOpenRedPacketDelayTime = getSharedPreferences().getInt("pref_open_delay", 0);
+
+        if (mDelayTask != null) {
+            mDelayTask.updateDelayTime(mOpenRedPacketDelayTime);
+        }
     }
 
     /**
@@ -149,18 +127,12 @@ public abstract class ChatDetailsHandler extends AccessibilityHandler
      *
      * @param nodeInfo
      */
-    protected void addDelayTask(AccessibilityNodeInfo nodeInfo)
-    {
-        if (mLinkedList == null)
-        {
-            mLinkedList = new LinkedList<>();
+    protected void addDelayTask(AccessibilityNodeInfo nodeInfo) {
+        if (mDelayTask == null) {
+            mDelayTask = new OpenRedPacketDelayTask(mHandler, getDelayTime(), new View(getService()));
         }
 
-        if (! mLinkedList.contains(nodeInfo))
-        {
-            mLinkedList.add(nodeInfo);
-            startDelayedTask(mOpenRedPacketDelayedRunnable, getDelayTime());
-        }
+        mDelayTask.addTask(nodeInfo);
     }
 
 }

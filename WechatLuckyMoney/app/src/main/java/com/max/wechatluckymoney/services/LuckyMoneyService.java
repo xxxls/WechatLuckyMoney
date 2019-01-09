@@ -170,7 +170,6 @@ public class LuckyMoneyService extends AccessibilityService implements SharedPre
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key)
     {
-
         //开关
         mSwitchService = getSharedPreferences().getBoolean("switch_app", true);
         if (mFloatingHelper != null)

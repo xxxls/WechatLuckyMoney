@@ -21,7 +21,7 @@ public abstract class AccessibilityHandler implements SharedPreferences.OnShared
 
     protected AccessibilityHandlerListener mListener;
 
-    private Handler mHandler;
+    protected Handler mHandler;
 
     private Runnable mBackRunnable = () -> getService().performGlobalAction(getService().GLOBAL_ACTION_BACK);
 
@@ -120,6 +120,7 @@ public abstract class AccessibilityHandler implements SharedPreferences.OnShared
     {
         return mListener.getCurActivityClassName() == null ? "" : mListener.getCurActivityClassName();
     }
+
 
     /**
      * 开始一个延时任务
