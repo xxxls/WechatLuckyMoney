@@ -21,8 +21,7 @@ import java.util.ArrayList;
  * 红包 辅助服务
  */
 public class LuckyMoneyService extends AccessibilityService implements SharedPreferences.OnSharedPreferenceChangeListener,
-        AccessibilityHandlerListener, FloatingHelper.OnFloatingHelperListener
-{
+        AccessibilityHandlerListener, FloatingHelper.OnFloatingHelperListener {
 
     //处理类
     private ArrayList<AccessibilityHandler> mHandlers;
@@ -50,34 +49,29 @@ public class LuckyMoneyService extends AccessibilityService implements SharedPre
      * 系统会在成功连接上你的服务的时候调用这个方法，在这个方法里你可以做一下初始化工作
      */
     @Override
-    protected void onServiceConnected()
-    {
+    protected void onServiceConnected() {
         mFloatingHelper = new FloatingHelper(this, this);
         mFloatingHelper.checkLoad();
     }
 
     @Override
-    public void onAccessibilityEvent(AccessibilityEvent event)
-    {
+    public void onAccessibilityEvent(AccessibilityEvent event) {
 
-        if (event == null || event.getSource() == null)
-        {
+        if (event == null || event.getSource() == null) {
             return;
         }
 
         mEvent = event;
 
         String className = event.getClassName().toString();
-        if (className.startsWith("com.tencent.mm"))
-        {
+        if (className.startsWith("com.tencent.mm")) {
             mCurActivityClassName = className;
         }
 
-        L.e("onAccessibilityEvent -> EventClassName:" + event.getClassName());
+        L.e("onAccessibilityEvent -> EventClassName:" + className);
         L.e("onAccessibilityEvent -> CurActivityClassName:" + mCurActivityClassName);
 
-        if (isHandler())
-        {
+        if (isHandler()) {
             onHandler();
         }
     }
@@ -88,11 +82,9 @@ public class LuckyMoneyService extends AccessibilityService implements SharedPre
      *
      * @return
      */
-    private boolean isHandler()
-    {
+    private boolean isHandler() {
 
-        if (mSwitchService == null)
-        {
+        if (mSwitchService == null) {
             mSwitchService = getSharedPreferences().getBoolean("switch_app", true);
         }
         return mSwitchService;
@@ -102,17 +94,13 @@ public class LuckyMoneyService extends AccessibilityService implements SharedPre
     /**
      * 处理
      */
-    private void onHandler()
-    {
-        if (mHandlers == null)
-        {
+    private void onHandler() {
+        if (mHandlers == null) {
             initHandlers();
         }
 
-        for (AccessibilityHandler handler : mHandlers)
-        {
-            if (handler.onExecute())
-            {
+        for (AccessibilityHandler handler : mHandlers) {
+            if (handler.onExecute()) {
                 break;
             }
         }
@@ -122,8 +110,7 @@ public class LuckyMoneyService extends AccessibilityService implements SharedPre
      * 这个在系统想要中断AccessibilityService返给的响应时会调用。在整个生命周期里会被调用
      */
     @Override
-    public void onInterrupt()
-    {
+    public void onInterrupt() {
         L.e("onInterrupt() ->");
     }
 
@@ -134,8 +121,7 @@ public class LuckyMoneyService extends AccessibilityService implements SharedPre
      * @return
      */
     @Override
-    protected boolean onKeyEvent(KeyEvent event)
-    {
+    protected boolean onKeyEvent(KeyEvent event) {
         return super.onKeyEvent(event);
     }
 
@@ -146,21 +132,17 @@ public class LuckyMoneyService extends AccessibilityService implements SharedPre
      * @return
      */
     @Override
-    public boolean onUnbind(Intent intent)
-    {
-        if (mHandlers != null)
-        {
+    public boolean onUnbind(Intent intent) {
+        if (mHandlers != null) {
             mHandlers.clear();
             mHandlers = null;
         }
 
-        if (mEvent != null)
-        {
+        if (mEvent != null) {
             mEvent = null;
         }
 
-        if (mFloatingHelper != null)
-        {
+        if (mFloatingHelper != null) {
             mFloatingHelper.onUnbind();
         }
 
@@ -168,19 +150,15 @@ public class LuckyMoneyService extends AccessibilityService implements SharedPre
     }
 
     @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key)
-    {
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         //开关
         mSwitchService = getSharedPreferences().getBoolean("switch_app", true);
-        if (mFloatingHelper != null)
-        {
+        if (mFloatingHelper != null) {
             mFloatingHelper.onSharedPreferenceChanged(sharedPreferences, key);
         }
 
-        if (mHandlers != null)
-        {
-            for (AccessibilityHandler handler : mHandlers)
-            {
+        if (mHandlers != null) {
+            for (AccessibilityHandler handler : mHandlers) {
                 handler.onSharedPreferenceChanged(sharedPreferences, key);
             }
         }
@@ -189,28 +167,23 @@ public class LuckyMoneyService extends AccessibilityService implements SharedPre
     /**
      * 初始化 处理类
      */
-    private void initHandlers()
-    {
+    private void initHandlers() {
         mHandlers = new HandlerHelper(this).getHandlers(Utils.getWeChatVersion(this));
     }
 
     @Override
-    public AccessibilityService getAccessibilityService()
-    {
+    public AccessibilityService getAccessibilityService() {
         return this;
     }
 
     @Override
-    public AccessibilityEvent getAccessibilityEvent()
-    {
+    public AccessibilityEvent getAccessibilityEvent() {
         return mEvent;
     }
 
     @Override
-    public SharedPreferences getSharedPreferences()
-    {
-        if (mSharedPreferences == null)
-        {
+    public SharedPreferences getSharedPreferences() {
+        if (mSharedPreferences == null) {
             mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
             mSharedPreferences.registerOnSharedPreferenceChangeListener(this);
         }
@@ -218,8 +191,7 @@ public class LuckyMoneyService extends AccessibilityService implements SharedPre
     }
 
     @Override
-    public String getCurActivityClassName()
-    {
+    public String getCurActivityClassName() {
         return mCurActivityClassName;
     }
 

@@ -23,6 +23,8 @@
     <string name="open_self">拆开自己发的红包</string>
     <string name="help_and_feedback">帮助与反馈</string>
     <string name="help_hint">前往GitHub项目主页提交issue</string>
+    <string name="watch_back_list">持续监视列表</string>
+    <string name="watch_back_list_hint">领取红包后自动返回首页列表继续监视</string>
 
     <string name="shortcut_options">快捷选项</string>
 

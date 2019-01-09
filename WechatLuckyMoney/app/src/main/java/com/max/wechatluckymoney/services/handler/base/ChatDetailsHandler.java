@@ -53,6 +53,11 @@ public abstract class ChatDetailsHandler extends AccessibilityHandler {
      */
     private String[] mChatExcludeWords;
 
+    /**
+     * 是否返回首页列表
+     */
+    private Boolean mIsBackHomeList;
+
     public ChatDetailsHandler(@NonNull AccessibilityHandlerListener listener) {
         super(listener);
     }
@@ -92,6 +97,19 @@ public abstract class ChatDetailsHandler extends AccessibilityHandler {
         }
         return mIsOpenMyRedPaclet;
     }
+
+    /**
+     * 是否返回首页列表
+     *
+     * @return
+     */
+    protected boolean isBackHomeList() {
+        if (mIsBackHomeList == null) {
+            mIsBackHomeList = getSharedPreferences().getBoolean("pref_back_list", true);
+        }
+        return mIsBackHomeList;
+    }
+
 
     /**
      * 是否我发的红包
@@ -165,6 +183,7 @@ public abstract class ChatDetailsHandler extends AccessibilityHandler {
         super.onSharedPreferenceChanged(sharedPreferences, s);
         mIsOpenMyRedPaclet = getSharedPreferences().getBoolean("pref_watch_self", false);
         mOpenRedPacketDelayTime = getSharedPreferences().getInt("pref_open_delay", 0);
+        mIsBackHomeList = getSharedPreferences().getBoolean("pref_back_list", true);
 
         mRedPacketExcludeWords = getSharedPreferences().getString("pref_watch_exclude_words", "").split(" ");
         mChatExcludeWords = getSharedPreferences().getString("pref_watch_exclude_words_chat", "").split(" ");

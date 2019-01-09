@@ -31,7 +31,7 @@ public class SzzChatDetailsHandler extends ChatDetailsHandler {
     private static final String WX_ID_LUCKYMONEY_ITEM = "com.tencent.mm:id/ao4";
 
     /**
-     * 微信红包 无法领取的文本 (已过期,被领取 等提示文本)
+     * 微信红包 无法领取的文本 (已过期,已领取,被领取 等提示文本)
      */
     private static final String WX_ID_LUCKYMONEY_BAN_TEXT = "com.tencent.mm:id/ape";
 
@@ -46,12 +46,25 @@ public class SzzChatDetailsHandler extends ChatDetailsHandler {
      */
     private String mChatName;
 
+    /**
+     * 是否有可领取的
+     */
+    private boolean mIsHasCanNode;
+
+    private boolean mIsBackrunnableComplete = true;
+
+    private Runnable mBackrunnable = () -> {
+        mIsBackrunnableComplete = true;
+    };
+
     public SzzChatDetailsHandler(AccessibilityHandlerListener listener) {
         super(listener);
     }
 
     @Override
     public boolean onHandler() {
+        mIsHasCanNode = false;
+
         AccessibilityNodeInfo chatNameNode = AccessibilityNodeUtils.getFirstNodeById(getRootNode(), WX_ID_NAME);
         if (chatNameNode != null && !TextUtils.isEmpty(chatNameNode.getText())) {
             mChatName = chatNameNode.getText().toString();
@@ -97,12 +110,20 @@ public class SzzChatDetailsHandler extends ChatDetailsHandler {
                             log("立即打开红包 ");
                             performClick(itemNode);
                         }
+                        mIsHasCanNode = true;
                     }
+                }
+            }
+
+            if (!mIsHasCanNode && isBackHomeList()) {
+                if (mIsBackrunnableComplete) {
+                    mIsBackrunnableComplete = false;
+                    getService().performGlobalAction(getService().GLOBAL_ACTION_BACK);
+                    startDelayedTask(mBackrunnable, 200);
                 }
             }
             return true;
         }
-
         return false;
     }
 

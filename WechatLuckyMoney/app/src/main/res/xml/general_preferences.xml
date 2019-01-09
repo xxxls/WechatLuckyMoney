@@ -31,6 +31,12 @@
             android:layout="@layout/preference_checkbox"
             android:summary="@string/watch_list_hint"
             android:title="@string/watch_list" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="pref_back_list"
+            android:layout="@layout/preference_checkbox"
+            android:summary="@string/watch_back_list_hint"
+            android:title="@string/watch_back_list" />
     </PreferenceCategory>
     <PreferenceCategory
         android:layout="@layout/preference_category"
