@@ -19,6 +19,12 @@ public class SzzRedPacketGetHandler extends RedPacketGetHandler {
      */
     private static final String WX_ID_OPEN = "com.tencent.mm:id/cv0";
 
+    /**
+     * 红包 名称
+     */
+    private static final String WX_ID_NAME = "com.tencent.mm:id/cuz";
+
+
     public SzzRedPacketGetHandler(AccessibilityHandlerListener listener) {
         super(listener);
     }
@@ -39,8 +45,15 @@ public class SzzRedPacketGetHandler extends RedPacketGetHandler {
             if (openNode != null) {
                 //还没有领
                 log("-> 还没有领");
-
                 if (isAutoOpen()) {
+
+                    AccessibilityNodeInfo nameNode = AccessibilityNodeUtils.getFirstNodeById(getRootNode(), WX_ID_NAME);
+                    if (nameNode != null && nameNode.getText() != null) {
+                        if (isExcludeByRedPacketText(nameNode.getText().toString())) {
+                            return true;
+                        }
+                    }
+
                     toast("领红包啦");
                     performClick(openNode);
                 }

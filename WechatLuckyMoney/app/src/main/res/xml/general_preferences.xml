@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-                  xmlns:tools="http://schemas.android.com/tools"
-                  android:icon="@null"
-                  tools:context=".SettingsActivity">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:icon="@null"
+    tools:context=".SettingsActivity">
 
     <PreferenceCategory
         android:layout="@layout/preference_category"
@@ -13,7 +13,7 @@
             android:summary="@string/float_switch_hint"
             android:switchTextOff="开关被关闭了"
             android:switchTextOn="开关被打开了"
-            android:title="@string/float_switch_title"/>
+            android:title="@string/float_switch_title" />
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -24,13 +24,13 @@
             android:key="pref_watch_notification"
             android:layout="@layout/preference_checkbox"
             android:summary="@string/watch_notifications_hint"
-            android:title="@string/watch_notifications"/>
+            android:title="@string/watch_notifications" />
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="pref_watch_list"
             android:layout="@layout/preference_checkbox"
             android:summary="@string/watch_list_hint"
-            android:title="@string/watch_list"/>
+            android:title="@string/watch_list" />
     </PreferenceCategory>
     <PreferenceCategory
         android:layout="@layout/preference_category"
@@ -39,17 +39,27 @@
             android:defaultValue="true"
             android:key="pref_auto_open"
             android:layout="@layout/preference_checkbox"
-            android:title="@string/auto_open_packets"/>
-        <com.max.wechatluckymoney.view.dialog.SeekBarPreference
-            pref_kind="pref_open_delay"
-            android:key="pref_open_delay"
-            android:layout="@layout/preference_checkbox"
-            android:title="@string/open_with_delay"/>
+            android:title="@string/auto_open_packets" />
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="pref_watch_self"
             android:layout="@layout/preference_checkbox"
-            android:title="@string/open_self"/>
+            android:title="@string/open_self" />
+        <com.max.wechatluckymoney.view.dialog.SeekBarPreference
+            pref_kind="pref_open_delay"
+            android:key="pref_open_delay"
+            android:layout="@layout/preference_checkbox"
+            android:title="@string/open_with_delay" />
+        <EditTextPreference
+            android:key="pref_watch_exclude_words"
+            android:layout="@layout/preference_checkbox"
+            android:summary="@string/pref_watch_exclude_words_summary"
+            android:title="@string/skip_phrases" />
+        <EditTextPreference
+            android:key="pref_watch_exclude_words_chat"
+            android:layout="@layout/preference_checkbox"
+            android:summary="@string/pref_watch_exclude_words_summary_chat"
+            android:title="@string/skip_phrases_chat" />
     </PreferenceCategory>
     <PreferenceCategory
         android:layout="@layout/preference_category"
@@ -58,18 +68,18 @@
             android:key="pref_etc_issue"
             android:layout="@layout/preference_checkbox"
             android:summary="@string/help_hint"
-            android:title="@string/help_and_feedback"/>
+            android:title="@string/help_and_feedback" />
         <Preference
             android:key="pref_etc_issue"
             android:layout="@layout/preference_checkbox"
             android:summary="@string/warning_hint"
-            android:title="@string/special_explain"/>
+            android:title="@string/special_explain" />
         <Preference
             android:id="@+id/preference"
             android:key="pref_etc_compatibility"
             android:layout="@layout/preference_checkbox"
             android:summary="@string/compatibility_hint"
-            android:title="@string/compatibility"/>
+            android:title="@string/compatibility" />
     </PreferenceCategory>
 
 </PreferenceScreen>

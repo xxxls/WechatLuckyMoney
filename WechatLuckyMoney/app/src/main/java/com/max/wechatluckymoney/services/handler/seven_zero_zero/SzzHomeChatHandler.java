@@ -14,10 +14,21 @@ import java.util.List;
  */
 public class SzzHomeChatHandler extends HomeChatHandler {
 
+
+    /**
+     * 聊天列表 Item
+     */
+    private static final String WX_ID_CHAT_ITEM = "com.tencent.mm:id/b4m";
+
+    /**
+     * 聊天列表 的 聊天对象
+     */
+    private static final String WX_ID_CHAT_ITEM_NAME = "com.tencent.mm:id/b4o";
+
     /**
      * 聊天列表 的 消息内容ID
      */
-    private static final String WX_ID_LUCKY_MONEY = "com.tencent.mm:id/b4q";
+    private static final String WX_ID_CHAT_ITEM_CONTENT = "com.tencent.mm:id/b4q";
 
     public SzzHomeChatHandler(AccessibilityHandlerListener listener) {
         super(listener);
@@ -30,17 +41,24 @@ public class SzzHomeChatHandler extends HomeChatHandler {
             return false;
         }
 
-        List<AccessibilityNodeInfo> nodes = AccessibilityNodeUtils.findNodeListById(getRootNode(), WX_ID_LUCKY_MONEY);
-        if (nodes == null) {
-            nodes = AccessibilityNodeUtils.findNodeListById(getRootNode(), WX_ID_LUCKY_MONEY);
-        }
+        List<AccessibilityNodeInfo> itemNodes = AccessibilityNodeUtils.findNodeListById(getRootNode(), WX_ID_CHAT_ITEM);
 
-        if (nodes != null) {
-            for (AccessibilityNodeInfo nodeInfo : nodes) {
-                if (nodeInfo != null && nodeInfo.getText() != null) {
-                    if (nodeInfo.getText().toString().contains(WX_TEXT_LUCKY_MONEY)) {
+        if (itemNodes != null) {
+            for (AccessibilityNodeInfo nodeInfo : itemNodes) {
+
+                AccessibilityNodeInfo chatContentNode = AccessibilityNodeUtils.getFirstNodeById(nodeInfo, WX_ID_CHAT_ITEM_CONTENT);
+                if (chatContentNode != null && chatContentNode.getText() != null) {
+                    if (chatContentNode.getText().toString().contains(WX_TEXT_LUCKY_MONEY)) {
+
+                        AccessibilityNodeInfo chatNameNode = AccessibilityNodeUtils.getFirstNodeById(nodeInfo, WX_ID_CHAT_ITEM_NAME);
+                        if (chatNameNode != null && chatNameNode.getText() != null) {
+                            if (isExcludeByChatName(chatNameNode.getText().toString())) {
+                                continue;
+                            }
+                        }
+
                         toast("发现红包");
-                        performClick(nodeInfo.getParent());
+                        performClick(nodeInfo);
                         return true;
                     }
                 }
@@ -53,5 +71,6 @@ public class SzzHomeChatHandler extends HomeChatHandler {
     protected String getInterceptActivityName() {
         return "LauncherUI";
     }
+
 
 }

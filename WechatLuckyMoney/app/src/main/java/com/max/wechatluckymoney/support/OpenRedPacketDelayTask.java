@@ -1,4 +1,4 @@
-package com.max.wechatluckymoney.services.handler.base;
+package com.max.wechatluckymoney.support;
 
 import android.os.Handler;
 import android.view.accessibility.AccessibilityNodeInfo;

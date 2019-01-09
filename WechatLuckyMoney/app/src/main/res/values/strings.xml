@@ -29,6 +29,11 @@
     <string name="float_switch_title">悬浮操作</string>
     <string name="float_switch_hint">悬浮操作启动或暂定本插件</string>
 
+    <string name="skip_phrases">屏蔽红包文字</string>
+    <string name="pref_watch_exclude_words_summary">不拆开包含这些文字的红包(空格间隔)</string>
+
+    <string name="skip_phrases_chat">屏蔽聊天对象</string>
+    <string name="pref_watch_exclude_words_summary_chat">不拆开包含这些人或群聊发出的红包(空格间隔)</string>
 
     <string name="delay_s">秒</string>
     <string name="delay_then">然后</string>

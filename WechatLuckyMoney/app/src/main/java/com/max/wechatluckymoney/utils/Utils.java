@@ -4,6 +4,7 @@ import android.app.Service;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Vibrator;
+import android.text.TextUtils;
 
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -76,5 +77,26 @@ public class Utils {
             e.printStackTrace();
         }
         return null;
+    }
+
+
+    /**
+     * 是否包含 某文本
+     *
+     * @param arr 数组
+     * @param str 文本
+     * @return
+     */
+    public static boolean isArrContains(String[] arr, String str) {
+        if (str == null || arr == null)
+            return false;
+
+        for (String s : arr) {
+            if (!TextUtils.isEmpty(s) && str.contains(s)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
