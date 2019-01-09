@@ -129,7 +129,7 @@ public abstract class ChatDetailsHandler extends AccessibilityHandler {
      */
     protected void addDelayTask(AccessibilityNodeInfo nodeInfo) {
         if (mDelayTask == null) {
-            mDelayTask = new OpenRedPacketDelayTask(mHandler, getDelayTime(), new View(getService()));
+            mDelayTask = new OpenRedPacketDelayTask(mHandler, getDelayTime());
         }
 
         mDelayTask.addTask(nodeInfo);

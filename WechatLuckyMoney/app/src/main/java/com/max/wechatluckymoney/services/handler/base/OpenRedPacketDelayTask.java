@@ -1,15 +1,13 @@
 package com.max.wechatluckymoney.services.handler.base;
 
-import android.content.Context;
-import android.graphics.Rect;
 import android.os.Handler;
-import android.view.View;
 import android.view.accessibility.AccessibilityNodeInfo;
-import android.widget.TextView;
 
 import com.max.wechatluckymoney.utils.L;
+import com.max.wechatluckymoney.utils.Utils;
 
-import java.util.LinkedList;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * 打开红包延时任务
@@ -32,10 +30,7 @@ public class OpenRedPacketDelayTask {
     /**
      * 等待延时打开的红包列表
      */
-    private LinkedList<AccessibilityNodeInfo> mRedPacketQueue;
-
-
-    private View mView;
+    private LinkedHashMap<AccessibilityNodeInfo, Long> mRedPacketQueue;
 
     /**
      * 打开红包延时任务
@@ -52,11 +47,10 @@ public class OpenRedPacketDelayTask {
      * @param handler
      * @param delayTime 延时打开红包的时间
      */
-    public OpenRedPacketDelayTask(Handler handler, int delayTime,View view) {
+    public OpenRedPacketDelayTask(Handler handler, int delayTime) {
         this.mHandler = handler;
         this.mOpenRedPacketDelayTime = delayTime;
-        this.mRedPacketQueue = new LinkedList<>();
-        this.mView = view;
+        this.mRedPacketQueue = new LinkedHashMap<>();
     }
 
     /**
@@ -66,30 +60,35 @@ public class OpenRedPacketDelayTask {
      */
     public void addTask(AccessibilityNodeInfo nodeInfo) {
 
-        L.e("mRedPacketQueue size = " + mRedPacketQueue.size() + "mCurDelayedNode = " + (mCurDelayedNode == null ? "null" : "Not null"));
         if (mCurDelayedNode == null) {
             //当前没有延时任务在执行
 
             if (mRedPacketQueue.isEmpty()) {
                 //当前没有等待任务 可添加此任务
-                startDelayedTask(nodeInfo);
-            } else if (mRedPacketQueue.contains(nodeInfo)) {
-                //已经在队列中 这次可直接打开
-                mCurDelayedNode = nodeInfo;
-                mRedPacketQueue.remove(nodeInfo);
-                openRedPacket(nodeInfo);
+                startDelayedTask(nodeInfo, System.currentTimeMillis());
+
+            } else if (mRedPacketQueue.containsKey(nodeInfo)) {
+                //已经在队列中  这次直接执行该红包任务
+                startDelayedTask(nodeInfo, mRedPacketQueue.remove(nodeInfo));
+
             } else {
-                //没有在队列中 这次添加到队列中 等待执行
-                startDelayedTask(mRedPacketQueue.removeFirst());
-                mRedPacketQueue.add(nodeInfo);
+                //没有在队列中 这次添加到队列中等待执行
+
+                //拿取第一个Node 执行定时任务
+                Map.Entry<AccessibilityNodeInfo, Long> entry = Utils.getMapFirstEntry(mRedPacketQueue);
+                mRedPacketQueue.remove(entry.getKey());
+                startDelayedTask(entry.getKey(), entry.getValue());
+
+                mRedPacketQueue.put(nodeInfo, System.currentTimeMillis());
             }
 
         } else {
+
             //当前已有延时任务在执行
             if (isSameNode(mCurDelayedNode, nodeInfo)) return;
-            if (!mRedPacketQueue.contains(nodeInfo)) {
+            if (!mRedPacketQueue.containsKey(nodeInfo)) {
                 //之前没有添加过
-                mRedPacketQueue.add(nodeInfo);
+                mRedPacketQueue.put(nodeInfo, System.currentTimeMillis());
             }
         }
     }
@@ -118,10 +117,12 @@ public class OpenRedPacketDelayTask {
     /**
      * 延时任务
      */
-    private void startDelayedTask(AccessibilityNodeInfo nodeInfo) {
+    private void startDelayedTask(AccessibilityNodeInfo nodeInfo, long nodeCreateTime) {
         if (nodeInfo != null) {
             mCurDelayedNode = nodeInfo;
-            mHandler.postDelayed(mOpenRedPacketDelayedRunnable, mOpenRedPacketDelayTime);
+            long time = mOpenRedPacketDelayTime - (System.currentTimeMillis() - nodeCreateTime);
+            time = time > 0 ? time : 0;
+            mHandler.postDelayed(mOpenRedPacketDelayedRunnable, time);
         }
     }
 
@@ -131,6 +132,7 @@ public class OpenRedPacketDelayTask {
      * @param nodeInfo
      */
     private void openRedPacket(AccessibilityNodeInfo nodeInfo) {
+
         if (nodeInfo != null) {
             nodeInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
         }

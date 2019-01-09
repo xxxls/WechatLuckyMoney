@@ -5,7 +5,10 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Vibrator;
 
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Max on 2018/2/12.
@@ -30,6 +33,34 @@ public class Utils {
         return list == null || list.isEmpty();
     }
 
+    /**
+     * 获取Map 第一条数据
+     *
+     * @param map
+     * @param <K>
+     * @param <V>
+     * @return
+     */
+    public static <K, V> Map.Entry<K, V> getMapFirstEntry(LinkedHashMap<K, V> map) {
+        return map.entrySet().iterator().next();
+    }
+
+    /**
+     * 获取Map最后一条数据
+     *
+     * @param map
+     * @param <K>
+     * @param <V>
+     * @return
+     */
+    public static <K, V> Map.Entry<K, V> getMapLastEntry(LinkedHashMap<K, V> map) {
+        Iterator<Map.Entry<K, V>> iterator = map.entrySet().iterator();
+        Map.Entry<K, V> tail = null;
+        while (iterator.hasNext()) {
+            tail = iterator.next();
+        }
+        return tail;
+    }
 
     /**
      * 获取微信版本号
