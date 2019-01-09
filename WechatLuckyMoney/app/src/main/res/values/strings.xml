@@ -30,7 +30,7 @@
     <string name="float_switch_hint">悬浮操作启动或暂定本插件</string>
 
 
-    <string name="delay_ms">毫秒</string>
+    <string name="delay_s">秒</string>
     <string name="delay_then">然后</string>
     <string name="delay_delay">延迟</string>
     <string name="delay_instantly">立即</string>
@@ -66,4 +66,14 @@
 
     <string name="str_open">启动</string>
     <string name="str_close">暂停</string>
+
+
+    <string name="permission_btn_allow">允许</string>
+    <string name="permission_btn_setting">去设置</string>
+    <string name="permission_btn_exit">退出</string>
+    <string name="permission_btn_cancel">取消</string>
+
+    <string name="permission_rationale">为保证APP稳定运行, 请允许获取相关权限</string>
+    <string name="permission_never_ask_again">获取相关权限失败,将导致部分功能无法正常使用，需要到设置页面手动授权</string>
+    <string name="permission_denied">为保证APP稳定运行，请允许获取相关权限</string>
 </resources>

@@ -120,7 +120,7 @@ public class OpenRedPacketDelayTask {
     private void startDelayedTask(AccessibilityNodeInfo nodeInfo, long nodeCreateTime) {
         if (nodeInfo != null) {
             mCurDelayedNode = nodeInfo;
-            long time = mOpenRedPacketDelayTime - (System.currentTimeMillis() - nodeCreateTime);
+            long time = mOpenRedPacketDelayTime * 1000 - (System.currentTimeMillis() - nodeCreateTime);
             time = time > 0 ? time : 0;
             mHandler.postDelayed(mOpenRedPacketDelayedRunnable, time);
         }

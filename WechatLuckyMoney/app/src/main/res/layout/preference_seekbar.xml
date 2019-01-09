@@ -7,11 +7,11 @@
     <SeekBar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/delay_seekBar" android:layout_margin="20dp" android:max="10000"/>
+            android:id="@+id/delay_seekBar" android:layout_margin="20dp" android:max="10"/>
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="延迟0毫秒拆开红包"
+            android:text="延迟0秒拆开红包"
             android:id="@+id/pref_seekbar_textview" android:textColor="#666666" android:textSize="16sp"
             android:layout_marginLeft="32dp" android:layout_marginRight="32dp" android:layout_marginBottom="20dp"/>
 </LinearLayout>

@@ -45,4 +45,7 @@ dependencies {
     annotationProcessor "com.jakewharton:butterknife-compiler:$rootProject.ext.butterknifeVersion"
     //loading https://github.com/81813780/AVLoadingIndicatorView
     implementation project(':loadingIndicator')
+
+//     权限请求框架：https://github.com/getActivity/XXPermissions
+    api 'com.hjq:xxpermissions:5.2'
 }

@@ -105,7 +105,7 @@ public class SeekBarPreference extends DialogPreference
         } else
         {
             this.textView.setText(getContext().getString(R.string.delay_delay) +
-                    delay + getContext().getString(R.string.delay_ms) + getContext().getString(R.string.delay_then) + hintText);
+                    delay + getContext().getString(R.string.delay_s) + getContext().getString(R.string.delay_then) + hintText);
         }
     }
 }
