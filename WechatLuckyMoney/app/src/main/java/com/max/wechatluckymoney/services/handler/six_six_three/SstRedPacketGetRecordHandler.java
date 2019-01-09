@@ -14,6 +14,7 @@ public class SstRedPacketGetRecordHandler extends RedPacketGetRecordHandler
     private boolean mIsComplete = true;
 
     private Runnable mBackrunnable = () -> {
+        log("返回咯");
         getService().performGlobalAction(getService().GLOBAL_ACTION_BACK);
         mIsComplete = true;
     };
@@ -29,7 +30,7 @@ public class SstRedPacketGetRecordHandler extends RedPacketGetRecordHandler
         if (mIsComplete)
         {
             mIsComplete = false;
-            startDelayedTask(mBackrunnable, 300);
+            startDelayedTask(mBackrunnable, 350);
         }
         return true;
     }

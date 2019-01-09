@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">微信红包助手</string>
 
-    <string name="accessibility_description">本插件只适用于微信 \n\n功能描述:\n\n\t\t\ta: 微信自助抢红包  \n\n使用说明:\n\n\t\t\t1. 打开右上方开关\n\n\t\t\t2. 进入微信APP  \n\n\t\t\t3. 点击启动服务即可   \n\n注:微信的版本升级 可能导致部分功能无法正常运转</string>
+    <string name="accessibility_description">本插件只适用于微信 \n\n功能描述:\n\n\t\t\ta: 微信自助抢红包  \n\n使用说明:\n\n\t\t\t1. 打开右上方开关\n\n\t\t\t2. 进入微信APP聊天页面  \n\n\t\t\t3. 系统将自动监测领取红包   \n\n注意事项:\n\n\t\t\t1. 微信的版本升级,可能导致功能无法正常运转\n\n\t\t\t2. 注意悬浮操作按钮的状态哦,点击试下</string>
 
 
     <string name="str_blessing">大吉大利</string>
