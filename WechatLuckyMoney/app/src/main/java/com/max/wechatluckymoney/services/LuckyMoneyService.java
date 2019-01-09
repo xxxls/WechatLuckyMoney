@@ -8,6 +8,7 @@ import android.preference.PreferenceManager;
 import android.view.KeyEvent;
 import android.view.accessibility.AccessibilityEvent;
 
+import com.max.wechatluckymoney.activitys.LoadingActivity;
 import com.max.wechatluckymoney.services.handler.AccessibilityHandler;
 import com.max.wechatluckymoney.services.handler.AccessibilityHandlerListener;
 import com.max.wechatluckymoney.support.FloatingHelper;
@@ -161,6 +162,10 @@ public class LuckyMoneyService extends AccessibilityService implements SharedPre
             for (AccessibilityHandler handler : mHandlers) {
                 handler.onSharedPreferenceChanged(sharedPreferences, key);
             }
+        }
+
+        if (key.equals("switch_app") && mSwitchService) {
+            startActivity(LoadingActivity.getInstance(this));
         }
     }
 

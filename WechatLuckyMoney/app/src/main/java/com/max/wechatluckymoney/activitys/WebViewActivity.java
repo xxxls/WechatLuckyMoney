@@ -1,22 +1,27 @@
 package com.max.wechatluckymoney.activitys;
 
-import android.annotation.TargetApi;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Build;
+import android.net.http.SslError;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.CookieSyncManager;
+import android.webkit.SslErrorHandler;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.ZoomButtonsController;
 
 import com.max.wechatluckymoney.R;
 import com.max.wechatluckymoney.base.BaseActivity;
+
+import java.lang.reflect.Field;
 
 import butterknife.BindView;
 
@@ -27,6 +32,9 @@ import butterknife.BindView;
  */
 public class WebViewActivity extends BaseActivity
 {
+    @BindView(R.id.progressBar_webview_top)
+    ProgressBar mProgressBar;
+
     @BindView(R.id.webView)
     WebView mWebView;
 
@@ -61,7 +69,10 @@ public class WebViewActivity extends BaseActivity
      */
     private void initWebView()
     {
+        mWebView.setWebViewClient(new H5WebViewClient());
+        mWebView.setWebChromeClient(new HMWebViewClient());
         mWebView.getSettings().setBuiltInZoomControls(false);
+        setZoomControlGone(mWebView);
         mWebView.getSettings().setJavaScriptEnabled(true);
         mWebView.getSettings().setDomStorageEnabled(true);
         mWebView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
@@ -80,6 +91,34 @@ public class WebViewActivity extends BaseActivity
                 CookieSyncManager.getInstance().sync();
             }
         });
+    }
+
+    /**
+     * 3.0前 隐藏 缩放按钮
+     *
+     * @param view
+     */
+    public void setZoomControlGone(View view) {
+        Class classType;
+        Field field;
+        try {
+            classType = WebView.class;
+            field = classType.getDeclaredField("mZoomButtonsController");
+            field.setAccessible(true);
+            ZoomButtonsController mZoomButtonsController = new ZoomButtonsController(view);
+            mZoomButtonsController.getZoomControls().setVisibility(View.GONE);
+            try {
+                field.set(view, mZoomButtonsController);
+            } catch (IllegalArgumentException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -140,4 +179,53 @@ public class WebViewActivity extends BaseActivity
             startActivity(intent);
         }
     }
+
+
+    private class HMWebViewClient extends WebChromeClient {
+        @Override
+        public void onProgressChanged(WebView view, int newProgress) {
+            if (mProgressBar != null) {
+                mProgressBar.setProgress(newProgress);
+                if (newProgress == 100) {
+                    mProgressBar.setVisibility(View.GONE);
+                }
+            }
+            super.onProgressChanged(view, newProgress);
+        }
+    }
+
+
+    public class H5WebViewClient extends WebViewClient {
+
+
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            super.onPageStarted(view, url, favicon);
+            if (mProgressBar != null) {
+                mProgressBar.setVisibility(View.VISIBLE);
+            }
+        }
+
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            return false;
+        }
+
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            super.onPageFinished(view, url);
+        }
+
+        @Override
+        public void onReceivedError(WebView webView, int i, String s, String s1) {
+            super.onReceivedError(webView, i, s, s1);
+        }
+
+        @Override
+        public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+            handler.proceed();
+            super.onReceivedSslError(view, handler, error);
+        }
+    }
+
 }

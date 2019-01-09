@@ -16,3 +16,6 @@
 #   public *;
 #}
 -dontwarn com.hjq.permissions.**
+
+-keep class com.wang.avi.** { *; }
+-keep class com.wang.avi.indicators.** { *; }
