@@ -24,6 +24,7 @@ import com.max.wechatluckymoney.services.HandlerHelper;
 import com.max.wechatluckymoney.utils.AppUtils;
 import com.max.wechatluckymoney.utils.L;
 import com.max.wechatluckymoney.utils.Utils;
+import com.tencent.bugly.crashreport.CrashReport;
 
 import java.util.List;
 import java.util.regex.Matcher;

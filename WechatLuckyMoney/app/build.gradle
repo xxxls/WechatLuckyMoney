@@ -12,8 +12,14 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         flavorDimensions rootProject.ext.flavorDimensions
-        versionCode 2
-        versionName "2.0"
+        versionCode 1
+        versionName "1.0"
+
+        ndk {
+            //设置支持的SO库架构（开发者可以根据需要，选择一个或多个平台的so）
+            abiFilters "armeabi", "armeabi-v7a", "x86"
+//            abiFilters "armeabi", "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
+        }
     }
 
     dataBinding {
@@ -87,6 +93,12 @@ dependencies {
 
 //     权限请求框架：https://github.com/getActivity/XXPermissions
     api 'com.hjq:xxpermissions:5.2'
+
+
+    implementation 'com.tencent.bugly:crashreport_upgrade:latest.release'
+    //其中latest.release指代最新版本号，也可以指定明确的版本号，例如1.0.1
+    implementation 'com.tencent.bugly:nativecrashreport:latest.release'
+    //其中latest.release指代最新版本号，也可以指定明确的版本号，例如2.2.0
 }
 
 def releaseTime() {

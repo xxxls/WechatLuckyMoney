@@ -15,7 +15,14 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+#权限
 -dontwarn com.hjq.permissions.**
 
+#加载view
 -keep class com.wang.avi.** { *; }
 -keep class com.wang.avi.indicators.** { *; }
+
+#bugly
+-dontwarn com.tencent.bugly.**
+-keep public class com.tencent.bugly.**{*;}
+-keep class android.support.**{*;}
