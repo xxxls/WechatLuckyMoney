@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">微信红包助手</string>
 
-    <string name="accessibility_description">本插件只适用于微信 \n\n功能描述:\n\n\t\t\ta: 微信自助抢红包  \n\n使用说明:\n\n\t\t\t1. 打开右上方开关\n\n\t\t\t2. 进入微信APP聊天页面  \n\n\t\t\t3. 系统将自动监测领取红包   \n\n注意事项:\n\n\t\t\t1. 微信的版本升级,可能导致功能无法正常运转\n\n\t\t\t2. 注意悬浮操作按钮的状态哦,点击试下</string>
+    <string name="accessibility_description">本插件只适用于微信 \n\n功能描述:\n\n\t\t\ta: 微信自助抢红包  \n\n使用说明:\n\n\t\t\t1. 打开右上方开关\n\n\t\t\t2. 进入微信APP聊天页面  \n\n\t\t\t3. 系统将自动监测领取红包   \n\n注意事项:\n\n\t\t\t1. 微信的版本升级,可能导致功能无法正常运转\n\n\t\t\t2. 部分手机会有兼容性问题,可能无法正常运转\n\n\t\t\t3. 注意悬浮操作按钮的状态哦,点击试下</string>
 
 
     <string name="str_blessing">大吉大利</string>
@@ -29,7 +29,7 @@
     <string name="shortcut_options">快捷选项</string>
 
     <string name="float_switch_title">悬浮操作</string>
-    <string name="float_switch_hint">悬浮操作启动或暂定本插件</string>
+    <string name="float_switch_hint">悬浮操作启动或暂停本插件</string>
 
     <string name="skip_phrases">屏蔽红包文字</string>
     <string name="pref_watch_exclude_words_summary">不拆开包含这些文字的红包(空格间隔)</string>

@@ -5,33 +5,32 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.widget.Toast;
 
 import com.max.wechatluckymoney.R;
 import com.max.wechatluckymoney.activitys.WebViewActivity;
+import com.max.wechatluckymoney.services.HandlerHelper;
+import com.max.wechatluckymoney.utils.Utils;
 
 /**
  * Created by Max on 2018/2/10.
  * 设置
  */
-public class GeneralSettingsFragment extends PreferenceFragment
-{
+public class GeneralSettingsFragment extends PreferenceFragment {
 
-    public static GeneralSettingsFragment getInstance()
-    {
+    public static GeneralSettingsFragment getInstance() {
         GeneralSettingsFragment fragment = new GeneralSettingsFragment();
         return fragment;
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.general_preferences);
         initEvent();
     }
 
-    private void initEvent()
-    {
+    private void initEvent() {
         // Open issue
         Preference issuePref = findPreference("pref_etc_issue");
         issuePref.setOnPreferenceClickListener(preference -> {
@@ -79,6 +78,25 @@ public class GeneralSettingsFragment extends PreferenceFragment
                 }
                 return true;
             }
+        });
+
+
+        Preference compatibilityPref = findPreference("pref_etc_compatibility");
+        String[] arr = HandlerHelper.getAdapterVersion();
+        String wechatVersion = Utils.getWeChatVersion(getActivity());
+        if (Utils.isArrContains(arr, Utils.getWeChatVersion(getActivity()))) {
+            compatibilityPref.setSummary("当前微信" + wechatVersion + "版本已适配,但部分手机可能无法正常运转^_^\\\"");
+        } else {
+            compatibilityPref.setSummary("未适配当前微信" + wechatVersion + "版本,敬请期待^_^\\\"");
+        }
+
+        compatibilityPref.setOnPreferenceClickListener(preference -> {
+            if (Utils.isArrContains(arr, Utils.getWeChatVersion(getActivity()))) {
+                Toast.makeText(getActivity(), "当前微信版本已适配", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(getActivity(), "未适配当前微信版本,敬请期待~", Toast.LENGTH_LONG).show();
+            }
+            return false;
         });
     }
 }

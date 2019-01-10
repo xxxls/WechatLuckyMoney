@@ -27,6 +27,15 @@ public class HandlerHelper {
 
 
     /**
+     * 获取已经适配版本
+     *
+     * @return
+     */
+    public static String[] getAdapterVersion() {
+        return new String[]{"6.6.3", "7.0.0"};
+    }
+
+    /**
      * @param version
      * @return
      */
@@ -34,7 +43,7 @@ public class HandlerHelper {
         switch (version) {
             case "6.6.3":
                 return getHandlersBySixSixThree();
-            case "7.7.0":
+            case "7.0.0":
             default:
                 return getHandlersBySevenZeroZero();
         }

@@ -24,10 +24,10 @@
             android:textSize="28dp"/>
 
         <TextView
-            android:id="@+id/textView5"
+            android:padding="4dp"
+            android:id="@+id/tv_version"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
             android:gravity="center_vertical|center_horizontal"
             android:text="v1.0"
             android:textColor="#fff"/>
