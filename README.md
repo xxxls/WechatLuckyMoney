@@ -2,12 +2,12 @@
 # 微信红包
 帮助你更快速方便的抢红包
  
-![image](https://github.com/mxruan/WechatLuckyMoney/blob/master/resources/image/demo.gif)
+![image](https://github.com/xxxls/WechatLuckyMoney/blob/master/resources/image/demo.gif)
 &nbsp;
 
 ## 下载
 
- * [v1.0_release.APK](https://github.com/mxruan/WechatLuckyMoney/blob/master/resources/apk/release/v1.0_release.apk?raw=true)（适配微信6.6.3).
+ * [v1.0_release.APK](https://github.com/xxxls/WechatLuckyMoney/blob/master/resources/apk/release/v1.0_release.apk?raw=true)（适配微信6.6.3).
 
  * [v2.0_release.APK](https://github.com/xxxls/WechatLuckyMoney/blob/master/resources/apk/release/v2.0_release.apk?raw=true)（适配微信7.0.0).
 
@@ -42,14 +42,14 @@
 
 ## 更新日志
 
-#### [v1.0](https://github.com/mxruan/WechatLuckyMoney/blob/master/WechatLuckyMoney/apk/release/v1.0_release.apk?raw=true)(2018-2-12)
+#### [v1.0](https://github.com/xxxls/WechatLuckyMoney/blob/master/resources/apk/release/v1.0_release.apk?raw=true)(2018-2-12)
 > #### 监视首页列表、聊天详情页 发现红包自动领取
 > #### 悬浮操作按钮 快速启动或暂停
 > #### 适配微信6.6.3版本
 
 &nbsp;
 
-#### [v2.0](https://github.com/mxruan/WechatLuckyMoney/blob/master/WechatLuckyMoney/apk/release/v2.0_release.apk?raw=true)(2019-1-12)
+#### [v2.0](https://github.com/xxxls/WechatLuckyMoney/blob/master/resources/apk/release/v2.0_release.apk?raw=true)(2019-1-12)
 > #### 加入是否拆开自己红包功能
 > #### 加入延时拆红包功能
 > #### 加入根据红包文字忽略领取功能
