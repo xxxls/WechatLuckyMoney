@@ -2,14 +2,14 @@
 # 微信红包
 帮助你更快速方便的抢红包
  
- ![image](https://github.com/xxxls/WechatLuckyMoney/blob/master/resourcesapk/image/demo.gif)
+ ![image](https://github.com/xxxls/WechatLuckyMoney/blob/master/resources/apk/image/demo.gif)
 &nbsp;
 
 ## 下载
 
- * [v1.0_release.APK](https://github.com/xxxls/WechatLuckyMoney/blob/master/resourcesapk/apk/release/v1.0_release.apk?raw=true)（适配微信6.6.3).
+ * [v1.0_release.APK](https://github.com/mxruan/WechatLuckyMoney/blob/master/resources/apk/release/v1.0_release.apk?raw=true)（适配微信6.6.3).
 
- * [v2.0_release.APK](https://github.com/xxxls/WechatLuckyMoney/blob/master/resourcesapk/apk/release/v2.0_release.apk?raw=true)（适配微信7.0.0).
+ * [v2.0_release.APK](https://github.com/mxruan/WechatLuckyMoney/blob/master/resources/apk/release/v2.0_release.apk?raw=true)（适配微信7.0.0).
 
 &nbsp;
 
