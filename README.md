@@ -43,7 +43,7 @@
 ## 更新日志
 
 #### [v1.0](https://github.com/xxxls/WechatLuckyMoney/blob/master/resources/apk/release/v1.0_release.apk?raw=true)(2018-2-12)
-> #### 监视首页列表、聊天详情页 发现红包自动领取
+> ###### 监视首页列表、聊天详情页 发现红包自动领取
 > #### 悬浮操作按钮 快速启动或暂停
 > #### 适配微信6.6.3版本
 
