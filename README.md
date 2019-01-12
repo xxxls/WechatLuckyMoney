@@ -4,7 +4,7 @@
  
 &nbsp;
 
-### 下载
+## 下载
 
  * [v1.0_release.APK](https://github.com/mxruan/WechatLuckyMoney/blob/master/WechatLuckyMoney/apk/release/v1.0_release.apk?raw=true)（适配微信6.6.3).
 
@@ -13,17 +13,19 @@
 &nbsp;
 
 
-### 特性
+## 特性
  
  * 检测聊天列表、聊天页面 红包并自动打开
-
+ 
+ * 自定义过滤红包，延时领取等功能
+ 
  * 悬浮开关，方便停用开启插件
  
  * 轻量安全、无需Root等权限，代码公开
  
 &nbsp;
  
- ###  使用教程
+ ##  使用教程
  
  * 检查手机系统是否 4.3及以上版本
  
@@ -37,7 +39,7 @@
  
 &nbsp;
 
-### 更新日志
+## 更新日志
 
 #### [v1.0](https://github.com/mxruan/WechatLuckyMoney/blob/master/WechatLuckyMoney/apk/release/v1.0_release.apk?raw=true)(2018-2-12)
 > #### 监视首页列表、聊天详情页 发现红包自动领取
@@ -52,11 +54,11 @@
 > #### 加入根据红包文字忽略领取功能
 > #### 加入根据聊天对象忽略领取功能
 > #### 新加是否持续监视首页列表功能
-> #### 适配微信7.0.0版本,继续兼容6.6.3版本
+> #### 适配微信7.0.0版本，继续兼容6.6.3版本
 
 &nbsp;
 
-### 版权及免责声明
+## 版权及免责声明
 
 * 本项目参考借鉴 [geeeeeeeeek/WeChatLuckyMoney](https://github.com/geeeeeeeeek/WeChatLuckyMoney) .
 
@@ -64,7 +66,7 @@
 
 &nbsp;
 
-### 其他
+## 其他
 
 * 微信每次版本发布都会造成兼容性问题，可能无法正常使用本插件。
 
