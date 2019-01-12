@@ -9,7 +9,7 @@
 
  * [v1.0_release.APK](https://github.com/mxruan/WechatLuckyMoney/blob/master/resources/apk/release/v1.0_release.apk?raw=true)（适配微信6.6.3).
 
- * [v2.0_release.APK](https://github.com/mxruan/WechatLuckyMoney/blob/master/resources/apk/release/v2.0_release.apk?raw=true)（适配微信7.0.0).
+ * [v2.0_release.APK](https://github.com/xxxls/WechatLuckyMoney/blob/master/resources/apk/release/v2.0_release.apk?raw=true)（适配微信7.0.0).
 
 &nbsp;
 
