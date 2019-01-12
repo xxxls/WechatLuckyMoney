@@ -39,20 +39,20 @@
 
 ### 更新日志
 
-> #### [v1.0](https://github.com/mxruan/WechatLuckyMoney/blob/master/WechatLuckyMoney/apk/release/v1.0_release.apk?raw=true)(2018-2-12)
-* #### 监视首页列表、聊天详情页 发现红包自动领取
-* #### 悬浮操作按钮 快速启动或暂停
-* #### 适配微信6.6.3版本
+#### [v1.0](https://github.com/mxruan/WechatLuckyMoney/blob/master/WechatLuckyMoney/apk/release/v1.0_release.apk?raw=true)(2018-2-12)
+> #### 监视首页列表、聊天详情页 发现红包自动领取
+> #### 悬浮操作按钮 快速启动或暂停
+> #### 适配微信6.6.3版本
 
 &nbsp;
 
-> #### [v2.0](https://github.com/mxruan/WechatLuckyMoney/blob/master/WechatLuckyMoney/apk/release/v2.0_release.apk?raw=true)(2019-1-12)
-* #### 加入是否拆开自己红包功能
-* #### 加入延时拆红包功能
-* #### 加入根据红包文字忽略领取功能
-* #### 加入根据聊天对象忽略领取功能
-* #### 新加是否持续监视首页列表功能
-* #### 适配微信7.0.0版本,继续兼容6.6.3版本
+#### [v2.0](https://github.com/mxruan/WechatLuckyMoney/blob/master/WechatLuckyMoney/apk/release/v2.0_release.apk?raw=true)(2019-1-12)
+> #### 加入是否拆开自己红包功能
+> #### 加入延时拆红包功能
+> #### 加入根据红包文字忽略领取功能
+> #### 加入根据聊天对象忽略领取功能
+> #### 新加是否持续监视首页列表功能
+> #### 适配微信7.0.0版本,继续兼容6.6.3版本
 
 &nbsp;
 
