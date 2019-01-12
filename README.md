@@ -6,7 +6,9 @@
 
 ### 下载
 
-* [v1.0_release](https://github.com/mxruan/WechatLuckyMoney/blob/master/WechatLuckyMoney/apk/v1.0_release.apk?raw=true)（适配微信6.6.3).
+ * [v1.0_release.APK](https://github.com/mxruan/WechatLuckyMoney/blob/master/WechatLuckyMoney/apk/release/v1.0_release.apk?raw=true)（适配微信6.6.3).
+
+ * [v2.0_release.APK](https://github.com/mxruan/WechatLuckyMoney/blob/master/WechatLuckyMoney/apk/release/v2.0_release.apk?raw=true)（适配微信7.0.0).
 
 &nbsp;
 
@@ -34,6 +36,15 @@
  * 无需其他操作，坐等红包
  
 &nbsp;
+
+### 更新日志
+
+> #### v1.0(2018-2-12)
+> * 监视首页列表、聊天详情页 发现红包自动领取
+> * 悬浮操作按钮 快速启动或暂停
+
+& NBSP;
+
 
 ### 版权及免责声明
 
