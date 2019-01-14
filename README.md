@@ -2,7 +2,7 @@
 # 微信红包
 帮助你更快速方便的抢红包
  
-![image](https://github.com/xxxls/resources/blob/master/WechatLuckyMoney/image/demo.gif)
+![image](https://github.com/xxxls/resources/raw/master/WechatLuckyMoney/image/demo.gif)
 &nbsp;
 
 ## 下载
