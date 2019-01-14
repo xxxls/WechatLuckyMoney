@@ -43,10 +43,8 @@ public class SstRedPacketGetHandler extends RedPacketGetHandler {
             }
         }
 
-        //红包页面 生命周期的改变 才能正常获取有用信息
-        //暂时这样解决 微信对 红包页面做的特殊处理
-        getService().startActivity(LoadingActivity.getInstance(getService()));
-        return false;
+        delayedChangeLifecycle();
+        return true;
     }
 
     @Override

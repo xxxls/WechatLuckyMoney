@@ -30,7 +30,7 @@ public class SstRedPacketGetRecordHandler extends RedPacketGetRecordHandler
         if (mIsComplete)
         {
             mIsComplete = false;
-            startDelayedTask(mBackrunnable, 350);
+            startDelayedTask(mBackrunnable, 500);
         }
         return true;
     }
@@ -40,6 +40,5 @@ public class SstRedPacketGetRecordHandler extends RedPacketGetRecordHandler
     {
         return "LuckyMoneyDetailUI";
     }
-
 
 }

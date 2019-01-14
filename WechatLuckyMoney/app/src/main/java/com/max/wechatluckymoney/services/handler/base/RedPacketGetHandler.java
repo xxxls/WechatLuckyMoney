@@ -1,8 +1,8 @@
 package com.max.wechatluckymoney.services.handler.base;
 
-import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 
+import com.max.wechatluckymoney.activitys.LoadingActivity;
 import com.max.wechatluckymoney.services.handler.AccessibilityHandler;
 import com.max.wechatluckymoney.services.handler.AccessibilityHandlerListener;
 import com.max.wechatluckymoney.utils.Utils;
@@ -16,25 +16,19 @@ public abstract class RedPacketGetHandler extends AccessibilityHandler {
     protected static final String WX_TEXT_SLOW = "手慢了";
     protected static final String WX_TEXT_OUT_OF_DATE = "已超过24小时";
 
-    /**
-     * 自动打开红包
-     */
-    private Boolean mIsAutoOpenRedPacket;
-
-    /**
-     * 排除词  不打开这些文字的红包
-     */
-    private String[] mRedPacketExcludeWords;
+    private Runnable mRunnableLifecycle = () -> {
+        //红包页面 生命周期的改变 才能正常获取有用信息
+        //暂时这样解决
+        getService().startActivity(LoadingActivity.getInstance(getService()));
+    };
 
     /**
      * 是否 自动拆红包
+     *
      * @return
      */
     protected Boolean isAutoOpen() {
-        if (mIsAutoOpenRedPacket == null) {
-            mIsAutoOpenRedPacket = getSharedPreferences().getBoolean("pref_auto_open", true);
-        }
-        return mIsAutoOpenRedPacket;
+        return getSharedPreferences().getBoolean("pref_auto_open", true);
     }
 
     public RedPacketGetHandler(@NonNull AccessibilityHandlerListener listener) {
@@ -47,10 +41,7 @@ public abstract class RedPacketGetHandler extends AccessibilityHandler {
      * @return
      */
     private String[] getRedPacketExcludeWords() {
-        if (mRedPacketExcludeWords == null) {
-            mRedPacketExcludeWords = getSharedPreferences().getString("pref_watch_exclude_words", "").split(" ");
-        }
-        return mRedPacketExcludeWords;
+        return getSharedPreferences().getString("pref_watch_exclude_words", "").split(" ");
     }
 
     /**
@@ -63,11 +54,10 @@ public abstract class RedPacketGetHandler extends AccessibilityHandler {
         return Utils.isArrContains(getRedPacketExcludeWords(), redPacketText);
     }
 
-
-    @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
-        super.onSharedPreferenceChanged(sharedPreferences, s);
-        mIsAutoOpenRedPacket = getSharedPreferences().getBoolean("pref_auto_open", true);
-        mRedPacketExcludeWords = getSharedPreferences().getString("pref_watch_exclude_words", "").split(" ");
+    /**
+     * 延时 改变生命周期
+     */
+    protected void delayedChangeLifecycle() {
+        startDelayedTask(mRunnableLifecycle, 200);
     }
 }

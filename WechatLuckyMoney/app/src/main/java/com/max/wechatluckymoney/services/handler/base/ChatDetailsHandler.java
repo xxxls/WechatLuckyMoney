@@ -26,37 +26,12 @@ public abstract class ChatDetailsHandler extends AccessibilityHandler {
     private long mScreenWidth;
 
     /**
-     * 是否拆自己发的红包
-     */
-    private Boolean mIsOpenMyRedPaclet;
-
-    /**
      * 是否群裏 正则
      */
     private Pattern mGroupNamePattern = Pattern.compile("^\\w*\\(\\d+\\)$");
 
-    /**
-     * 打开红包 延迟时间
-     */
-    private Integer mOpenRedPacketDelayTime;
-
-
     private OpenRedPacketDelayTask mDelayTask;
 
-    /**
-     * 排除词  不打开这些文字的红包
-     */
-    private String[] mRedPacketExcludeWords;
-
-    /**
-     * 排除词  不打开这些人 或群发的红包
-     */
-    private String[] mChatExcludeWords;
-
-    /**
-     * 是否返回首页列表
-     */
-    private Boolean mIsBackHomeList;
 
     public ChatDetailsHandler(@NonNull AccessibilityHandlerListener listener) {
         super(listener);
@@ -80,10 +55,7 @@ public abstract class ChatDetailsHandler extends AccessibilityHandler {
      * @return
      */
     protected int getDelayTime() {
-        if (mOpenRedPacketDelayTime == null) {
-            mOpenRedPacketDelayTime = getSharedPreferences().getInt("pref_open_delay", 0);
-        }
-        return mOpenRedPacketDelayTime;
+        return getSharedPreferences().getInt("pref_open_delay", 0);
     }
 
     /**
@@ -92,10 +64,7 @@ public abstract class ChatDetailsHandler extends AccessibilityHandler {
      * @return
      */
     protected boolean isOpenMyRedPaclet() {
-        if (mIsOpenMyRedPaclet == null) {
-            mIsOpenMyRedPaclet = getSharedPreferences().getBoolean("pref_watch_self", false);
-        }
-        return mIsOpenMyRedPaclet;
+        return getSharedPreferences().getBoolean("pref_watch_self", false);
     }
 
     /**
@@ -104,10 +73,7 @@ public abstract class ChatDetailsHandler extends AccessibilityHandler {
      * @return
      */
     protected boolean isBackHomeList() {
-        if (mIsBackHomeList == null) {
-            mIsBackHomeList = getSharedPreferences().getBoolean("pref_back_list", true);
-        }
-        return mIsBackHomeList;
+        return getSharedPreferences().getBoolean("pref_back_list", true);
     }
 
 
@@ -139,10 +105,7 @@ public abstract class ChatDetailsHandler extends AccessibilityHandler {
      * @return
      */
     private String[] getRedPacketExcludeWords() {
-        if (mRedPacketExcludeWords == null) {
-            mRedPacketExcludeWords = getSharedPreferences().getString("pref_watch_exclude_words", "").split(" ");
-        }
-        return mRedPacketExcludeWords;
+        return getSharedPreferences().getString("pref_watch_exclude_words", "").split(" ");
     }
 
     /**
@@ -151,10 +114,7 @@ public abstract class ChatDetailsHandler extends AccessibilityHandler {
      * @return
      */
     private String[] getChatExcludeWords() {
-        if (mChatExcludeWords == null) {
-            mChatExcludeWords = getSharedPreferences().getString("pref_watch_exclude_words_chat", "").split(" ");
-        }
-        return mChatExcludeWords;
+        return getSharedPreferences().getString("pref_watch_exclude_words_chat", "").split(" ");
     }
 
     /**
@@ -177,19 +137,12 @@ public abstract class ChatDetailsHandler extends AccessibilityHandler {
         return Utils.isArrContains(getRedPacketExcludeWords(), redPacketText);
     }
 
-
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
         super.onSharedPreferenceChanged(sharedPreferences, s);
-        mIsOpenMyRedPaclet = getSharedPreferences().getBoolean("pref_watch_self", false);
-        mOpenRedPacketDelayTime = getSharedPreferences().getInt("pref_open_delay", 0);
-        mIsBackHomeList = getSharedPreferences().getBoolean("pref_back_list", true);
-
-        mRedPacketExcludeWords = getSharedPreferences().getString("pref_watch_exclude_words", "").split(" ");
-        mChatExcludeWords = getSharedPreferences().getString("pref_watch_exclude_words_chat", "").split(" ");
 
         if (mDelayTask != null) {
-            mDelayTask.updateDelayTime(mOpenRedPacketDelayTime);
+            mDelayTask.updateDelayTime(getDelayTime());
         }
     }
 

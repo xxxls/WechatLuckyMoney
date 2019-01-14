@@ -42,11 +42,6 @@ public class LuckyMoneyService extends AccessibilityService implements SharedPre
     private String mCurActivityClassName;
 
     /**
-     * 开关
-     */
-    private Boolean mSwitchService;
-
-    /**
      * 系统会在成功连接上你的服务的时候调用这个方法，在这个方法里你可以做一下初始化工作
      */
     @Override
@@ -84,11 +79,7 @@ public class LuckyMoneyService extends AccessibilityService implements SharedPre
      * @return
      */
     private boolean isHandler() {
-
-        if (mSwitchService == null) {
-            mSwitchService = getSharedPreferences().getBoolean("switch_app", true);
-        }
-        return mSwitchService;
+        return getSharedPreferences().getBoolean("switch_app", true);
     }
 
 
@@ -152,8 +143,6 @@ public class LuckyMoneyService extends AccessibilityService implements SharedPre
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        //开关
-        mSwitchService = getSharedPreferences().getBoolean("switch_app", true);
         if (mFloatingHelper != null) {
             mFloatingHelper.onSharedPreferenceChanged(sharedPreferences, key);
         }
@@ -164,7 +153,7 @@ public class LuckyMoneyService extends AccessibilityService implements SharedPre
             }
         }
 
-        if (key.equals("switch_app") && mSwitchService) {
+        if (key.equals("switch_app") && isHandler()) {
             startActivity(LoadingActivity.getInstance(this));
         }
     }

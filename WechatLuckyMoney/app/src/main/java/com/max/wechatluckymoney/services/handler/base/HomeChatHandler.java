@@ -13,15 +13,6 @@ import com.max.wechatluckymoney.utils.Utils;
  */
 public abstract class HomeChatHandler extends AccessibilityHandler {
 
-    /**
-     * 是否监视聊天列表
-     */
-    private Boolean mSwitchChatList;
-
-    /**
-     * 排除词  不打开这些人 或群发的红包
-     */
-    private String[] mChatExcludeWords;
 
     protected static final String WX_TEXT_LUCKY_MONEY = "[微信红包]";
 
@@ -35,10 +26,7 @@ public abstract class HomeChatHandler extends AccessibilityHandler {
      * @return
      */
     protected boolean isChatListSwitch() {
-        if (mSwitchChatList == null) {
-            mSwitchChatList = getSharedPreferences().getBoolean("pref_watch_list", true);
-        }
-        return mSwitchChatList;
+        return getSharedPreferences().getBoolean("pref_watch_list", true);
     }
 
     /**
@@ -47,10 +35,7 @@ public abstract class HomeChatHandler extends AccessibilityHandler {
      * @return
      */
     private String[] getChatExcludeWords() {
-        if (mChatExcludeWords == null) {
-            mChatExcludeWords = getSharedPreferences().getString("pref_watch_exclude_words_chat", "").split(" ");
-        }
-        return mChatExcludeWords;
+        return getSharedPreferences().getString("pref_watch_exclude_words_chat", "").split(" ");
     }
 
     /**
@@ -61,12 +46,5 @@ public abstract class HomeChatHandler extends AccessibilityHandler {
      */
     protected boolean isExcludeByChatName(String chatName) {
         return Utils.isArrContains(getChatExcludeWords(), chatName);
-    }
-
-    @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
-        super.onSharedPreferenceChanged(sharedPreferences, s);
-        mSwitchChatList = getSharedPreferences().getBoolean("pref_watch_list", true);
-        mChatExcludeWords = getSharedPreferences().getString("pref_watch_exclude_words_chat", "").split(" ");
     }
 }
