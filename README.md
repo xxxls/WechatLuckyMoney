@@ -9,7 +9,7 @@
 
  * [v1.0_release.APK](https://github.com/xxxls/resources/tree/master/WechatLuckyMoney/apk/v1.0_release.apk?raw=true)（适配微信6.6.3).
 
- * [v2.0_release.APK](https://github.com/xxxls/resources/tree/master/WechatLuckyMoney/apk/v2.0_release.apk?raw=true)（适配微信7.0.0).
+ * [v2.0_release.APK](https://github.com/xxxls/WechatLuckyMoney/releases/download/v2.0-GA/v2.0_release.apk)（适配微信7.0.0).
 
 &nbsp;
 
@@ -49,7 +49,7 @@
 
 &nbsp;
 
-#### [v2.0](https://github.com/xxxls/resources/tree/master/WechatLuckyMoney/apk/v2.0_release.apk?raw=true)(2019-1-12)
+#### [v2.0](https://github.com/xxxls/WechatLuckyMoney/releases/download/v2.0-GA/v2.0_release.apk)(2019-1-12)
 > ###### 加入是否拆开自己红包功能
 > ###### 加入延时拆红包功能
 > ###### 加入根据红包文字忽略领取功能
